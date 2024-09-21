@@ -29,19 +29,20 @@ fetch('/addTeacher';{
 }) */
 
 $(document).ready(function(){
+	console.log("Document is Ready....");
 	$('#submit').click(function(){
-		var firstName = $('#firstName').val;
-		var lastName = $('#lastName').val;
-		var email = $('#teacherEmail').val;
-		var teacherClass = $('#teachingClass').val;
-		var subject = $('#subject').val;
-		var dateOfJoining = $('#dateOfJoining').val;
-		var employmentStatus = $('#employmentStatus').val;
-		var qualification = $('#qualification').val;
-		var yearOfGraduation = $('#yearOfGraduation').val;
-		var phone = $('#contact').val;
-		var password = $('#password').val;
-		var role = $('#role').val;
+		var firstName = $('#firstName').val();
+		var lastName = $('#lastName').val();
+		var email = $('#teacherEmail').val();
+		var teacherClass = $('#teachingClass').val();
+		var subject = $('#subject').val();
+		var dateOfJoining = $('#dateOfJoining').val();
+		var employmentStatus = $('#employmentStatus').val();
+		var qualification = $('#qualification').val();
+		var yearOfGraduation = $('#yearOfGraduation').val();
+		var phone = $('#contact').val();
+		var password = $('#password').val();
+		var role = $('#role').val();
 
 		var saveData = {
 			firstName : firstName,
@@ -61,18 +62,21 @@ $(document).ready(function(){
 		console.log(saveData);
 
 		$.ajax({
-			URL : '/addTeacher',
+			url : '/addTeacher',
 			type : 'POST',
 			contentType : 'application/json',
 			data : JSON.stringify(saveData),
 			dataType : 'JSON',
 			success : function(response){
 				if(response.status == 200){
-					alert("Success.....");
+					toastr.success('Data Save Successfully');
 				}else {
-					alert("Data is missing....");
+					toastr.error('Something went wrong');
 				}
-			}
+			},			
+			error: function(xhr, status, error) {
+			           // alertify.error("An error occurred: " + error);
+			        }
 
 		})
 	});

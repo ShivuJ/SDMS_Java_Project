@@ -11,11 +11,11 @@ import com.sdmsproject.sdms.model.UserEntity;
 @Service
 public class UserServiceImpl implements UserService{
 
-//	@Autowired
-//	UserRepository userRepository;
+	@Autowired
+	UserRepository userRepository;
 
-	 @Autowired
-	 UserService userService;
+//	 @Autowired
+//	 UserService userService;
 	 
 	@Override
 	public ResponseEntity<String>  createUser(UserEntity user) {
@@ -23,8 +23,9 @@ public class UserServiceImpl implements UserService{
 //		UserEntity userEntity = new UserEntity();
 //		BeanUtils.copyProperties(user, userEntity);
 
-		ResponseEntity<String> responseEntity = userService.createUser(user);
-	    return responseEntity;
+//		ResponseEntity<String> responseEntity = userService.createUser(user);
+		userRepository.save(user);
+	    return ResponseEntity.ok("Success...");
 	}
 
 }
