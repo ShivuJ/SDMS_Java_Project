@@ -11,11 +11,11 @@ import lombok.Data;
 @Entity
 @Table(name = "user_db")
 public class UserEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -23,19 +23,19 @@ public class UserEntity {
 	private String subject;
 	private String dateOfJoining;
 	private String employmentStatus;
-	private String qualificateion;
+	private String qualification;
 	private int yearOfGraduation;
 	private String phone;
 	private String password;
 	private String role;
-	
+
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -96,11 +96,11 @@ public class UserEntity {
 	public void setEmploymentStatus(String employmentStatus) {
 		this.employmentStatus = employmentStatus;
 	}
-	public String getQualificateion() {
-		return qualificateion;
+	public String getQualification() {
+		return qualification;
 	}
-	public void setQualificateion(String qualificateion) {
-		this.qualificateion = qualificateion;
+	public void setQualification(String qualification) {
+		this.qualification = qualification;
 	}
 	public int getYearOfGraduation() {
 		return yearOfGraduation;
@@ -108,7 +108,7 @@ public class UserEntity {
 	public void setYearOfGraduation(int yearOfGraduation) {
 		this.yearOfGraduation = yearOfGraduation;
 	}
-	
-	
-	
+
+
+
 }
