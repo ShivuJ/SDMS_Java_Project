@@ -80,4 +80,32 @@ $(document).ready(function(){
 
 		})
 	});
+	
+	$(window).on('load', function(){
+		console.log("Getting Table Ready")
+		$.ajax({
+			url: 'teacher',
+			type: 'GET',
+			success: function(response){
+				let html = "";
+				for(let i = 0; i < response.length; i++){
+					const {firstName, lastName, email, role, contact, subject, password} = response[i];
+					html += `
+						<tr>
+							<td>${i + 1}</td>
+							<td>${firstName}</td>
+							<td>${lastName}</td>
+							<td>${email}</td>
+							<td>${role}</td>
+							<td>${contact}</td>
+							<td>${subject}</td>
+							<td>${password}</td>
+						</tr>
+					`
+				}
+				$('.userTable tbody').append(html);
+				console.log(response);
+			}
+		})
+	});
 });

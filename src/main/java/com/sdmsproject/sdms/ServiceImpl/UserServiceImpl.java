@@ -1,5 +1,9 @@
 package com.sdmsproject.sdms.ServiceImpl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,31 @@ public class UserServiceImpl implements UserService{
 //		ResponseEntity<String> responseEntity = userService.createUser(user);
 		userRepository.save(user);
 	    return ResponseEntity.ok("Success...");
+	}
+	
+	@Override
+	public List<UserEntity> readAllUsers(){
+		
+		List<UserEntity> userList = userRepository.findAll();
+		List<UserEntity> users = new ArrayList<>();
+		
+		for(UserEntity userEntity : userList) {
+			UserEntity user = new UserEntity();
+			
+			user.setId(userEntity.getId());
+			user.setFirstName(userEntity.getFirstName());
+			user.setLastName(userEntity.getLastName());
+			user.setEmail(userEntity.getEmail());
+			user.setRole(userEntity.getRole());
+			user.setPhone(userEntity.getPhone());
+			user.setTeacherClass(userEntity.getTeacherClass());
+			user.setSubject(userEntity.getSubject());
+			user.setPassword(userEntity.getPassword());
+			users.add(user);
+		}
+		
+		return users;
+		
 	}
 
 }
