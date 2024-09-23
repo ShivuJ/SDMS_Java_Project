@@ -1,35 +1,16 @@
-/* const teacherForm = {
-	firstName : document.getElementById('firstName').val;
-	lastName : document.getElementById('lastName').val;
-	email : document.getElementById('teacherEmail').val;
-	teacherClass : parseInt(document.getElementById('teachingClass')).val;
-	subject : document.getElementById('subject').val;
-	dateOfJoining : document.getElementById('dateOfJoining').val;
-	employmentStatus : document.getElementById('employmentStatus').val;
-	qualificateion : document.getElementById('qualification').val;
-	yearOfGraduation : parseInt(document.getElementById('yearOfGraduation')).val;
-	phone : parseInt(document.getElementById('contact')).val;
-	password : document.getElementById('password').val;
-	role : document.getElementById('role').val
-}
-
-fetch('/addTeacher';{
-	method : 'POST';
-	headers : {
-		'Content-Type' : 'application/json'
-	};
-	body :  JSON.stringify(teacherForm)
-})
-.then(response => response.json())
-.then(result => {
-	console.log("Success" + result)
-.catch(error=>{
-	console.error("Error: "; error);
-		});
-}) */
-
 $(document).ready(function(){
 	console.log("Document is Ready....");
+	 /*Toggle model for form */
+	document.getElementById('toggleFormBtn').addEventListener('click', function() {
+	            const formContainer = document.getElementById('formContainer');
+	            if (formContainer.style.display === 'none' || formContainer.style.display === '') {
+	                formContainer.style.display = 'block';
+	            } else {
+	                formContainer.style.display = 'none';
+	            }
+	        });
+		
+	/* POST reuest to add data*/	
 	$('#submit').click(function(){
 		var firstName = $('#firstName').val();
 		var lastName = $('#lastName').val();
@@ -81,6 +62,7 @@ $(document).ready(function(){
 		})
 	});
 	
+	/* Get reuest to view data*/	
 	$(window).on('load', function(){
 		console.log("Getting Table Ready")
 		$.ajax({
@@ -89,17 +71,22 @@ $(document).ready(function(){
 			success: function(response){
 				let html = "";
 				for(let i = 0; i < response.length; i++){
-					const {firstName, lastName, email, role, contact, subject, password} = response[i];
+					
 					html += `
 						<tr>
 							<td>${i + 1}</td>
-							<td>${firstName}</td>
-							<td>${lastName}</td>
-							<td>${email}</td>
-							<td>${role}</td>
-							<td>${contact}</td>
-							<td>${subject}</td>
-							<td>${password}</td>
+							<td>${response[i].firstName}</td>
+							<td>${response[i].lastName}</td>
+							<td>${response[i].email}</td>
+							<td>${response[i].role}</td>
+							<td>${response[i].phone}</td>
+							<td>${response[i].teacherClass}</td>
+							<td>${response[i].subject}</td>
+							<td>${response[i].password}</td>
+							<td>
+								<button type="button" id="editBtn" class="iconBtn"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
+								<button type="button" id="deleteBtn" class="iconBtn"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
+							</td>
 						</tr>
 					`
 				}
