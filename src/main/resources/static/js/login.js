@@ -2,8 +2,8 @@ $(document).ready(function(){
 	
 	$('#login').click(function(){
 		
-		var email = $('userName').val();
-		var pass = $('password').val();
+		var email = $('#userName').val();
+		var pass = $('#password').val();
 		
 		var loginData = {
 			email:email,
@@ -16,7 +16,7 @@ $(document).ready(function(){
 				data: JSON.stringify(loginData),
 				success: function(response){
 					
-					console.log(response);
+					window.location.href = "/home.html";
 					
 				}
 	});

@@ -3,14 +3,16 @@ package com.sdmsproject.sdms.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 //import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.sdmsproject.sdms.Service.LoginService;
 import com.sdmsproject.sdms.model.UserEntity;
 
-@Controller
+@RestController
 //@CrossOrigin("https://localhost:8080/index.html")
 public class LoginController {
 
@@ -18,14 +20,12 @@ public class LoginController {
 	LoginService loginService;
 	
 	@PostMapping("/login")
-	public List<UserEntity> userValidation(){
-		return loginService.loginUser();
+	public ResponseEntity<String> userValidation(@RequestBody UserEntity loginUser){
+		
+		ResponseEntity<String> response = loginService.loginUser(loginUser);
+		
+		return response;
 	}
-	
-//	@PostMapping("/home")
-//	public String getUserLogin() {
-//		return "redirect://localhost:8080/home.html";
-//	}
 
 
 }
