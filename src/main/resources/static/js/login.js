@@ -7,7 +7,7 @@ $(document).ready(function(){
 		
 		var loginData = {
 			email:email,
-			pass:pass
+			password:pass
 		}
 		$.ajax({
 				url: 'login',
@@ -15,8 +15,12 @@ $(document).ready(function(){
 				contentType: 'application/json',
 				data: JSON.stringify(loginData),
 				success: function(response){
+					if(response == "Success"){
+						window.location.href = "/home.html";
+					}else{
+						alert("Invalid Credentials");
+					}
 					
-					window.location.href = "/home.html";
 					
 				}
 	});

@@ -1,7 +1,5 @@
 package com.sdmsproject.sdms.Controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +21,7 @@ public class LoginController {
 	public ResponseEntity<String> userValidation(@RequestBody UserEntity loginUser){
 		
 		ResponseEntity<String> response = loginService.loginUser(loginUser);
+		System.out.println(loginUser);
 		
 		return response;
 	}
