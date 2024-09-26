@@ -9,9 +9,16 @@ $(document).ready(function(){
 	                formContainer.style.display = 'none';
 	            }
 	        });
+			
 		
 	/* POST reuest to add data*/	
 	$('#submit').click(function(){
+		
+		addTeacher();
+		
+	});
+	
+	function addTeacher(){
 		var firstName = $('#firstName').val();
 		var lastName = $('#lastName').val();
 		var email = $('#teacherEmail').val();
@@ -39,28 +46,36 @@ $(document).ready(function(){
 			password : password,
 			role : role
 		}
-
 		console.log(saveData);
 
-		$.ajax({
-			url : '/addTeacher',
-			type : 'POST',
-			contentType : 'application/json',
-			data : JSON.stringify(saveData),
-			dataType : 'JSON',
-			success : function(response){
-				if(response.status == 200){
-					toastr.success('Data Save Successfully');
-				}else {
-					toastr.error('Something went wrong');
-				}
-			},			
-			error: function(xhr, status, error) {
-			           // alertify.error("An error occurred: " + error);
-			        }
+		if(firstName==""){
+			toastr.error("Please add your first name");
+		}else if(lastName==""){
+			toastr.error("Please add your last name");
+		}else if(email==""){
+			toastr.error("Please add your email id");
+		}else{
 
-		})
-	});
+			$.ajax({
+				url : '/addTeacher',
+				type : 'POST',
+				contentType : 'application/json',
+				data : JSON.stringify(saveData),
+				dataType : 'JSON',
+				success : function(response){
+					if(response.status == 200){
+						toastr.success('Data Save Successfully');
+					}else {
+						toastr.error('Something went wrong');
+					}
+				},			
+				error: function(xhr, status, error) {
+				           // alertify.error("An error occurred: " + error);
+				        }
+
+			});
+		}
+	}
 	
 	/* Get reuest to view data*/	
 	$(window).on('load', function(){
