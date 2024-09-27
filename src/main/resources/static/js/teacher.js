@@ -48,12 +48,30 @@ $(document).ready(function(){
 		}
 		console.log(saveData);
 
-		if(firstName==""){
-			toastr.error("Please add your first name");
-		}else if(lastName==""){
-			toastr.error("Please add your last name");
-		}else if(email==""){
-			toastr.error("Please add your email id");
+		if(firstName=="" || firstName==null){
+			toastr.error("Please add first name");
+		}else if(lastName=="" || lastName==null){
+			toastr.error("Please add last name");
+		}else if(email=="" || email==null){
+			toastr.error("Please add email id");
+		}else if(role==null){
+			toastr.error("Please select role");
+		}else if(teacherClass==null){
+			toastr.error("Please select class");
+		}else if(phone==null || phone=="" || phone.length>10 || phone.length<10){
+			toastr.error("Please add proper contact number");
+		}else if(subject==null){
+			toastr.error("Please select subject");
+		}else if(!dateOfJoining){
+			toastr.error("Please select Date of Joining");
+		}else if(employmentStatus==null){
+			toastr.error("Please select employment status");
+		}else if(qualification==null){
+			toastr.error("Please select qualification");
+		}else if(yearOfGraduation==null || yearOfGraduation==""){
+			toastr.error("Please add year of graduation");
+		}else if(password==null || password=="" || password.length<8){
+			toastr.error("Password should be of 8 characters");
 		}else{
 
 			$.ajax({
