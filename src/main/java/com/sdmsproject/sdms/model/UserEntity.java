@@ -28,6 +28,7 @@ public class UserEntity {
 	private String phone;
 	private String password;
 	private String role;
+	private String status = "Y";
 
 	public Long getId() {
 		return id;
@@ -107,6 +108,12 @@ public class UserEntity {
 	}
 	public void setYearOfGraduation(int yearOfGraduation) {
 		this.yearOfGraduation = yearOfGraduation;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 

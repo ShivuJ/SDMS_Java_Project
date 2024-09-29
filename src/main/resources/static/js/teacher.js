@@ -13,9 +13,12 @@ $(document).ready(function(){
 		
 	/* POST reuest to add data*/	
 	$('#submit').click(function(){
-		
 		addTeacher();
-		
+	});
+	
+	$(".userTable").on('click', '#deleteBtn',function(){
+		var id = $(this).closest('tr').data("id");
+		deleteUser(id);
 	});
 	
 	function addTeacher(){
@@ -31,6 +34,7 @@ $(document).ready(function(){
 		var phone = $('#contact').val();
 		var password = $('#password').val();
 		var role = $('#role').val();
+		var status = "Y";
 
 		var saveData = {
 			firstName : firstName,
@@ -44,7 +48,8 @@ $(document).ready(function(){
 			yearOfGraduation : yearOfGraduation,
 			phone : phone,
 			password : password,
-			role : role
+			role : role,
+			status : status
 		}
 		console.log(saveData);
 
@@ -104,28 +109,49 @@ $(document).ready(function(){
 			success: function(response){
 				let html = "";
 				for(let i = 0; i < response.length; i++){
-					
-					html += `
-						<tr>
-							<td>${i + 1}</td>
-							<td>${response[i].firstName}</td>
-							<td>${response[i].lastName}</td>
-							<td>${response[i].email}</td>
-							<td>${response[i].role}</td>
-							<td>${response[i].phone}</td>
-							<td>${response[i].teacherClass}</td>
-							<td>${response[i].subject}</td>
-							<td>${response[i].password}</td>
-							<td>
-								<button type="button" id="editBtn" class="iconBtn"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
-								<button type="button" id="deleteBtn" class="iconBtn"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
-							</td>
-						</tr>
-					`
+					if(response[i].status == "Y"){
+						html += `
+							<tr data-id = "${response[i].id}">
+								<td>${i + 1}</td>
+								<td>${response[i].firstName}</td>
+								<td>${response[i].lastName}</td>
+								<td>${response[i].email}</td>
+								<td>${response[i].role}</td>
+								<td>${response[i].phone}</td>
+								<td>${response[i].teacherClass}</td>
+								<td>${response[i].subject}</td>
+								<td>${response[i].password}</td>
+								<td>
+									<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
+									<button type="button" id="deleteBtn" class="iconBtn" title="Inactivate"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
+								</td>
+							</tr>
+						`
+					}
 				}
 				$('.userTable tbody').append(html);
 				console.log(response);
 			}
 		})
 	});
+	
+	/*Delete User */
+	function deleteUser(id){
+		
+			$.ajax({
+				url: "/deleteUser",
+				type : 'POST',
+				contentType : 'application/json',
+				data : JSON.stringify({id: id}),
+				dataType : 'JSON',
+				success : function(response){
+					if(response=="Success"){
+						toastr.success("User Deleted Successfully.");
+					}else{
+						toastr.error("Something went wrong.");
+					}
+				}
+					
+			});
+		}
 });

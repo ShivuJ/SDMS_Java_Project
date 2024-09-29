@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService{
 
 //		ResponseEntity<String> responseEntity = userService.createUser(user);
 		userRepository.save(user);
-	    return ResponseEntity.ok("Success...");
+	    return ResponseEntity.ok("Success");
 	}
 	
 	@Override
@@ -49,11 +49,22 @@ public class UserServiceImpl implements UserService{
 			user.setTeacherClass(userEntity.getTeacherClass());
 			user.setSubject(userEntity.getSubject());
 			user.setPassword(userEntity.getPassword());
+			user.setStatus(userEntity.getStatus());
 			users.add(user);
 		}
 		
 		return users;
 		
+	}
+
+	@Override
+	public ResponseEntity<String> inactivateUser(Long id) {
+		UserEntity user = userRepository.findById(id).get();
+		user.setStatus("N");
+		
+		userRepository.save(user);
+		
+		return ResponseEntity.ok("Success");
 	}
 
 }

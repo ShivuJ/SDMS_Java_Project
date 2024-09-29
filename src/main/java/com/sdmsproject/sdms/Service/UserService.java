@@ -10,4 +10,5 @@ public interface UserService {
 
 	ResponseEntity<String> createUser(UserEntity user);
 	List<UserEntity> readAllUsers();
+	ResponseEntity<String> inactivateUser(Long id);
 }

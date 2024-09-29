@@ -18,7 +18,7 @@ $(document).ready(function(){
 					if(response == "Success"){
 						window.location.href = "/home.html";
 					}else{
-						alert("Invalid Credentials");
+						toastr.error("Invalid Credentials");
 					}
 					
 					

@@ -38,4 +38,10 @@ public class UserController {
         return userService.readAllUsers();
     }
     
+    @PostMapping("/deleteUser")
+    public ResponseEntity<String> inactivateUser(@RequestBody Long id) {
+    	ResponseEntity<String> response = userService.inactivateUser(id);
+    	 return response;
+    }
+    
 }
