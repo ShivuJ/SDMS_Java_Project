@@ -2,7 +2,7 @@ $(document).ready(function(){
 	console.log("Document is Ready....");
 	 /*Toggle model for form */
 	document.getElementById('toggleFormBtn').addEventListener('click', function() {
-		toggleUserBtn()
+		toggleUserBtn();
 	});
 			
 	function toggleUserBtn(){
@@ -16,7 +16,7 @@ $(document).ready(function(){
 	/* POST reuest to add data*/	
 	$('#submit').click(function(){
 		addTeacher();
-		toggleUserBtn();
+		
 	});
 	
 	$(".userTable").on('click', '#deleteBtn',function(){
@@ -24,6 +24,12 @@ $(document).ready(function(){
 		deleteUser(id);
 	});
 	
+	$(".userTable").on('click', '#editBtn',function(){
+		toggleUserBtn();
+		var id = $(this).closest('tr').data("id");
+		updateUser(id);
+	});
+		
 	function addTeacher(){
 		var firstName = $('#firstName').val();
 		var lastName = $('#lastName').val();
@@ -156,4 +162,82 @@ $(document).ready(function(){
 					
 			});
 		}
+		
+	function updateUser(id){
+		var firstName = $('#firstName').val();
+				var lastName = $('#lastName').val();
+				var email = $('#teacherEmail').val();
+				var teacherClass = $('#teachingClass').val();
+				var subject = $('#subject').val();
+				var dateOfJoining = $('#dateOfJoining').val();
+				var employmentStatus = $('#employmentStatus').val();
+				var qualification = $('#qualification').val();
+				var yearOfGraduation = $('#yearOfGraduation').val();
+				var phone = $('#contact').val();
+				var password = $('#password').val();
+				var role = $('#role').val();
+				var status = "Y";
+
+				var saveData = {
+					firstName : firstName,
+					lastName : lastName,
+					email : email,
+					teacherClass : teacherClass,
+					subject : subject,
+					dateOfJoining : dateOfJoining,
+					employmentStatus : employmentStatus,
+					qualification : qualification,
+					yearOfGraduation : yearOfGraduation,
+					phone : phone,
+					password : password,
+					role : role,
+					status : status
+				}
+				console.log(saveData);
+				
+				if(firstName=="" || firstName==null){
+					toastr.error("Please add first name");
+				}else if(lastName=="" || lastName==null){
+					toastr.error("Please add last name");
+				}else if(email=="" || email==null){
+					toastr.error("Please add email id");
+				}else if(role==null){
+					toastr.error("Please select role");
+				}else if(teacherClass==null){
+					toastr.error("Please select class");
+				}else if(phone==null || phone=="" || phone.length>10 || phone.length<10){
+					toastr.error("Please add proper contact number");
+				}else if(subject==null){
+					toastr.error("Please select subject");
+				}else if(!dateOfJoining){
+					toastr.error("Please select Date of Joining");
+				}else if(employmentStatus==null){
+					toastr.error("Please select employment status");
+				}else if(qualification==null){
+					toastr.error("Please select qualification");
+				}else if(yearOfGraduation==null || yearOfGraduation==""){
+					toastr.error("Please add year of graduation");
+				}else if(password==null || password=="" || password.length<8){
+					toastr.error("Password should be of 8 characters");
+				}else{
+					$.ajax({
+						url : '//updateUser/{id}',
+						type : 'POST',
+						contentType : 'application/json',
+						data : JSON.stringify(saveData),
+						dataType : 'JSON',
+						success : function(response){
+							if(response.status == 200){
+								toastr.success('Data Save Successfully');
+							}else {
+								toastr.error('Something went wrong');
+							}
+						},			
+						error: function(xhr, status, error) {
+						           // alertify.error("An error occurred: " + error);
+						        }
+
+					});					
+				}
+	}
 });
