@@ -44,4 +44,9 @@ public class UserController {
     	 return response;
     }
     
+    @PostMapping("/updateUser/{id}")
+    public ResponseEntity<String> updateUser(Long id, UserEntity user) {
+    	return userService.updateUser(id, user);
+    }
+    
 }

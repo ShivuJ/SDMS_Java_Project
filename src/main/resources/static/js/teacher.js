@@ -2,18 +2,21 @@ $(document).ready(function(){
 	console.log("Document is Ready....");
 	 /*Toggle model for form */
 	document.getElementById('toggleFormBtn').addEventListener('click', function() {
-	            const formContainer = document.getElementById('formContainer');
-	            if (formContainer.style.display === 'none' || formContainer.style.display === '') {
-	                formContainer.style.display = 'block';
-	            } else {
-	                formContainer.style.display = 'none';
-	            }
-	        });
+		toggleUserBtn()
+	});
 			
-		
+	function toggleUserBtn(){
+		const formContainer = document.getElementById('formContainer');
+            if (formContainer.style.display === 'none' || formContainer.style.display === '') {
+                formContainer.style.display = 'block';
+            } else {
+                formContainer.style.display = 'none';
+            }
+	}
 	/* POST reuest to add data*/	
 	$('#submit').click(function(){
 		addTeacher();
+		toggleUserBtn();
 	});
 	
 	$(".userTable").on('click', '#deleteBtn',function(){
@@ -52,7 +55,7 @@ $(document).ready(function(){
 			status : status
 		}
 		console.log(saveData);
-
+		
 		if(firstName=="" || firstName==null){
 			toastr.error("Please add first name");
 		}else if(lastName=="" || lastName==null){
@@ -78,7 +81,6 @@ $(document).ready(function(){
 		}else if(password==null || password=="" || password.length<8){
 			toastr.error("Password should be of 8 characters");
 		}else{
-
 			$.ajax({
 				url : '/addTeacher',
 				type : 'POST',
@@ -96,8 +98,9 @@ $(document).ready(function(){
 				           // alertify.error("An error occurred: " + error);
 				        }
 
-			});
+			});					
 		}
+		
 	}
 	
 	/* Get reuest to view data*/	
@@ -137,15 +140,14 @@ $(document).ready(function(){
 	
 	/*Delete User */
 	function deleteUser(id){
-		
 			$.ajax({
 				url: "/deleteUser",
 				type : 'POST',
 				contentType : 'application/json',
-				data : JSON.stringify({id: id}),
+				data : JSON.stringify(id),
 				dataType : 'JSON',
 				success : function(response){
-					if(response=="Success"){
+					if(response==="Success"){
 						toastr.success("User Deleted Successfully.");
 					}else{
 						toastr.error("Something went wrong.");

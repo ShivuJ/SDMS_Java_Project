@@ -67,4 +67,23 @@ public class UserServiceImpl implements UserService{
 		return ResponseEntity.ok("Success");
 	}
 
+	@Override
+	public ResponseEntity<String> updateUser(Long id, UserEntity user) {
+		UserEntity users = userRepository.findById(id).get();
+		
+		user.setId(users.getId());
+		user.setFirstName(users.getFirstName());
+		user.setLastName(users.getLastName());
+		user.setEmail(users.getEmail());
+		user.setRole(users.getRole());
+		user.setPhone(users.getPhone());
+		user.setTeacherClass(users.getTeacherClass());
+		user.setSubject(users.getSubject());
+		user.setPassword(users.getPassword());
+		user.setStatus(users.getStatus());
+		
+		userRepository.save(user);
+		return ResponseEntity.ok("User Updated Successfully");
+	}
+
 }
