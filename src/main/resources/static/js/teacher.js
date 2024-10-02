@@ -15,6 +15,7 @@ $(document).ready(function(){
 	}
 	/* POST reuest to add data*/	
 	$('#submit').click(function(){
+		
 		addTeacher();
 		
 	});
@@ -27,66 +28,72 @@ $(document).ready(function(){
 	$(".userTable").on('click', '#editBtn',function(){
 		toggleUserBtn();
 		var id = $(this).closest('tr').data("id");
-		updateUser(id);
+		editUser(id);
 	});
+	
+	function getUserData(){
+		return 	{
+					firstName : $('#firstName').val(),
+					lastName : $('#lastName').val(),
+					email : $('#teacherEmail').val(),
+					teacherClass : $('#teachingClass').val(),
+					subject : $('#subject').val(),
+					dateOfJoining : $('#dateOfJoining').val(),
+					employmentStatus : $('#employmentStatus').val(),
+					qualification : $('#qualification').val(),
+					yearOfGraduation : $('#yearOfGraduation').val(),
+					phone : $('#contact').val(),
+					password : $('#password').val(),
+					role : $('#role').val(),
+					status : "Y"
+				}
+	}
+	
+	function isValidate(saveData){
+		if(!saveData.firstName){
+           toastr.error("Please add first name");
+           return false;
+       } else if(!saveData.lastName){
+           toastr.error("Please add last name");
+           return false;
+       } else if(!saveData.email){
+           toastr.error("Please add email id");
+           return false;
+       } else if(!saveData.role){
+           toastr.error("Please select role");
+           return false;
+       } else if(!saveData.teacherClass){
+           toastr.error("Please select class");
+           return false;
+       } else if(!saveData.phone || saveData.phone.length != 10){
+           toastr.error("Please add a proper contact number");
+           return false;
+       } else if(!saveData.subject){
+           toastr.error("Please select subject");
+           return false;
+       } else if(!saveData.dateOfJoining){
+           toastr.error("Please select Date of Joining");
+           return false;
+       } else if(!saveData.employmentStatus){
+           toastr.error("Please select employment status");
+           return false;
+       } else if(!saveData.qualification){
+           toastr.error("Please select qualification");
+           return false;
+       } else if(!saveData.yearOfGraduation){
+           toastr.error("Please add year of graduation");
+           return false;
+       } else if(!saveData.password || saveData.password.length < 8){
+           toastr.error("Password should be of at least 8 characters");
+           return false;
+       }
+       return true;
+	}
 		
 	function addTeacher(){
-		var firstName = $('#firstName').val();
-		var lastName = $('#lastName').val();
-		var email = $('#teacherEmail').val();
-		var teacherClass = $('#teachingClass').val();
-		var subject = $('#subject').val();
-		var dateOfJoining = $('#dateOfJoining').val();
-		var employmentStatus = $('#employmentStatus').val();
-		var qualification = $('#qualification').val();
-		var yearOfGraduation = $('#yearOfGraduation').val();
-		var phone = $('#contact').val();
-		var password = $('#password').val();
-		var role = $('#role').val();
-		var status = "Y";
-
-		var saveData = {
-			firstName : firstName,
-			lastName : lastName,
-			email : email,
-			teacherClass : teacherClass,
-			subject : subject,
-			dateOfJoining : dateOfJoining,
-			employmentStatus : employmentStatus,
-			qualification : qualification,
-			yearOfGraduation : yearOfGraduation,
-			phone : phone,
-			password : password,
-			role : role,
-			status : status
-		}
+		var saveData = getUserData();
 		console.log(saveData);
-		
-		if(firstName=="" || firstName==null){
-			toastr.error("Please add first name");
-		}else if(lastName=="" || lastName==null){
-			toastr.error("Please add last name");
-		}else if(email=="" || email==null){
-			toastr.error("Please add email id");
-		}else if(role==null){
-			toastr.error("Please select role");
-		}else if(teacherClass==null){
-			toastr.error("Please select class");
-		}else if(phone==null || phone=="" || phone.length>10 || phone.length<10){
-			toastr.error("Please add proper contact number");
-		}else if(subject==null){
-			toastr.error("Please select subject");
-		}else if(!dateOfJoining){
-			toastr.error("Please select Date of Joining");
-		}else if(employmentStatus==null){
-			toastr.error("Please select employment status");
-		}else if(qualification==null){
-			toastr.error("Please select qualification");
-		}else if(yearOfGraduation==null || yearOfGraduation==""){
-			toastr.error("Please add year of graduation");
-		}else if(password==null || password=="" || password.length<8){
-			toastr.error("Password should be of 8 characters");
-		}else{
+		if(isValidate(saveData)){
 			$.ajax({
 				url : '/addTeacher',
 				type : 'POST',
@@ -96,6 +103,7 @@ $(document).ready(function(){
 				success : function(response){
 					if(response.status == 200){
 						toastr.success('Data Save Successfully');
+						location.reload();
 					}else {
 						toastr.error('Something went wrong');
 					}
@@ -163,65 +171,33 @@ $(document).ready(function(){
 			});
 		}
 		
+	function editUser(id){debugger;
+		$.ajax({
+			url: '/editUser/' + id,
+			type: 'GET',
+			success: function(response){
+				$('#firstName').val(response.firstname);
+				$('#lastName').val(response.lastname);
+				$('#teacherEmail').val(response.email);
+				$('#teachingClass').val(response.teacherClass);
+				$('#subject').val(response.subject);
+				$('#dateOfJoining').val(response.dateOfJoining);
+				$('#employmentStatus').val(response.employmentStatus);
+				$('#qualification').val(response.qualification);
+				$('#yearOfGraduation').val(response.yearOfGraduation);
+				$('#contact').val(response.phone);
+				$('#password').val(response.password);
+				$('#role').val(response.role);
+			}
+		});
+	}
+		
 	function updateUser(id){
-		var firstName = $('#firstName').val();
-				var lastName = $('#lastName').val();
-				var email = $('#teacherEmail').val();
-				var teacherClass = $('#teachingClass').val();
-				var subject = $('#subject').val();
-				var dateOfJoining = $('#dateOfJoining').val();
-				var employmentStatus = $('#employmentStatus').val();
-				var qualification = $('#qualification').val();
-				var yearOfGraduation = $('#yearOfGraduation').val();
-				var phone = $('#contact').val();
-				var password = $('#password').val();
-				var role = $('#role').val();
-				var status = "Y";
-
-				var saveData = {
-					firstName : firstName,
-					lastName : lastName,
-					email : email,
-					teacherClass : teacherClass,
-					subject : subject,
-					dateOfJoining : dateOfJoining,
-					employmentStatus : employmentStatus,
-					qualification : qualification,
-					yearOfGraduation : yearOfGraduation,
-					phone : phone,
-					password : password,
-					role : role,
-					status : status
-				}
+		var saveData = getUserData();
 				console.log(saveData);
-				
-				if(firstName=="" || firstName==null){
-					toastr.error("Please add first name");
-				}else if(lastName=="" || lastName==null){
-					toastr.error("Please add last name");
-				}else if(email=="" || email==null){
-					toastr.error("Please add email id");
-				}else if(role==null){
-					toastr.error("Please select role");
-				}else if(teacherClass==null){
-					toastr.error("Please select class");
-				}else if(phone==null || phone=="" || phone.length>10 || phone.length<10){
-					toastr.error("Please add proper contact number");
-				}else if(subject==null){
-					toastr.error("Please select subject");
-				}else if(!dateOfJoining){
-					toastr.error("Please select Date of Joining");
-				}else if(employmentStatus==null){
-					toastr.error("Please select employment status");
-				}else if(qualification==null){
-					toastr.error("Please select qualification");
-				}else if(yearOfGraduation==null || yearOfGraduation==""){
-					toastr.error("Please add year of graduation");
-				}else if(password==null || password=="" || password.length<8){
-					toastr.error("Password should be of 8 characters");
-				}else{
+				if(isValidate(saveData)){
 					$.ajax({
-						url : '//updateUser/{id}',
+						url : '/updateUser/'+ id,
 						type : 'POST',
 						contentType : 'application/json',
 						data : JSON.stringify(saveData),
