@@ -15,9 +15,11 @@ $(document).ready(function(){
 	}
 	/* POST reuest to add data*/	
 	$('#submit').click(function(){
-		
-		addTeacher();
-		
+		if(id && id != ""){
+			updateUser(id);
+		}else{
+			addTeacher();
+		}		
 	});
 	
 	$(".userTable").on('click', '#deleteBtn',function(){
@@ -28,7 +30,12 @@ $(document).ready(function(){
 	$(".userTable").on('click', '#editBtn',function(){
 		toggleUserBtn();
 		var id = $(this).closest('tr').data("id");
-		editUser(id);
+		if(id){
+			editUser(id);
+		}else {
+			toastr.error("Id is null");
+		}
+		
 	});
 	
 	function getUserData(){
@@ -171,13 +178,14 @@ $(document).ready(function(){
 			});
 		}
 		
-	function editUser(id){debugger;
+	function editUser(id){
 		$.ajax({
 			url: '/editUser/' + id,
 			type: 'GET',
 			success: function(response){
-				$('#firstName').val(response.firstname);
-				$('#lastName').val(response.lastname);
+				console.log(response);
+				$('#firstName').val(response.firstName);
+				$('#lastName').val(response.lastName);
 				$('#teacherEmail').val(response.email);
 				$('#teachingClass').val(response.teacherClass);
 				$('#subject').val(response.subject);

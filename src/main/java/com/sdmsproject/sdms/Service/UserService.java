@@ -12,5 +12,5 @@ public interface UserService {
 	List<UserEntity> readAllUsers();
 	ResponseEntity<String> inactivateUser(Long id);
 	ResponseEntity<String> updateUser(Long id, UserEntity user);
-	ResponseEntity<String> readUserById(Long id);
+	ResponseEntity<UserEntity> readUserById(Long id);
 }

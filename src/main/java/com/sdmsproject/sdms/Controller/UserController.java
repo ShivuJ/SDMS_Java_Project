@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,14 +46,14 @@ public class UserController {
     }
     
     @PostMapping("/updateUser/{id}")
-    public ResponseEntity<String> updateUser(Long id, UserEntity user) {
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
     	ResponseEntity<String> response = userService.updateUser(id, user);
     	return response;
     }
     
     @GetMapping("/editUser/{id}")
-    public ResponseEntity<String> readUserById(Long id) {
-    	ResponseEntity<String> response = userService.readUserById(id);
+    public ResponseEntity<UserEntity> readUserById(@PathVariable Long id) {
+    	ResponseEntity<UserEntity> response = userService.readUserById(id);
     	return response;
     }
     
