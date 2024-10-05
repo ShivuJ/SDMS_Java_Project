@@ -21,10 +21,6 @@ public class UserController {
 
     @PostMapping("/addTeacher")
     public ResponseEntity<String> addTeacher(@RequestBody UserEntity userData) {
-//        if (user == null) {
-//            System.out.println("User Data is missing");
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User data is missing");
-//        }
 
         ResponseEntity<String> response = userService.createUser(userData);
 
@@ -45,11 +41,11 @@ public class UserController {
     	 return response;
     }
     
-    @PostMapping("/updateUser/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
-    	ResponseEntity<String> response = userService.updateUser(id, user);
-    	return response;
-    }
+//    @PostMapping("/updateUser/{id}")
+//    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
+//    	ResponseEntity<String> response = userService.updateUser(id, user);
+//    	return response;
+//    }
     
     @GetMapping("/editUser/{id}")
     public ResponseEntity<UserEntity> readUserById(@PathVariable Long id) {

@@ -22,13 +22,32 @@ public class UserServiceImpl implements UserService{
 	 
 	@Override
 	public ResponseEntity<String>  createUser(UserEntity user) {
-
-//		UserEntity userEntity = new UserEntity();
-//		BeanUtils.copyProperties(user, userEntity);
-
-//		ResponseEntity<String> responseEntity = userService.createUser(user);
-		userRepository.save(user);
-	    return ResponseEntity.ok("Success");
+		Long id = user.getId();
+		if(id != null) {
+			
+			UserEntity users = userRepository.findById(id).get();
+			
+			user.setId(users.getId());
+			user.setFirstName(users.getFirstName());
+			user.setLastName(users.getLastName());
+			user.setEmail(users.getEmail());
+			user.setRole(users.getRole());
+			user.setPhone(users.getPhone());
+			user.setTeacherClass(users.getTeacherClass());
+			user.setSubject(users.getSubject());
+			user.setPassword(users.getPassword());
+			user.setStatus(users.getStatus());
+			user.setDateOfJoining(users.getDateOfJoining());
+			user.setEmploymentStatus(users.getEmploymentStatus());
+			user.setQualification(users.getQualification());	
+			
+			userRepository.save(user);
+			return ResponseEntity.ok("Success");
+		}else {
+			userRepository.save(user);
+		    return ResponseEntity.ok("Success");
+		}
+		
 	}
 	
 	@Override
@@ -67,27 +86,10 @@ public class UserServiceImpl implements UserService{
 		return ResponseEntity.ok("Success");
 	}
 
-	@Override
-	public ResponseEntity<String> updateUser(Long id, UserEntity user) {
-		UserEntity users = userRepository.findById(id).get();
-		
-		user.setId(users.getId());
-		user.setFirstName(users.getFirstName());
-		user.setLastName(users.getLastName());
-		user.setEmail(users.getEmail());
-		user.setRole(users.getRole());
-		user.setPhone(users.getPhone());
-		user.setTeacherClass(users.getTeacherClass());
-		user.setSubject(users.getSubject());
-		user.setPassword(users.getPassword());
-		user.setStatus(users.getStatus());
-		user.setDateOfJoining(users.getDateOfJoining());
-		user.setEmploymentStatus(users.getEmploymentStatus());
-		user.setQualification(users.getQualification());	
-		
-		userRepository.save(user);
-		return ResponseEntity.ok("Success");
-	}
+//	@Override
+//	public ResponseEntity<String> updateUser(Long id, UserEntity user) {
+//		
+//	}
 
 	@Override
 	public ResponseEntity<UserEntity> readUserById(Long id) {

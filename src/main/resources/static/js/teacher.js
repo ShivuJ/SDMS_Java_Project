@@ -15,11 +15,7 @@ $(document).ready(function(){
 	}
 	/* POST reuest to add data*/	
 	$('#submit').click(function(){
-		if(id && id != ""){
-			updateUser(id);
-		}else{
-			addTeacher();
-		}		
+		addTeacher();	
 	});
 	
 	$(".userTable").on('click', '#deleteBtn',function(){
@@ -40,6 +36,7 @@ $(document).ready(function(){
 	
 	function getUserData(){
 		return 	{
+					id: $('#userId').val(),
 					firstName : $('#firstName').val(),
 					lastName : $('#lastName').val(),
 					email : $('#teacherEmail').val(),
@@ -200,7 +197,7 @@ $(document).ready(function(){
 		});
 	}
 		
-	function updateUser(id){
+	/*function updateUser(id){
 		var saveData = getUserData();
 				console.log(saveData);
 				if(isValidate(saveData)){
@@ -223,5 +220,5 @@ $(document).ready(function(){
 
 					});					
 				}
-	}
+	}*/
 });
