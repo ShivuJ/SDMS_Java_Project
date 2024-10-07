@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService{
 	 
 	@Override
 	public ResponseEntity<String>  createUser(UserEntity user) {
-		Long id = user.getId();
-		if(id != null) {
-			
+		
+		if(user != null) {
+			Long id = user.getId();
 			UserEntity users = userRepository.findById(id).get();
 			
 			user.setId(users.getId());

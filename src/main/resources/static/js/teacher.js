@@ -181,6 +181,7 @@ $(document).ready(function(){
 			type: 'GET',
 			success: function(response){
 				console.log(response);
+				$('#userId').val(response.id);
 				$('#firstName').val(response.firstName);
 				$('#lastName').val(response.lastName);
 				$('#teacherEmail').val(response.email);
