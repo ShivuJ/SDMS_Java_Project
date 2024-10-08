@@ -24,6 +24,7 @@ $(document).ready(function(){
 	});
 	
 	$(".userTable").on('click', '#editBtn',function(){
+		$('#submit').text("Update");
 		toggleUserBtn();
 		var id = $(this).closest('tr').data("id");
 		if(id){

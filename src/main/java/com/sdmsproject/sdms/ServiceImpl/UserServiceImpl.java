@@ -21,30 +21,29 @@ public class UserServiceImpl implements UserService{
 //	 UserService userService;
 	 
 	@Override
-	public ResponseEntity<String>  createUser(UserEntity user) {
-		
-		if(user != null) {
-			Long id = user.getId();
-			UserEntity users = userRepository.findById(id).get();
+	public ResponseEntity<String> createUser(UserEntity user) {
+		Long id = user.getId();
+		UserEntity users = userRepository.findById(id).get();
+		if(id != null) {
+				
+			users.setId(user.getId());
+			users.setFirstName(user.getFirstName());
+			users.setLastName(user.getLastName());
+			users.setEmail(user.getEmail());
+			users.setRole(user.getRole());
+			users.setPhone(user.getPhone());
+			users.setTeacherClass(user.getTeacherClass());
+			users.setSubject(user.getSubject());
+			users.setPassword(user.getPassword());
+			users.setStatus(user.getStatus());
+			users.setDateOfJoining(user.getDateOfJoining());
+			users.setEmploymentStatus(user.getEmploymentStatus());
+			users.setQualification(user.getQualification());	
 			
-			user.setId(users.getId());
-			user.setFirstName(users.getFirstName());
-			user.setLastName(users.getLastName());
-			user.setEmail(users.getEmail());
-			user.setRole(users.getRole());
-			user.setPhone(users.getPhone());
-			user.setTeacherClass(users.getTeacherClass());
-			user.setSubject(users.getSubject());
-			user.setPassword(users.getPassword());
-			user.setStatus(users.getStatus());
-			user.setDateOfJoining(users.getDateOfJoining());
-			user.setEmploymentStatus(users.getEmploymentStatus());
-			user.setQualification(users.getQualification());	
-			
-			userRepository.save(user);
+			userRepository.save(users);
 			return ResponseEntity.ok("Success");
 		}else {
-			userRepository.save(user);
+			userRepository.save(users);
 		    return ResponseEntity.ok("Success");
 		}
 		
