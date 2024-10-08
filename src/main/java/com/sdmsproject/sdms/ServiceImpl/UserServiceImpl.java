@@ -23,27 +23,28 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public ResponseEntity<String> createUser(UserEntity user) {
 		Long id = user.getId();
-		UserEntity users = userRepository.findById(id).get();
 		if(id != null) {
-				
-			users.setId(user.getId());
-			users.setFirstName(user.getFirstName());
-			users.setLastName(user.getLastName());
-			users.setEmail(user.getEmail());
-			users.setRole(user.getRole());
-			users.setPhone(user.getPhone());
-			users.setTeacherClass(user.getTeacherClass());
-			users.setSubject(user.getSubject());
-			users.setPassword(user.getPassword());
-			users.setStatus(user.getStatus());
-			users.setDateOfJoining(user.getDateOfJoining());
-			users.setEmploymentStatus(user.getEmploymentStatus());
-			users.setQualification(user.getQualification());	
 			
-			userRepository.save(users);
+			UserEntity existingUser = userRepository.findById(id).get();
+			
+			existingUser.setId(user.getId());
+			existingUser.setFirstName(user.getFirstName());
+			existingUser.setLastName(user.getLastName());
+			existingUser.setEmail(user.getEmail());
+			existingUser.setRole(user.getRole());
+			existingUser.setPhone(user.getPhone());
+			existingUser.setTeacherClass(user.getTeacherClass());
+			existingUser.setSubject(user.getSubject());
+			existingUser.setPassword(user.getPassword());
+			existingUser.setStatus(user.getStatus());
+			existingUser.setDateOfJoining(user.getDateOfJoining());
+			existingUser.setEmploymentStatus(user.getEmploymentStatus());
+			existingUser.setQualification(user.getQualification());	
+			
+			userRepository.save(existingUser);
 			return ResponseEntity.ok("Success");
 		}else {
-			userRepository.save(users);
+			userRepository.save(user);
 		    return ResponseEntity.ok("Success");
 		}
 		
