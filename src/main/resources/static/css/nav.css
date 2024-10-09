@@ -1,0 +1,14 @@
+ul li{
+	display: inline-block;
+	list-style-type: none;
+	text-decoration: none;
+	justify-content: center;
+}
+
+img{
+	width: 50px;
+}
+
+#headerImg{
+	height: 50px;
+}
