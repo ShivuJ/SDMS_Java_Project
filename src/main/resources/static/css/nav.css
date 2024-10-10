@@ -1,3 +1,7 @@
+.container-fluid{
+	background-color: #007bff;
+}
+
 ul li{
 	display: inline-block;
 	list-style-type: none;
