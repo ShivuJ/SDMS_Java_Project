@@ -1,132 +1,174 @@
         body {
-            background: #f8f9fa;
-            margin: 0;
-            padding: 0;
+        	background: #f8f9fa;
+        	margin: 0;
+        	padding-top: 80px;
         }
+
         .header {
-            background: #007bff;
-            color: white;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        	background: #007bff;
+        	color: white;
+        	padding: 10px;
+        	display: flex;
+        	justify-content: space-between;
+        	align-items: center;
         }
+
         .header h1 {
-            margin: 0;
-			font-size: 30px;
+        	margin: 0;
+        	font-size: 30px;
         }
+
         .header button {
-            background: #fff;
-            color: #007bff;
-            border: none;
-            padding: 5px 10px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
+        	background: #fff;
+        	color: #007bff;
+        	border: none;
+        	padding: 5px 10px;
+        	font-size: 16px;
+        	cursor: pointer;
+        	border-radius: 5px;
         }
+
         .header button:hover {
-            background: #e2e6ea;
+        	background: #e2e6ea;
         }
+
         .form-container {
-            display: none;
-            width: 95%;
-            /*max-width: 1200px;*/
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
+        	display: none;
+        	width: 95%;
+        	/*max-width: 1200px;*/
+        	background: white;
+        	padding: 20px;
+        	border-radius: 8px;
+        	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        	margin: 20px auto;
         }
+
         .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+        	display: flex;
+        	flex-wrap: wrap;
+        	gap: 10px;
         }
+
         .form-row .form-group {
-            flex: 1 1 22%;
+        	flex: 1 1 22%;
         }
+
         .form-row .form-group input,
         .form-row .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
+        	width: 100%;
+        	padding: 8px;
+        	border: 1px solid #ced4da;
+        	border-radius: 4px;
         }
+
         /* Custom styles for the role dropdown */
         .form-group select {
-            background-color: #fff;
-            color: #000;
+        	background-color: #fff;
+        	color: #000;
         }
+
         .form-group select:focus {
-            border-color: #007bff;
-            outline: none;
+        	border-color: #007bff;
+        	outline: none;
         }
+
         button.submit-btn {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            background-color: #007bff;
+        	width: 100%;
+        	padding: 10px;
+        	font-size: 16px;
+        	border: none;
+        	border-radius: 4px;
+        	color: white;
+        	background-color: #007bff;
         }
+
         button.submit-btn:hover {
-            background-color: #0056b3;
+        	background-color: #0056b3;
         }
+
         .table-container {
-            width: 95%;
-            max-width: 1200px;
-            margin: 20px auto;
+        	width: 95%;
+        	max-width: 1200px;
+        	margin: 20px auto;
         }
+
         .table-container table {
-            width: 100%;
-            border-collapse: collapse;
+        	width: 100%;
+        	border-collapse: collapse;
         }
-        .table-container th, .table-container td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+
+        .table-container th,
+        .table-container td {
+        	padding: 12px;
+        	text-align: left;
+        	border-bottom: 1px solid #ddd;
         }
+
         .table-container th {
-            background-color: #007bff;
-            color: white;
-            position: -webkit-sticky; /* For Safari */
-            position: sticky;
-            top: 0;
-            z-index: 1;
+        	background-color: #007bff;
+        	color: white;
+        	position: -webkit-sticky;
+        	/* For Safari */
+        	position: sticky;
+        	top: 0;
+        	z-index: 1;
         }
+
         .table-container .action-buttons {
-            display: flex;
-            gap: 5px;
+        	display: flex;
+        	gap: 5px;
         }
+
         .table-container .action-buttons button {
-            border: none;
-            background: none;
-            cursor: pointer;
+        	border: none;
+        	background: none;
+        	cursor: pointer;
         }
+
         .table-container .action-buttons .edit-btn {
-            color: #28a745;
+        	color: #28a745;
         }
+
         .table-container .action-buttons .delete-btn {
-            color: #dc3545;
+        	color: #dc3545;
         }
+
         .table-container .action-buttons .edit-btn:hover {
-            color: #218838;
+        	color: #218838;
         }
+
         .table-container .action-buttons .delete-btn:hover {
-            color: #c82333;
+        	color: #c82333;
         }
+
         /* Additional CSS for the password field */
         .form-group input[type="password"] {
-            font-size: 16px;
-            letter-spacing: 0.2em; /* For hiding the actual characters */
+        	font-size: 16px;
+        	letter-spacing: 0.2em;
+        	/* For hiding the actual characters */
         }
-        div{
-            margin:0.5%;
+
+        div {
+        	margin: 0.5%;
+        }
+
+        .iconBtn {
+        	border: none;
+        	background: none;
         }
 		
-		.iconBtn{
-			border: none;
-			background: none;
+		#navbar{
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			position: relative;
 		}
- 
+		
+		#whatsappRadio{
+			display: flex;
+		}
+		
+		#whatsappYes, #whatsappNo{
+			width: 40px;
+			height: 20px;
+		}

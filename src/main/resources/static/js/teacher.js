@@ -5,6 +5,8 @@ $(document).ready(function() {
 		toggleUserBtn();
 	});
 
+	$('#navbar').load('nav.html');
+	
 	function toggleUserBtn() {
 		const formContainer = document.getElementById('formContainer');
 		if (formContainer.style.display === 'none' || formContainer.style.display === '') {

@@ -1,18 +1,27 @@
-.container-fluid{
+body {
+	width: 100%;
+}
+
+#navBody {
+	padding: 0;
+	margin: 0;
+}
+
+.container-fluid {
 	background-color: #007bff;
 }
 
-ul li{
+ul li {
 	display: inline-block;
 	list-style-type: none;
 	text-decoration: none;
 	justify-content: center;
 }
 
-img{
+#logoImg {
 	width: 50px;
 }
 
-#headerImg{
+#headerImg {
 	height: 50px;
 }
