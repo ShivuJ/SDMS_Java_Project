@@ -25,116 +25,118 @@
 
 	<div class="form-container" id="formContainer">
 		<div id="userForm">
-			<div class="form-row">
-				<input type="hidden" id="userId" name="userId" value="">
-				<div class="form-group">
-					<label for="firstName">First Name</label>
-					<input type="text" id="firstName" name="firstName" required>
-				</div>
-				<div class="form-group">
-					<label for="lastName">Last Name</label>
-					<input type="text" id="lastName" name="lastName" required>
-				</div>
-				<div class="form-group">
-					<label for="contact">Contact</label>
-					<input type="tel" id="contact" name="contact" maxlength="10" required>
-				</div>
-				<div class="form-group">
-					<label for="teacherEmail">Teacher Email</label>
-					<input type="email" id="teacherEmail" name="teacherEmail" required>
-				</div>
-			</div>
-
-			<div class="form-row">
-				<div class="form-group">
-					<label for="role">Role</label>
-					<select id="role" name="role" required>
-						<option value="" selected disabled hid den>Select Role</option>
-						<option value="Teacher">Teacher</option>
-						<option value="Admin">Admin</option>
-						<option value="Staff">Staff</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="teachingClass">Teaching Class</label>
-					<select id="teachingClass" name="teachingClass" required>
-						<option value="" selected disabled hidden>Select Class</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="qualification">Qualification</label>
-					<select id="qualification" name="qualification" required>
-						<option value="" selected disabled hidden>Select Qualification</option>
-						<option value="B.Ed">B.Ed</option>
-						<option value="M.Ed">M.Ed</option>
-						<option value="B.A">B.A</option>
-						<option value="M.A">M.A</option>
-						<option value="B.Sc">B.Sc</option>
-						<option value="M.Sc">M.Sc</option>
-						<option value="Ph.D">Ph.D</option>
-						<option value="B.Com">B.Com</option>
-						<option value="M.Com">M.Com</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="subject">Subject</label>
-					<select id="subject" name="subject" required>
-						<option value="" selected disabled hidden>Select Subject</option>
-						<option value="English">English</option>
-						<option value="Marathi">Marathi</option>
-						<option value="Hindi">Hindi</option>
-						<option value="Sanskrit">Sanskrit</option>
-						<option value="Maths">Maths</option>
-						<option value="Science">Science</option>
-						<option value="History">History</option>
-						<option value="Geography">Geography</option>
-						<option value="Physical training">Physical Training</option>
-					</select>
+			<form>
+				<div class="form-row">
+					<input type="hidden" id="userId" name="userId" value="">
+					<div class="form-group">
+						<label for="firstName">First Name</label>
+						<input type="text" id="firstName" name="firstName" required>
+					</div>
+					<div class="form-group">
+						<label for="lastName">Last Name</label>
+						<input type="text" id="lastName" name="lastName" required>
+					</div>
+					<div class="form-group">
+						<label for="contact">Contact</label>
+						<input type="tel" id="contact" name="contact" maxlength="10" required>
+					</div>
+					<div class="form-group">
+						<label for="teacherEmail">Teacher Email</label>
+						<input type="email" id="teacherEmail" name="teacherEmail" required>
+					</div>
 				</div>
 
-			</div>
+				<div class="form-row">
+					<div class="form-group">
+						<label for="role">Role</label>
+						<select id="role" name="role" required>
+							<option value="" selected disabled hid den>Select Role</option>
+							<option value="Teacher">Teacher</option>
+							<option value="Admin">Admin</option>
+							<option value="Staff">Staff</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="teachingClass">Teaching Class</label>
+						<select id="teachingClass" name="teachingClass" required>
+							<option value="" selected disabled hidden>Select Class</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="qualification">Qualification</label>
+						<select id="qualification" name="qualification" required>
+							<option value="" selected disabled hidden>Select Qualification</option>
+							<option value="B.Ed">B.Ed</option>
+							<option value="M.Ed">M.Ed</option>
+							<option value="B.A">B.A</option>
+							<option value="M.A">M.A</option>
+							<option value="B.Sc">B.Sc</option>
+							<option value="M.Sc">M.Sc</option>
+							<option value="Ph.D">Ph.D</option>
+							<option value="B.Com">B.Com</option>
+							<option value="M.Com">M.Com</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="subject">Subject</label>
+						<select id="subject" name="subject" required>
+							<option value="" selected disabled hidden>Select Subject</option>
+							<option value="English">English</option>
+							<option value="Marathi">Marathi</option>
+							<option value="Hindi">Hindi</option>
+							<option value="Sanskrit">Sanskrit</option>
+							<option value="Maths">Maths</option>
+							<option value="Science">Science</option>
+							<option value="History">History</option>
+							<option value="Geography">Geography</option>
+							<option value="Physical training">Physical Training</option>
+						</select>
+					</div>
 
-			<div class="form-row">
-				<div class="form-group">
-					<label for="yearOfGraduation">Year of Graduation</label>
-					<input type="number" id="yearOfGraduation" name="yearOfGraduation" required>
 				</div>
-				<div class="form-group">
-					<label for="dateOfJoining" aria-autocomplete="none">Date of Joining</label>
-					<input type="date" id="dateOfJoining" name="dateOfJoining" required>
-				</div>
-				<div class="form-group">
-					<label for="employmentStatus">Employment Status</label>
-					<select id="employmentStatus" name="employmentStatus" required>
-						<option value="" selected disabled hidden>Select Employment Status</option>
-						<option value="Permanent">Permanent</option>
-						<option value="Part-Time">Part-Time</option>
-						<option value="Contract">Contract</option>
-						<option value="Temporary">Temporary</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="password">Password</label>
-					<input type="password" id="password" name="password" required>
-				</div>
-			</div>
 
-			<div class="form-row">
-				<div class="form-group">
-					<button type="button" class="submit-btn" id="submit">Submit</button>
+				<div class="form-row">
+					<div class="form-group">
+						<label for="yearOfGraduation">Year of Graduation</label>
+						<input type="number" id="yearOfGraduation" name="yearOfGraduation" required>
+					</div>
+					<div class="form-group">
+						<label for="dateOfJoining" aria-autocomplete="none">Date of Joining</label>
+						<input type="date" id="dateOfJoining" name="dateOfJoining" required>
+					</div>
+					<div class="form-group">
+						<label for="employmentStatus">Employment Status</label>
+						<select id="employmentStatus" name="employmentStatus" required>
+							<option value="" selected disabled hidden>Select Employment Status</option>
+							<option value="Permanent">Permanent</option>
+							<option value="Part-Time">Part-Time</option>
+							<option value="Contract">Contract</option>
+							<option value="Temporary">Temporary</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" id="password" name="password" required>
+					</div>
 				</div>
-			</div>
-		</form>
+
+				<div class="form-row">
+					<div class="form-group">
+						<button type="button" class="submit-btn" id="submit">Submit</button>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 
 	<div class="table-container">

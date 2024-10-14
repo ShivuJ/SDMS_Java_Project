@@ -109,12 +109,12 @@ $(document).ready(function() {
 				dataType: 'JSON',
 				success: function(response) {
 					if (response.status == 200) {
-						toastr.success('Data Save Successfully');
+						toastr.success("Data Save Successfully");
 						setTimeout(function() {
 							location.reload();
 						}, 2000);
 					} else {
-						toastr.error('Something went wrong');
+						toastr.error("Something went wrong");
 					}
 				},
 				error: function(xhr, status, error) {
