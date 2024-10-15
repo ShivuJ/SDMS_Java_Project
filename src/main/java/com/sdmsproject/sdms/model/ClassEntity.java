@@ -17,6 +17,7 @@ public class ClassEntity {
 	private Long id;
 	
 	private String stuClass;
+	private String status = "Y";
 
 	public Long getId() {
 		return id;
@@ -32,6 +33,14 @@ public class ClassEntity {
 
 	public void setStuClass(String stuClass) {
 		this.stuClass = stuClass;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

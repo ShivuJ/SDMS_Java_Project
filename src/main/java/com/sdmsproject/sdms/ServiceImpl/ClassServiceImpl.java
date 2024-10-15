@@ -1,5 +1,8 @@
 package com.sdmsproject.sdms.ServiceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,12 +22,42 @@ public class ClassServiceImpl implements ClassService {
 		Long id = classEntity.getId();
 		
 		if(id != null) {
-			return null;
+			ClassEntity existingClass = classRepository.findById(id).get();
+			
+			existingClass.setStuClass(classEntity.getStuClass());
+			
+			classRepository.save(existingClass);
+			
+			return ResponseEntity.ok("Success");
 		}else {
 			classRepository.save(classEntity);
 			return ResponseEntity.ok("Success");
 		}
 
 	}
+
+	@Override
+	public List<ClassEntity> readAllClasses() {
+		List<ClassEntity> classList = classRepository.findAll();
+		List<ClassEntity> classes = new ArrayList<>();
+		
+		for(ClassEntity classEntity : classList) {
+			ClassEntity addClass = new ClassEntity();
+			addClass.setId(classEntity.getId());
+			addClass.setStuClass(classEntity.getStuClass());
+			addClass.setStatus(classEntity.getStatus());
+			classes.add(addClass);
+		}
+		return classes;
+	}
+
+	@Override
+	public ResponseEntity<ClassEntity> readAllClassById(Long id) {
+		ClassEntity editClass = classRepository.findById(id).get();
+
+		return ResponseEntity.ok(editClass);
+	}
+	
+	
 	
 }
