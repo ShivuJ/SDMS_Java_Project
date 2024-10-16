@@ -39,5 +39,11 @@ public class ClassController {
 		
 		return response;
 	}
+	
+	@PostMapping("/deleteClass/{id}")
+	public ResponseEntity<String> inactivateClass(@RequestBody Long id){
+		ResponseEntity<String> response = classService.inactivateClass(id);
+		return response;
+	}
 
 }

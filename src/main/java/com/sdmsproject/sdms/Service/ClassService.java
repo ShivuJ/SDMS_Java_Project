@@ -12,4 +12,5 @@ public interface ClassService {
 	ResponseEntity<String> createClass(ClassEntity classEntity);
 	List<ClassEntity> readAllClasses();
 	ResponseEntity<ClassEntity> readAllClassById(Long id);
+	ResponseEntity<String> inactivateClass(Long id);
 }

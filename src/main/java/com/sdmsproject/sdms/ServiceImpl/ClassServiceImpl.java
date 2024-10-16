@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sdmsproject.sdms.Repository.ClassRepository;
+import com.sdmsproject.sdms.Repository.UserRepository;
 import com.sdmsproject.sdms.Service.ClassService;
 import com.sdmsproject.sdms.model.ClassEntity;
 
@@ -56,6 +57,15 @@ public class ClassServiceImpl implements ClassService {
 		ClassEntity editClass = classRepository.findById(id).get();
 
 		return ResponseEntity.ok(editClass);
+	}
+
+	@Override
+	public ResponseEntity<String> inactivateClass(Long id) {
+		ClassEntity editClass = classRepository.findById(id).get();
+		
+		editClass.setStatus("N");
+		classRepository.save(editClass);
+		return ResponseEntity.ok("Success");
 	}
 	
 	

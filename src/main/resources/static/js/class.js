@@ -23,16 +23,22 @@ $(document).ready(function() {
 		}, 2000);
 	})
 
-	$('.classTable').on('click', '#editBtn', function(){
+	$('.classTable').on('click', '#deleteBtn', function() {
+		var id = $(this).closest('tr').data("id");
+		deleteClass(id);
+	});
+
+	$('.classTable').on('click', '#editBtn', function() {
 		$('#submit').text('Update');
 		toggleUserBtn();
 		var id = $(this).closest('tr').data("id");
-		if(id){
+		if (id) {
 			editClass(id);
-		}else{
+		} else {
 			toastr.error("Class Not Found...")
 		}
-	})
+	});
+
 	function getClassData() {
 		return {
 			id: $('#classId').val(),
@@ -96,15 +102,32 @@ $(document).ready(function() {
 
 		});
 	});
-	
-	function editClass(id){
+
+	function editClass(id) {
 		$.ajax({
 			url: '/editClass/' + id,
 			type: 'GET',
-			success: function(response){
+			success: function(response) {
 				$('#classId').val(response.id),
-				$('#class').val(response.stuClass)
+					$('#class').val(response.stuClass)
 				console.log(response);
+			}
+		})
+	}
+
+	function deleteClass(id) {
+		$.ajax({
+			url: '/deleteClass/' + id,
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(id),
+			dataType: 'JSON',
+			success: function(response) {
+				if (response === "Success") {
+					toastr.success("Class Deleted Successfully.");
+				} else {
+					toastr.error("Something went wrong.");
+				}
 			}
 		})
 	}
