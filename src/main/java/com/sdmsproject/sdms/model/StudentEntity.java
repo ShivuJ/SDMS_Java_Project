@@ -18,6 +18,7 @@ public class StudentEntity {
 	
 	private String stuFirstName;
 	private String stuLastName;
+	private String status = "Y";
 	
 	public Long getId() {
 		return id;
@@ -36,6 +37,12 @@ public class StudentEntity {
 	}
 	public void setStuLastName(String stuLastName) {
 		this.stuLastName = stuLastName;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

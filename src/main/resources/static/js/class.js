@@ -21,7 +21,7 @@ $(document).ready(function() {
 		setTimeout(function() {
 			location.reload();
 		}, 2000);
-	})
+	});
 
 	$('.classTable').on('click', '#deleteBtn', function() {
 		var id = $(this).closest('tr').data("id");
