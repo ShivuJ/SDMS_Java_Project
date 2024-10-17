@@ -18,16 +18,18 @@ $(document).ready(function() {
 
 	$('#submit').click(function() {
 		addStudent();
-		setTimeout(function() {
-			location.reload();
-		}, 2000);
 	});
 
 	function getStudentData() {
 		return {
 			id: $('#studentId').val(),
 			stuFirstName: $('#firstName').val(),
-			stuLastName: $('#lastName').val()
+			stuLastName: $('#lastName').val(),
+			stuContact: $('#stuContact').val(),
+			stuEmail: $('#stuEmail').val(),
+			stuWhatsapp: $("#whatsappRadio input[type='radio']:checked").val(),
+			stuClass: $('#stuClass').val(),
+			stuPass: $('#stuPassword').val()
 		}
 	}
 
@@ -38,37 +40,19 @@ $(document).ready(function() {
 		} else if (!saveData.stuLastName) {
 			toastr.error("Please add last name");
 			return false;
-		}/* else if (!saveData.email) {
-			toastr.error("Please add email id");
-			return false;
-		} else if (!saveData.role) {
-			toastr.error("Please select role");
-			return false;
-		} else if (!saveData.teacherClass) {
-			toastr.error("Please select class");
-			return false;
-		} else if (!saveData.phone || saveData.phone.length != 10) {
+		} else if (!saveData.stuContact || saveData.stuContact.length != 10) {
 			toastr.error("Please add a proper contact number");
 			return false;
-		} else if (!saveData.subject) {
-			toastr.error("Please select subject");
+		} else if (!saveData.stuEmail) {
+			toastr.error("Please add email id");
 			return false;
-		} else if (!saveData.dateOfJoining) {
-			toastr.error("Please select Date of Joining");
+		} else if (!saveData.stuClass) {
+			toastr.error("Please select class");
 			return false;
-		} else if (!saveData.employmentStatus) {
-			toastr.error("Please select employment status");
-			return false;
-		} else if (!saveData.qualification) {
-			toastr.error("Please select qualification");
-			return false;
-		} else if (!saveData.yearOfGraduation) {
-			toastr.error("Please add year of graduation");
-			return false;
-		} else if (!saveData.password || saveData.password.length < 8) {
+		} else if (!saveData.stuPass || saveData.stuPass.length < 8) {
 			toastr.error("Password should be of at least 8 characters");
 			return false;
-		}*/
+		}
 		return true;
 	}
 
@@ -91,6 +75,10 @@ $(document).ready(function() {
 					}
 				}
 			});
+			setTimeout(function() {
+				location.reload();
+			}, 2000);
 		}
 	}
+
 })
