@@ -39,10 +39,19 @@ public class StudentServiceImpl implements StudentService {
 			StudentEntity getStudent = new StudentEntity();
 			
 			getStudent.setId(studentEntity.getId());
+			getStudent.setStuFirstName(studentEntity.getStuFirstName());
+			getStudent.setStuLastName(studentEntity.getStuLastName());
+			getStudent.setStuContact(studentEntity.getStuContact());
+			getStudent.setStuEmail(studentEntity.getStuEmail());
+			getStudent.setStuClass(studentEntity.getStuClass());
+			getStudent.setStuWhatsapp(studentEntity.getStuWhatsapp());
 			getStudent.setRole(studentEntity.getRole());
 			getStudent.setStatus(studentEntity.getStatus());
+			getStudent.setStuPass(studentEntity.getStuPass());
+			student.add(getStudent);
+			
 		}
-		return null;
+		return student;
 	}
 
 	

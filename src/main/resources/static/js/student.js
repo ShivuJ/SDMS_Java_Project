@@ -81,4 +81,35 @@ $(document).ready(function() {
 		}
 	}
 
+	$(window).on("load", function() {
+		$.ajax({
+			url: '/studentList',
+			type: 'GET',
+			success: function(response) {
+				let html = "";
+				for (let i = 0; i < response.length; i++) {
+					if (response[i].status == "Y") {
+						html += `
+							<tr>
+								<td>${i + 1}</td>
+								<td>${response[i].stuFirstName}</td>
+								<td>${response[i].stuLastName}</td>
+								<td>${response[i].stuEmail}</td>
+								<td>${response[i].stuContact}</td>
+								<td>${response[i].stuClass}</td>
+								<td>${response[i].stuPass}</td>
+								<td>
+									<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
+									<button type="button" id="deleteBtn" class="iconBtn" title="Inactivate"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
+								</td>
+							</tr>
+						`
+					}
+				}
+				$('.stuTable tbody').append(html);
+				console.log(response);
+			}
+		});
+	});
+
 })
