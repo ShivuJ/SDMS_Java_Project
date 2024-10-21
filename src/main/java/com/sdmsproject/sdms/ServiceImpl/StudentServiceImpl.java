@@ -1,5 +1,8 @@
 package com.sdmsproject.sdms.ServiceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,22 @@ public class StudentServiceImpl implements StudentService {
 			return ResponseEntity.ok("Success");
 		}
 		
+	}
+
+	@Override
+	public List<StudentEntity> readAllStudent() {
+		List<StudentEntity> stuList = studentRepository.findAll();
+		List<StudentEntity> student = new ArrayList<>();
+		
+		for(StudentEntity studentEntity : stuList) {
+			
+			StudentEntity getStudent = new StudentEntity();
+			
+			getStudent.setId(studentEntity.getId());
+			getStudent.setRole(studentEntity.getRole());
+			getStudent.setStatus(studentEntity.getStatus());
+		}
+		return null;
 	}
 
 	
