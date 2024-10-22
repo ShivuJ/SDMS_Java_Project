@@ -15,8 +15,8 @@ $(document).ready(function(){
 				contentType: 'application/json',
 				data: JSON.stringify(loginData),
 				success: function(response){
-					if(response == "Success"){
-						window.location.href = "/home.html";
+					if(response.startsWith("/")){
+						window.location.href = response;
 					}else{
 						toastr.error("Invalid Credentials");
 					}

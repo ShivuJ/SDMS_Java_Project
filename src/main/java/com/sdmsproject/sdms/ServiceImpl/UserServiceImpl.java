@@ -16,9 +16,6 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	UserRepository userRepository;
-
-//	 @Autowired
-//	 UserService userService;
 	 
 	@Override
 	public ResponseEntity<String> createUser(UserEntity user) {
