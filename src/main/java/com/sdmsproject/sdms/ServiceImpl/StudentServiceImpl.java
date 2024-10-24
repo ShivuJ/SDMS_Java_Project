@@ -21,7 +21,20 @@ public class StudentServiceImpl implements StudentService {
 	public ResponseEntity<String> createStudent(StudentEntity stuEntity) {
 		Long id = stuEntity.getId();
 		if(id!=null) {
-			return null;
+			StudentEntity existingStudent = studentRepository.findById(id).get();
+			existingStudent.setId(stuEntity.getId());
+			existingStudent.setStuFirstName(stuEntity.getStuFirstName());
+			existingStudent.setStuLastName(stuEntity.getStuLastName());
+			existingStudent.setStuContact(stuEntity.getStuContact());
+			existingStudent.setStuEmail(stuEntity.getStuEmail());
+			existingStudent.setStuClass(stuEntity.getStuClass());
+			existingStudent.setStuWhatsapp(stuEntity.getStuWhatsapp());
+			existingStudent.setRole(stuEntity.getRole());
+			existingStudent.setStatus(stuEntity.getStatus());
+			existingStudent.setStuPass(stuEntity.getStuPass());
+			
+			studentRepository.save(existingStudent);
+			return ResponseEntity.ok("Success");
 		}else {
 			studentRepository.save(stuEntity);
 			return ResponseEntity.ok("Success");

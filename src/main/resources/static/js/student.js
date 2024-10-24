@@ -97,7 +97,7 @@ $(document).ready(function() {
 				for (let i = 0; i < response.length; i++) {
 					if (response[i].status == "Y") {
 						html += `
-							<tr>
+							<tr data-id="${response[i].id}">
 								<td>${i + 1}</td>
 								<td>${response[i].stuFirstName}</td>
 								<td>${response[i].stuLastName}</td>
@@ -121,10 +121,10 @@ $(document).ready(function() {
 	
 	function editStudent(id){
 		$.ajax({
-			url: '/editStudent' + id,
+			url: '/editStudent/' + id,
 			type: 'GET',
 			success: function(response){
-				console.log(response);
+				console.log("Edit Student" + response);
 				$('#studentId').val(response.id);
 				$('#firstName').val(response.stuFirstName);
 				$('#lastName').val(response.stuLastName);
