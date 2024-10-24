@@ -19,6 +19,13 @@ $(document).ready(function() {
 	$('#submit').click(function() {
 		addStudent();
 	});
+	
+	$('.stuTable').on('click', '#editBtn', function(){
+		$('#submit').text("Update");
+		toggleUserBtn();
+		var id = $(this).closest('tr').data('id');
+		editStudent(id);
+	});
 
 	function getStudentData() {
 		return {
@@ -111,5 +118,23 @@ $(document).ready(function() {
 			}
 		});
 	});
+	
+	function editStudent(id){
+		$.ajax({
+			url: '/editStudent' + id,
+			type: 'GET',
+			success: function(response){
+				console.log(response);
+				$('#studentId').val(response.id);
+				$('#firstName').val(response.stuFirstName);
+				$('#lastName').val(response.stuLastName);
+				$('#stuContact').val(response.stuContact);
+				$('#stuEmail').val(response.stuEmail);
+				$("#whatsappRadio input[type='radio']:checked").val(response.stuWhatsapp);
+				$('#stuClass').val(response.stuClass);
+				$('#stuPassword').val(response.stuPass);
+			}
+		})
+	}
 
 })

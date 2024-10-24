@@ -54,5 +54,11 @@ public class StudentServiceImpl implements StudentService {
 		return student;
 	}
 
+	@Override
+	public ResponseEntity<StudentEntity> readStuById(Long id) {
+		StudentEntity getStudent = studentRepository.findById(id).get();
+		return ResponseEntity.ok(getStudent);
+	}
+
 	
 }
