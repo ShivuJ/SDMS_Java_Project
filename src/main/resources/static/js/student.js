@@ -14,6 +14,7 @@ $(document).ready(function() {
 		} else {
 			formContainer.style.display = 'none';
 		}
+		getClasses();
 	}
 
 	$('#submit').click(function() {
@@ -133,6 +134,21 @@ $(document).ready(function() {
 				$("#whatsappRadio input[type='radio']:checked").val(response.stuWhatsapp);
 				$('#stuClass').val(response.stuClass);
 				$('#stuPassword').val(response.stuPass);
+			}
+		})
+	}
+	
+	function getClasses(){
+		$.ajax({
+			url: '/getClasses',
+			type: 'GET',
+			success: function(response){
+				console.log(response)
+				const dropdown = $('#stuClass');
+					response.forEach(function(cls){
+						const option = $('<option></option>').val(cls.id).text(cls.stuClass);
+						dropdown.append(option);
+					})
 			}
 		})
 	}

@@ -14,6 +14,7 @@ $(document).ready(function() {
 		} else {
 			formContainer.style.display = 'none';
 		}
+		getClasses();
 	}
 	/* POST reuest to add data*/
 	$('#submit').click(function() {
@@ -227,4 +228,19 @@ $(document).ready(function() {
 					});					
 				}
 	}*/
+	
+	function getClasses(){
+			$.ajax({
+				url: '/getClasses',
+				type: 'GET',
+				success: function(response){
+					console.log(response)
+					const dropdown = $('#teachingClass');
+						response.forEach(function(cls){
+							const option = $('<option></option>').val(cls.id).text(cls.stuClass);
+							dropdown.append(option);
+						})
+				}
+			})
+		}
 });
