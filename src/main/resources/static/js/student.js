@@ -103,7 +103,7 @@ $(document).ready(function() {
 						classMap[cls.id] = cls.stuClass;
 					});
 
-					loadStudent();
+					loadStudent(); 	
 				}
 
 			}
@@ -143,6 +143,7 @@ $(document).ready(function() {
 				let html = "";
 				response.forEach((student, i) => {
 					if (student.status == "Y") {
+						const className = classMap[student.stuClass];
 						html += `
 								<tr data-id="${student.id}">
 									<td>${i + 1}</td>
