@@ -6,6 +6,7 @@ $(document).ready(function() {
 	});
 
 	$('#navbar').load('nav.html');
+	const classMap = {};
 
 	function toggleUserBtn() {
 		const formContainer = document.getElementById('formContainer');
@@ -14,14 +15,13 @@ $(document).ready(function() {
 		} else {
 			formContainer.style.display = 'none';
 		}
-		getClasses();
 	}
 
 	$('#submit').click(function() {
 		addStudent();
 	});
-	
-	$('.stuTable').on('click', '#editBtn', function(){
+
+	$('.stuTable').on('click', '#editBtn', function() {
 		$('#submit').text("Update");
 		toggleUserBtn();
 		var id = $(this).closest('tr').data('id');
@@ -89,42 +89,37 @@ $(document).ready(function() {
 		}
 	}
 
-	$(window).on("load", function() {
+	function getClasses() {
 		$.ajax({
-			url: '/studentList',
+			url: '/getClasses',
 			type: 'GET',
 			success: function(response) {
-				let html = "";
-				for (let i = 0; i < response.length; i++) {
-					if (response[i].status == "Y") {
-						html += `
-							<tr data-id="${response[i].id}">
-								<td>${i + 1}</td>
-								<td>${response[i].stuFirstName}</td>
-								<td>${response[i].stuLastName}</td>
-								<td>${response[i].stuEmail}</td>
-								<td>${response[i].stuContact}</td>
-								<td>${response[i].stuClass}</td>
-								<td>${response[i].stuPass}</td>
-								<td>
-									<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
-									<button type="button" id="deleteBtn" class="iconBtn" title="Inactivate"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
-								</td>
-							</tr>
-						`
-					}
+				console.log(response)
+				if (Array.isArray(response)) {
+					const dropdown = $('#stuClass');
+					response.forEach(function(cls) {
+						const option = $('<option></option>').val(cls.id).text(cls.stuClass);
+						dropdown.append(option);
+						classMap[cls.id] = cls.stuClass;
+					});
+
+					loadStudent();
 				}
-				$('.stuTable tbody').append(html);
-				console.log(response);
+
 			}
-		});
-	});
-	
-	function editStudent(id){
+		})
+	}
+
+	/*$(window).on("load", function() {
+
+		
+	});*/
+
+	function editStudent(id) {
 		$.ajax({
 			url: '/editStudent/' + id,
 			type: 'GET',
-			success: function(response){
+			success: function(response) {
 				console.log("Edit Student" + response);
 				$('#studentId').val(response.id);
 				$('#firstName').val(response.stuFirstName);
@@ -137,20 +132,39 @@ $(document).ready(function() {
 			}
 		})
 	}
-	
-	function getClasses(){
+
+
+
+	function loadStudent() {
 		$.ajax({
-			url: '/getClasses',
+			url: '/studentList',
 			type: 'GET',
-			success: function(response){
-				console.log(response)
-				const dropdown = $('#stuClass');
-					response.forEach(function(cls){
-						const option = $('<option></option>').val(cls.id).text(cls.stuClass);
-						dropdown.append(option);
-					})
+			success: function(response) {
+				let html = "";
+				response.forEach((student, i) => {
+					if (student.status == "Y") {
+						html += `
+								<tr data-id="${student.id}">
+									<td>${i + 1}</td>
+									<td>${student.stuFirstName}</td>
+									<td>${student.stuLastName}</td>
+									<td>${student.stuEmail}</td>
+									<td>${student.stuContact}</td>
+									<td>${className}</td>
+									<td>${student.stuPass}</td>
+									<td>
+										<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
+										<button type="button" id="deleteBtn" class="iconBtn" title="Inactivate"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
+									</td>
+								</tr>
+								`
+					}
+				});
+				$('.stuTable tbody').append(html);
+				console.log(response);
 			}
-		})
+		});
 	}
 
-})
+	getClasses();
+});
