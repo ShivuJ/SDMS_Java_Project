@@ -23,6 +23,7 @@ $(document).ready(function() {
 
 	$('.stuTable').on('click', '#editBtn', function() {
 		$('#submit').text("Update");
+		getClasses();
 		toggleUserBtn();
 		var id = $(this).closest('tr').data('id');
 		editStudent(id);

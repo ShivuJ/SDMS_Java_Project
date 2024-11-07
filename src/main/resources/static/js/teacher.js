@@ -6,6 +6,7 @@ $(document).ready(function() {
 	});
 
 	$('#navbar').load('nav.html');
+	const classMap = {};
 
 	function toggleUserBtn() {
 		const formContainer = document.getElementById('formContainer');
@@ -14,7 +15,6 @@ $(document).ready(function() {
 		} else {
 			formContainer.style.display = 'none';
 		}
-		getClasses();
 	}
 	/* POST reuest to add data*/
 	$('#submit').click(function() {
@@ -128,39 +128,6 @@ $(document).ready(function() {
 	}
 
 	/* Get reuest to view data*/
-	$(window).on('load', function() {
-		console.log("Getting Table Ready")
-		$.ajax({
-			url: 'teacher',
-			type: 'GET',
-			success: function(response) {
-				let html = "";
-				for (let i = 0; i < response.length; i++) {
-					if (response[i].status == "Y") {
-						html += `
-							<tr data-id = "${response[i].id}">
-								<td>${i + 1}</td>
-								<td>${response[i].firstName}</td>
-								<td>${response[i].lastName}</td>
-								<td>${response[i].email}</td>
-								<td>${response[i].role}</td>
-								<td>${response[i].phone}</td>
-								<td>${response[i].teacherClass}</td>
-								<td>${response[i].subject}</td>
-								<td>${response[i].password}</td>
-								<td>
-									<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
-									<button type="button" id="deleteBtn" class="iconBtn" title="Inactivate"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
-								</td>
-							</tr>
-						`
-					}
-				}
-				$('.userTable tbody').append(html);
-				console.log(response);
-			}
-		})
-	});
 
 	/*Delete User */
 	function deleteUser(id) {
@@ -228,19 +195,61 @@ $(document).ready(function() {
 					});					
 				}
 	}*/
-	
-	function getClasses(){
-			$.ajax({
-				url: '/getClasses',
-				type: 'GET',
-				success: function(response){
-					console.log(response)
+
+	function getClasses() {
+		$.ajax({
+			url: '/getClasses',
+			type: 'GET',
+			success: function(response) {
+				console.log(response)
+				if (Array.isArray(response)) {
 					const dropdown = $('#teachingClass');
-						response.forEach(function(cls){
-							const option = $('<option></option>').val(cls.id).text(cls.stuClass);
-							dropdown.append(option);
-						})
+					response.forEach(function(cls) {
+						const option = $('<option></option>').val(cls.id).text(cls.stuClass);
+						dropdown.append(option);
+						classMap[cls.id] = cls.stuClass;
+					});
+
+					loadTeacher();
 				}
-			})
-		}
+
+			}
+		})
+	}
+
+	function loadTeacher() {
+		$.ajax({
+			url: 'teacher',
+			type: 'GET',
+			success: function(response) {
+				let html = "";
+				response.forEach((teacher, i) => {
+					if (response[i].status == "Y") {
+						const className = classMap[teacher.teacherClass];
+						html += `
+								<tr data-id = "${teacher.id}">
+									<td>${i + 1}</td>
+									<td>${teacher.firstName}</td>
+									<td>${teacher.lastName}</td>
+									<td>${teacher.email}</td>
+									<td>${teacher.role}</td>
+									<td>${teacher.phone}</td>
+									<td>${className}</td>
+									<td>${teacher.subject}</td>
+									<td>${teacher.password}</td>
+									<td>
+										<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
+										<button type="button" id="deleteBtn" class="iconBtn" title="Inactivate"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
+									</td>
+								</tr>
+								`
+					}
+				})
+				$('.userTable tbody').append(html);
+				console.log(response);
+			}
+		})
+	}
+	
+	getClasses();
 });
