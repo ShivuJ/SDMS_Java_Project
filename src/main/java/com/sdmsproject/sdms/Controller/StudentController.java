@@ -36,4 +36,11 @@ public class StudentController {
 		ResponseEntity<StudentEntity> response = stuService.readStuById(id);
 		return response;
 	}
+	
+	@PostMapping("/deleteStudent")
+	public ResponseEntity<String> inactivateStudent(@RequestBody Long id){
+		ResponseEntity<String> response = stuService.inactivateStudent(id);
+		
+		return response;
+	}
 }

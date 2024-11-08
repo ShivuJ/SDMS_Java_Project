@@ -73,5 +73,14 @@ public class StudentServiceImpl implements StudentService {
 		return ResponseEntity.ok(getStudent);
 	}
 
+	@Override
+	public ResponseEntity<String> inactivateStudent(Long id) {
+		StudentEntity student = studentRepository.findById(id).get();
+		student.setStatus("N");
+		
+		studentRepository.save(student);
+		return ResponseEntity.ok("Success");
+	}
+
 	
 }

@@ -23,11 +23,15 @@ $(document).ready(function() {
 
 	$('.stuTable').on('click', '#editBtn', function() {
 		$('#submit').text("Update");
-		getClasses();
 		toggleUserBtn();
 		var id = $(this).closest('tr').data('id');
 		editStudent(id);
 	});
+	
+	$('.stuTable').on('click', '#deleteBtn', function() {
+		var id = $(this).closest('tr').data('id');
+		deleteStudent(id);
+	})
 
 	function getStudentData() {
 		return {
@@ -166,6 +170,23 @@ $(document).ready(function() {
 				console.log(response);
 			}
 		});
+	}
+	
+	function deleteStudent(id){
+		$.ajax({
+			url: '/deleteStudent',
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(id),
+			dataType: 'JSON',
+			success: function(response){
+				if(response=="Success"){
+					toastr.success("Student Deleted Successfully...");
+				}else{
+					toastr.error("Something Went Wrong...");
+				}
+			}
+		})
 	}
 
 	getClasses();

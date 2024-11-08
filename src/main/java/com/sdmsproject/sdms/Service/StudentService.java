@@ -11,5 +11,6 @@ public interface StudentService {
 	ResponseEntity<String> createStudent(StudentEntity stuEntity);
 	List<StudentEntity> readAllStudent();
 	ResponseEntity<StudentEntity> readStuById(Long id);
+	ResponseEntity<String> inactivateStudent(Long id);
 
 }
