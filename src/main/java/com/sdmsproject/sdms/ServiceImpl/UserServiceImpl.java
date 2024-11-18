@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sdmsproject.sdms.Repository.UserRepository;
+import com.sdmsproject.sdms.Service.EmailService;
 import com.sdmsproject.sdms.Service.UserService;
 import com.sdmsproject.sdms.model.UserEntity;
 
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public ResponseEntity<String> createUser(UserEntity user) {
 		Long id = user.getId();
+		EmailService sendEmail = new EmailService();
 		if(id != null) {
 			
 			UserEntity existingUser = userRepository.findById(id).get();
@@ -39,9 +41,11 @@ public class UserServiceImpl implements UserService{
 			existingUser.setQualification(user.getQualification());	
 			
 			userRepository.save(existingUser);
+			sendEmail.SendSimpleMail(user.getEmail(), "Registration Mail", "Register Successfully");
 			return ResponseEntity.ok("Success");
 		}else {
 			userRepository.save(user);
+			sendEmail.SendSimpleMail(user.getEmail(), "Registration Mail", "Register Successfully");
 		    return ResponseEntity.ok("Success");
 		}
 		
