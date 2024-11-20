@@ -17,11 +17,13 @@ public class UserServiceImpl implements UserService{
 
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	EmailService emailService;
 	 
 	@Override
 	public ResponseEntity<String> createUser(UserEntity user) {
 		Long id = user.getId();
-		EmailService sendEmail = new EmailService();
 		if(id != null) {
 			
 			UserEntity existingUser = userRepository.findById(id).get();
@@ -41,11 +43,10 @@ public class UserServiceImpl implements UserService{
 			existingUser.setQualification(user.getQualification());	
 			
 			userRepository.save(existingUser);
-			sendEmail.SendSimpleMail(user.getEmail(), "Registration Mail", "Register Successfully");
 			return ResponseEntity.ok("Success");
 		}else {
 			userRepository.save(user);
-			sendEmail.SendSimpleMail(user.getEmail(), "Registration Mail", "Register Successfully");
+			emailService.SendSimpleMail(user.getEmail(), "Registration Mail", "Register Successfully");
 		    return ResponseEntity.ok("Success");
 		}
 		

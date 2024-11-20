@@ -13,15 +13,20 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender mailSender;
 
-	@PostConstruct
-	public void checkMailSender() {
+	public EmailService(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+        System.out.println("Injected JavaMailSender: " + mailSender);
+    }
 
-		if (mailSender == null) {
+    @PostConstruct
+    public void postConstructCheck() {
+        if (mailSender == null) {
+            throw new IllegalStateException("JavaMailSender is null in EmailService!");
+        } else {
+            System.out.println("JavaMailSender initialized correctly: " + mailSender.getClass().getName());
+        }
+    }
 
-			throw new IllegalStateException("JavaMailSender bean is not initialized!");
-		}
-		System.out.println("JavaMailSender bean successfully initialized.");
-	}
 
 	public void SendSimpleMail(String to, String subject, String text) {
 		SimpleMailMessage message = new SimpleMailMessage();
