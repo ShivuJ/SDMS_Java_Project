@@ -18,7 +18,7 @@ $(document).ready(function() {
 	}
 
 	$('#submit').click(function() {
-		addStudent();
+		addTemplate();
 	});
 
 	$('.stuTable').on('click', '#editBtn', function() {
@@ -33,56 +33,43 @@ $(document).ready(function() {
 		deleteStudent(id);
 	})
 
-	function getStudentData() {
+	function getTemplate() {
 		return {
-			id: $('#studentId').val(),
-			stuFirstName: $('#firstName').val(),
-			stuLastName: $('#lastName').val(),
-			stuContact: $('#stuContact').val(),
-			stuEmail: $('#stuEmail').val(),
-			stuWhatsapp: $("#whatsappRadio input[type='radio']:checked").val(),
-			stuClass: $('#stuClass').val(),
-			stuPass: $('#stuPassword').val()
+			id: $('#emailId').val(),
+			emailType: $('#emailType').val(),
+			subject: $('#subject').val(),
+			template: $('#template').val()
 		}
 	}
 
 	function isValidate(saveData) {
-		if (!saveData.stuFirstName) {
-			toastr.error("Please add first name");
+		if (!saveData.emailType) {
+			toastr.error("Please add email Type");
 			return false;
-		} else if (!saveData.stuLastName) {
-			toastr.error("Please add last name");
+		} else if (!saveData.subject) {
+			toastr.error("Please add subject");
 			return false;
-		} else if (!saveData.stuContact || saveData.stuContact.length != 10) {
-			toastr.error("Please add a proper contact number");
+		} else if (!saveData.template) {
+			toastr.error("Please add template");
 			return false;
-		} else if (!saveData.stuEmail) {
-			toastr.error("Please add email id");
-			return false;
-		} else if (!saveData.stuClass) {
-			toastr.error("Please select class");
-			return false;
-		} else if (!saveData.stuPass || saveData.stuPass.length < 8) {
-			toastr.error("Password should be of at least 8 characters");
-			return false;
-		}
+		} 
 		return true;
 	}
 
-	function addStudent() {
-		var saveData = getStudentData();
+	function addTemplate() {
+		var saveData = getTemplate();
 		console.log(saveData);
 		if (isValidate(saveData)) {
 			$.ajax({
-				url: 'addStudent',
+				url: '/emailTemplate',
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify(saveData),
 				dataType: 'JSON',
 				success: function(response) {
 					console.log(response);
-					if (response.status == "Y") {
-						toastr.success("User Added Successfully...");
+					if (response == "Success") {
+						toastr.success("Template Added Successfully...");
 					} else {
 						toastr.error("Something Went Wrong...");
 					}

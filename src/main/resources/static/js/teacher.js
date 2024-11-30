@@ -19,9 +19,6 @@ $(document).ready(function() {
 	/* POST reuest to add data*/
 	$('#submit').click(function() {
 		addTeacher();
-		setTimeout(function() {
-			location.reload();
-		}, 2000);
 	});
 
 	$(".userTable").on('click', '#deleteBtn', function() {
@@ -114,6 +111,9 @@ $(document).ready(function() {
 				success: function(response) {
 					if (response.status == 200) {
 						toastr.success("Data Save Successfully");
+						setTimeout(function() {
+							location.reload();
+						}, 2000);
 					} else {
 						toastr.error("Something went wrong");
 					}
@@ -250,6 +250,6 @@ $(document).ready(function() {
 			}
 		})
 	}
-	
+
 	getClasses();
 });

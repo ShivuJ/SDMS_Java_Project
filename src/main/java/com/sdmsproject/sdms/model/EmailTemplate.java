@@ -16,6 +16,7 @@ public class EmailTemplate {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+	private String emailType;
 	private String subject;
 	private String template;
 	public Long getId() {
@@ -35,6 +36,12 @@ public class EmailTemplate {
 	}
 	public void setTemplate(String template) {
 		this.template = template;
+	}
+	public String getEmailType() {
+		return emailType;
+	}
+	public void setEmailType(String emailType) {
+		this.emailType = emailType;
 	}
 
 }

@@ -12,7 +12,7 @@ public class EmailService {
 
 	@Autowired
 	private JavaMailSender mailSender;
-
+	
 	public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
         System.out.println("Injected JavaMailSender: " + mailSender);
@@ -33,7 +33,7 @@ public class EmailService {
 
 		message.setTo(to);
 		message.setSubject(subject);
-		message.setText(text);
+		message.setText(htmlContent, true);
 
 		mailSender.send(message);
 

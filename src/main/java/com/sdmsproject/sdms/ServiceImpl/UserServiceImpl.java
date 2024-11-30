@@ -7,27 +7,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.sdmsproject.sdms.Repository.EmailTemplateRepository;
 import com.sdmsproject.sdms.Repository.UserRepository;
 import com.sdmsproject.sdms.Service.EmailService;
 import com.sdmsproject.sdms.Service.UserService;
+import com.sdmsproject.sdms.model.EmailTemplate;
 import com.sdmsproject.sdms.model.UserEntity;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	EmailService emailService;
-	 
+	
+	@Autowired
+	private EmailTemplateRepository emailTempRepo;
+
 	@Override
 	public ResponseEntity<String> createUser(UserEntity user) {
 		Long id = user.getId();
-		if(id != null) {
-			
+		if (id != null) {
+
 			UserEntity existingUser = userRepository.findById(id).get();
-			
+
 			existingUser.setId(user.getId());
 			existingUser.setFirstName(user.getFirstName());
 			existingUser.setLastName(user.getLastName());
@@ -40,27 +45,34 @@ public class UserServiceImpl implements UserService{
 			existingUser.setStatus(user.getStatus());
 			existingUser.setDateOfJoining(user.getDateOfJoining());
 			existingUser.setEmploymentStatus(user.getEmploymentStatus());
-			existingUser.setQualification(user.getQualification());	
-			
+			existingUser.setQualification(user.getQualification());
+
 			userRepository.save(existingUser);
 			return ResponseEntity.ok("Success");
-		}else {
+		} else {
+
 			userRepository.save(user);
-			emailService.SendSimpleMail(user.getEmail(), "Registration Mail", "Register Successfully");
-		    return ResponseEntity.ok("Success");
+
+			List<EmailTemplate> emailTemplates = emailTempRepo.findAll();
+			for (EmailTemplate emailTemplate : emailTemplates) {
+				if ("Registration".equals(emailTemplate.getEmailType())) {
+					emailService.SendSimpleMail(user.getEmail(), emailTemplate.getSubject(), emailTemplate.getTemplate());
+				}
+			}
+			return ResponseEntity.ok("Success");
 		}
-		
+
 	}
-	
+
 	@Override
-	public List<UserEntity> readAllUsers(){
-		
+	public List<UserEntity> readAllUsers() {
+
 		List<UserEntity> userList = userRepository.findAll();
 		List<UserEntity> users = new ArrayList<>();
-		
-		for(UserEntity userEntity : userList) {
+
+		for (UserEntity userEntity : userList) {
 			UserEntity user = new UserEntity();
-			
+
 			user.setId(userEntity.getId());
 			user.setFirstName(userEntity.getFirstName());
 			user.setLastName(userEntity.getLastName());
@@ -73,18 +85,18 @@ public class UserServiceImpl implements UserService{
 			user.setStatus(userEntity.getStatus());
 			users.add(user);
 		}
-		
+
 		return users;
-		
+
 	}
 
 	@Override
 	public ResponseEntity<String> inactivateUser(Long id) {
 		UserEntity user = userRepository.findById(id).get();
 		user.setStatus("N");
-		
+
 		userRepository.save(user);
-		
+
 		return ResponseEntity.ok("Success");
 	}
 
@@ -96,7 +108,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public ResponseEntity<UserEntity> readUserById(Long id) {
 		UserEntity user = userRepository.findById(id).get();
-		return ResponseEntity.ok(user);	
+		return ResponseEntity.ok(user);
 	}
 
 }
