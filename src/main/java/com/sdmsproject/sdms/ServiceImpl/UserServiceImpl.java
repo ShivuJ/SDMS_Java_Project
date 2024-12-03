@@ -48,6 +48,12 @@ public class UserServiceImpl implements UserService {
 			existingUser.setQualification(user.getQualification());
 
 			userRepository.save(existingUser);
+			List<EmailTemplate> emailTemplates = emailTempRepo.findAll();
+			for (EmailTemplate emailTemplate : emailTemplates) {
+				if ("Registration".equals(emailTemplate.getEmailType())) {
+					emailService.SendSimpleMail(user.getEmail(), emailTemplate.getSubject(), emailTemplate.getTemplate());
+				}
+			}
 			return ResponseEntity.ok("Success");
 		} else {
 
