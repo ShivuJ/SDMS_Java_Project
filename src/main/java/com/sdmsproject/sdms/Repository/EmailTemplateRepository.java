@@ -13,5 +13,5 @@ import com.sdmsproject.sdms.model.EmailTemplate;
 public interface EmailTemplateRepository extends JpaRepository<EmailTemplate , Long> {
 
 	@Query(value="select * from email_template where email_type = :email_type;", nativeQuery = true)
-	List<EmailTemplate> findByEmailType(@Param("email_type") String emailType);
+	EmailTemplate findByEmailType(@Param("email_type") String emailType);
 }

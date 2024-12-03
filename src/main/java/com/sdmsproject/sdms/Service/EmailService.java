@@ -18,11 +18,10 @@ public class EmailService {
 	private JavaMailSender mailSender;
 	
 	@Autowired
-	private EmailTemplate emailTemplate;
-	
-	@Autowired
 	private EmailTemplateRepository emailTemplateRepository;
 
+	EmailTemplate emailTemplate = new EmailTemplate();
+	
 	public EmailService(JavaMailSender mailSender) {
 		this.mailSender = mailSender;
 		System.out.println("Injected JavaMailSender: " + mailSender);
@@ -41,8 +40,9 @@ public class EmailService {
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-			String emailType = emailTemplate.getTemplate();
-			EmailTemplate emailTemp = (EmailTemplate) emailTemplateRepository.findByEmailType(emailType );
+//			String emailType = emailTemplate.getEmailType();
+			String emailType = "Registration";
+			EmailTemplate emailTemp = emailTemplateRepository.findByEmailType(emailType);
 			helper.setTo(to);
 			helper.setSubject(subject);
 			String htmlContent = emailTemp.getTemplate();
