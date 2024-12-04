@@ -19,4 +19,6 @@ public class EmailController {
 		emailService.SendSimpleMail(to, subject, text);
 		return "Email Sent Successfully";
 	}
+	
+	
 }

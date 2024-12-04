@@ -6,7 +6,6 @@ $(document).ready(function() {
 	});
 
 	$('#navbar').load('nav.html');
-	const classMap = {};
 
 	function toggleUserBtn() {
 		const formContainer = document.getElementById('formContainer');
@@ -80,7 +79,7 @@ $(document).ready(function() {
 			}, 2000);
 		}
 	}
-
+/*
 	function getClasses() {
 		$.ajax({
 			url: '/getClasses',
@@ -100,14 +99,13 @@ $(document).ready(function() {
 
 			}
 		})
-	}
+	}*/
 
-	/*$(window).on("load", function() {
+	$(window).on("load", function() {
+		loadEmails();
+	});
 
-		
-	});*/
-
-	function editStudent(id) {
+	/*function editStudent(id) {
 		$.ajax({
 			url: '/editStudent/' + id,
 			type: 'GET',
@@ -123,37 +121,31 @@ $(document).ready(function() {
 				$('#stuPassword').val(response.stuPass);
 			}
 		})
-	}
+	}*/
 
 
 
-	function loadStudent() {
+	function loadEmails() {
 		$.ajax({
-			url: '/studentList',
+			url: '/readEmails',
 			type: 'GET',
 			success: function(response) {
 				let html = "";
-				response.forEach((student, i) => {
-					if (student.status == "Y") {
-						const className = classMap[student.stuClass];
+				response.forEach((template, i) => {
 						html += `
-								<tr data-id="${student.id}">
+								<tr data-id="${template.id}">
 									<td>${i + 1}</td>
-									<td>${student.stuFirstName}</td>
-									<td>${student.stuLastName}</td>
-									<td>${student.stuEmail}</td>
-									<td>${student.stuContact}</td>
-									<td>${className}</td>
-									<td>${student.stuPass}</td>
+									<td>${template.emailType}</td>
+									<td>${template.subject}</td>
+									<td><button type="button" id="viewTemplate" class="viewTemplate" title="View Template"><a href="/emailTemplateHtml.html" target="_blank">Email Template</a></button></td>
 									<td>
 										<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
-										<button type="button" id="deleteBtn" class="iconBtn" title="Inactivate"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
 									</td>
 								</tr>
 								`
-					}
+					
 				});
-				$('.stuTable tbody').append(html);
+				$('.templateTable tbody').append(html);
 				console.log(response);
 			}
 		});

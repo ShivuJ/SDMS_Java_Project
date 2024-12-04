@@ -1,5 +1,8 @@
 package com.sdmsproject.sdms.ServiceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,11 +21,37 @@ public class EmailTemplateServiceImpl implements EmailTemplateService {
 	public ResponseEntity<String> createTemplate(EmailTemplate emailTemplate) {
 		Long id = emailTemplate.getId();
 		if(id != null) {
-			return null;
+			EmailTemplate existingEmail = emailTempRepo.findById(id).get();
+			
+			existingEmail.setId(emailTemplate.getId());;
+			existingEmail.setEmailType(emailTemplate.getEmailType());
+			existingEmail.setSubject(emailTemplate.getSubject());
+			existingEmail.setTemplate(emailTemplate.getTemplate());
+			emailTempRepo.save(existingEmail);
+			return ResponseEntity.ok("Success");
 		}else {
 			emailTempRepo.save(emailTemplate);
 			return ResponseEntity.ok("Success");
 		}
+	}
+
+	@Override
+	public List<EmailTemplate> readEmailTemplated() {
+		
+		List<EmailTemplate> emailList = emailTempRepo.findAll();
+		List<EmailTemplate> emails = new ArrayList<>();
+		
+		for(EmailTemplate emailTemp : emailList) {
+			EmailTemplate email = new EmailTemplate();
+			
+			email.setId(emailTemp.getId());
+			email.setEmailType(emailTemp.getEmailType());
+			email.setSubject(emailTemp.getSubject());
+			email.setTemplate(emailTemp.getTemplate());
+			
+			emails.add(email);
+		}
+		return emails;
 	}
 
 }
