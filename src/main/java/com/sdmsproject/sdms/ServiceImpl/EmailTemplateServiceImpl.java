@@ -54,4 +54,10 @@ public class EmailTemplateServiceImpl implements EmailTemplateService {
 		return emails;
 	}
 
+	@Override
+	public ResponseEntity<EmailTemplate> readById(Long id) {
+		EmailTemplate emailTemp = emailTempRepo.findById(id).get();
+		return ResponseEntity.ok(emailTemp);
+	}
+
 }

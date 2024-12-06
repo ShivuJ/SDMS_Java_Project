@@ -10,4 +10,5 @@ public interface EmailTemplateService {
 
 	ResponseEntity<String> createTemplate(EmailTemplate emailTemplate);
 	List<EmailTemplate> readEmailTemplated();
+	ResponseEntity<EmailTemplate> readById(Long id);
 }

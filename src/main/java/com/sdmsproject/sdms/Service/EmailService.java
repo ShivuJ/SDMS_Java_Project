@@ -41,12 +41,12 @@ public class EmailService {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 //			String emailType = emailTemplate.getEmailType();
-			String emailType;
-			EmailTemplate emailTemp = null;
-			if ("Registration".equals(emailTemplate.getEmailType())) {
-				emailType = "Registration";
-				emailTemp = emailTemplateRepository.findByEmailType(emailType);
-			}
+			String emailType = "Registration";
+			EmailTemplate emailTemp = emailTemplateRepository.findByEmailType(emailType);
+//			if ("Registration".equals(emailTemplate.getEmailType())) {
+//				emailType = "Registration";
+//				emailTemp = emailTemplateRepository.findByEmailType(emailType);
+//			}
 			helper.setTo(to);
 			helper.setSubject(subject);
 			String htmlContent = emailTemp.getTemplate();

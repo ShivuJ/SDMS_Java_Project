@@ -20,17 +20,12 @@ $(document).ready(function() {
 		addTemplate();
 	});
 
-	$('.stuTable').on('click', '#editBtn', function() {
+	$('.templateTable').on('click', '#editBtn', function() {
 		$('#submit').text("Update");
 		toggleUserBtn();
 		var id = $(this).closest('tr').data('id');
-		editStudent(id);
+		editEmailTemp(id);
 	});
-	
-	$('.stuTable').on('click', '#deleteBtn', function() {
-		var id = $(this).closest('tr').data('id');
-		deleteStudent(id);
-	})
 
 	function getTemplate() {
 		return {
@@ -51,7 +46,7 @@ $(document).ready(function() {
 		} else if (!saveData.template) {
 			toastr.error("Please add template");
 			return false;
-		} 
+		}
 		return true;
 	}
 
@@ -79,49 +74,24 @@ $(document).ready(function() {
 			}, 2000);
 		}
 	}
-/*
-	function getClasses() {
-		$.ajax({
-			url: '/getClasses',
-			type: 'GET',
-			success: function(response) {
-				console.log(response)
-				if (Array.isArray(response)) {
-					const dropdown = $('#stuClass');
-					response.forEach(function(cls) {
-						const option = $('<option></option>').val(cls.id).text(cls.stuClass);
-						dropdown.append(option);
-						classMap[cls.id] = cls.stuClass;
-					});
-
-					loadStudent(); 	
-				}
-
-			}
-		})
-	}*/
 
 	$(window).on("load", function() {
 		loadEmails();
 	});
 
-	/*function editStudent(id) {
+	function editEmailTemp(id) {
 		$.ajax({
-			url: '/editStudent/' + id,
+			url: '/editEmail/' + id,
 			type: 'GET',
 			success: function(response) {
 				console.log("Edit Student" + response);
-				$('#studentId').val(response.id);
-				$('#firstName').val(response.stuFirstName);
-				$('#lastName').val(response.stuLastName);
-				$('#stuContact').val(response.stuContact);
-				$('#stuEmail').val(response.stuEmail);
-				$("#whatsappRadio input[type='radio']:checked").val(response.stuWhatsapp);
-				$('#stuClass').val(response.stuClass);
-				$('#stuPassword').val(response.stuPass);
+				$('#emailId').val(response.id),
+				$('#emailType').val(response.emailType),
+				$('#subject').val(response.subject),
+				$('#template').val(response.template)
 			}
 		})
-	}*/
+	}
 
 
 
@@ -132,7 +102,7 @@ $(document).ready(function() {
 			success: function(response) {
 				let html = "";
 				response.forEach((template, i) => {
-						html += `
+					html += `
 								<tr data-id="${template.id}">
 									<td>${i + 1}</td>
 									<td>${template.emailType}</td>
@@ -143,30 +113,12 @@ $(document).ready(function() {
 									</td>
 								</tr>
 								`
-					
+
 				});
 				$('.templateTable tbody').append(html);
 				console.log(response);
 			}
 		});
 	}
-	
-	function deleteStudent(id){
-		$.ajax({
-			url: '/deleteStudent',
-			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify(id),
-			dataType: 'JSON',
-			success: function(response){
-				if(response=="Success"){
-					toastr.success("Student Deleted Successfully...");
-				}else{
-					toastr.error("Something Went Wrong...");
-				}
-			}
-		})
-	}
 
-	getClasses();
 });
