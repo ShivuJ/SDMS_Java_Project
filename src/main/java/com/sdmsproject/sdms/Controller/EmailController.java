@@ -14,9 +14,9 @@ public class EmailController {
 	public EmailService emailService;
 	
 	@GetMapping("/sendEmail")
-	public String sendMail(@RequestParam String to, @RequestParam String subject, @RequestParam String text) {
+	public String sendMail(@RequestParam String to, @RequestParam String subject, @RequestParam String text, @RequestParam String name, @RequestParam String username, @RequestParam String password) {
 		
-		emailService.SendSimpleMail(to, subject, text);
+		emailService.SendSimpleMail(to, subject, text, name, username, password);
 		return "Email Sent Successfully";
 	}
 	

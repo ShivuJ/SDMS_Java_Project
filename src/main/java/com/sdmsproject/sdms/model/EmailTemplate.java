@@ -1,5 +1,6 @@
 package com.sdmsproject.sdms.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +19,8 @@ public class EmailTemplate {
 	
 	private String emailType;
 	private String subject;
+	
+	@Column(name = "template", columnDefinition = "TEXT")
 	private String template;
 	public Long getId() {
 		return id;

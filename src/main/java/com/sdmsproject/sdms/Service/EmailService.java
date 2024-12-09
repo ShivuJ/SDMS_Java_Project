@@ -36,7 +36,7 @@ public class EmailService {
 		}
 	}
 
-	public void SendSimpleMail(String to, String subject, String text) {
+	public void SendSimpleMail(String to, String subject, String text, String name, String username, String password) {
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
@@ -47,10 +47,16 @@ public class EmailService {
 //				emailType = "Registration";
 //				emailTemp = emailTemplateRepository.findByEmailType(emailType);
 //			}
+			
+			String template = emailTemp.getTemplate();
+			
+			template = template.replace("[Name]", name).replace("[Username]", username).replace("[Password]", password);
+			
 			helper.setTo(to);
 			helper.setSubject(subject);
-			String htmlContent = emailTemp.getTemplate();
-			helper.setText(htmlContent, true);
+			/* String htmlContent = template; */
+			/* helper.setText(htmlContent, true); */
+			helper.setText(template, true);
 			// Set `true` to indicate HTML content
 			mailSender.send(message);
 			System.out.println(message);

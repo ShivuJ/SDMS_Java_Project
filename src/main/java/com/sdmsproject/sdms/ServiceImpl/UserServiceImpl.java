@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public ResponseEntity<String> createUser(UserEntity user) {
 		Long id = user.getId();
+		String fullName = user.getFirstName().concat(" ").concat(user.getLastName());
 		if (id != null) {
 
 			UserEntity existingUser = userRepository.findById(id).get();
@@ -48,12 +49,15 @@ public class UserServiceImpl implements UserService {
 			existingUser.setQualification(user.getQualification());
 
 			userRepository.save(existingUser);
-			List<EmailTemplate> emailTemplates = emailTempRepo.findAll();
-			for (EmailTemplate emailTemplate : emailTemplates) {
-				if ("Registration".equals(emailTemplate.getEmailType())) {
-					emailService.SendSimpleMail(user.getEmail(), emailTemplate.getSubject(), emailTemplate.getTemplate());
-				}
-			}
+			/*
+			 * List<EmailTemplate> emailTemplates = emailTempRepo.findAll();
+			 * 
+			 * for (EmailTemplate emailTemplate : emailTemplates) { if
+			 * ("Registration".equals(emailTemplate.getEmailType())) {
+			 * emailService.SendSimpleMail(user.getEmail(), emailTemplate.getSubject(),
+			 * emailTemplate.getTemplate(), fullName, user.getEmail(), user.getPassword());
+			 * } }
+			 */
 			return ResponseEntity.ok("Success");
 		} else {
 
@@ -62,7 +66,7 @@ public class UserServiceImpl implements UserService {
 			List<EmailTemplate> emailTemplates = emailTempRepo.findAll();
 			for (EmailTemplate emailTemplate : emailTemplates) {
 				if ("Registration".equals(emailTemplate.getEmailType())) {
-					emailService.SendSimpleMail(user.getEmail(), emailTemplate.getSubject(), emailTemplate.getTemplate());
+					emailService.SendSimpleMail(user.getEmail(), emailTemplate.getSubject(), emailTemplate.getTemplate(), fullName, user.getEmail(), user.getPassword());
 				}
 			}
 			return ResponseEntity.ok("Success");
