@@ -36,12 +36,12 @@ public class EmailService {
 		}
 	}
 
-	public void SendSimpleMail(String to, String subject, String text, String name, String username, String password) {
+	public void SendSimpleMail(String to, String subject, String text, String name, String username, String password, String type) {
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 //			String emailType = emailTemplate.getEmailType();
-			String emailType = "Registration";
+			String emailType = type;
 			EmailTemplate emailTemp = emailTemplateRepository.findByEmailType(emailType);
 //			if ("Registration".equals(emailTemplate.getEmailType())) {
 //				emailType = "Registration";
