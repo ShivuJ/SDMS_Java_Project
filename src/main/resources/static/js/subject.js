@@ -39,7 +39,7 @@ $(document).ready(function() {
 				url: '/addSubject',
 				type: 'POST',
 				contentType: 'application/json',
-				data: JSON.stringify(saveData),
+				data: JSON.stringify(savedata),
 				dataType: 'JSON',
 				success: function(response) {
 					console.log(response);

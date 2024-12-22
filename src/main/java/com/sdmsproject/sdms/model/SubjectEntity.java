@@ -1,5 +1,7 @@
 package com.sdmsproject.sdms.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,9 +21,9 @@ public class SubjectEntity {
 	private String subject;
 	private char status = 'Y';
 	private String createdBy;
-	private String createdOn;
+	private LocalDate createdOn;
 	private String updatedBy;
-	private String updatedOn;
+	private LocalDate updatedOn;
 
 	public Long getId() {
 		return id;
@@ -55,12 +57,12 @@ public class SubjectEntity {
 		this.createdBy = createdBy;
 	}
 
-	public String getCreatedOn() {
+	public LocalDate getCreatedOn() {
 		return createdOn;
 	}
 
-	public void setCreatedOn(String createdOn) {
-		this.createdOn = createdOn;
+	public void setCreatedOn(LocalDate currentDate) {
+		this.createdOn = currentDate;
 	}
 
 	public String getUpdatedBy() {
@@ -71,11 +73,11 @@ public class SubjectEntity {
 		this.updatedBy = updatedBy;
 	}
 
-	public String getUpdatedOn() {
+	public LocalDate getUpdatedOn() {
 		return updatedOn;
 	}
 
-	public void setUpdatedOn(String updatedOn) {
+	public void setUpdatedOn(LocalDate updatedOn) {
 		this.updatedOn = updatedOn;
 	}
 
