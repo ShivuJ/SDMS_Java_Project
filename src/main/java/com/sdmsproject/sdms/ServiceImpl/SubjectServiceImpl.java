@@ -19,12 +19,20 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	public ResponseEntity<String> createSubject(SubjectEntity subject) {
 		Long id = subject.getId();
+		String username = System.getProperty("user.name");
+		LocalDate currentDate = LocalDate.now();
 		if(id!=null) {
-			return null;
-		}else {
-			String username = System.getProperty("user.name");
-			LocalDate currentDate = LocalDate.now();
 			
+			SubjectEntity existingSubject = subRepo.findById(id).get();
+			
+			existingSubject.setUpdatedBy(username);
+			existingSubject.setUpdatedOn(currentDate);
+			existingSubject.setSubject(subject.getSubject());
+			
+			subRepo.save(subject);
+			return ResponseEntity.ok("Sucess");
+		}else {
+				
 			subject.setCreatedOn(currentDate);
 			subject.setCreatedBy(username);
 			subject.setUpdatedBy(username);

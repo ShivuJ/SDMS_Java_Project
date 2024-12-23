@@ -30,6 +30,8 @@ $(document).ready(function() {
 			toastr.error("Please add subject");
 			return false;
 		}
+		
+		return true;
 	}
 
 	function addSubject() {
