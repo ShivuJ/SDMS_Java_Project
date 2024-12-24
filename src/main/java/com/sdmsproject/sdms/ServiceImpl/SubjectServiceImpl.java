@@ -1,6 +1,8 @@
 package com.sdmsproject.sdms.ServiceImpl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +45,25 @@ public class SubjectServiceImpl implements SubjectService {
 		}
 		
 	}
+
+	@Override
+	public List<SubjectEntity> readAllSubject() {
+
+		List<SubjectEntity> subjectList = subRepo.findAll();
+		List<SubjectEntity> subjects = new ArrayList<>();
+		
+		for (SubjectEntity subjectEntity : subjects) {
+			SubjectEntity subject = new SubjectEntity();
+			
+			subject.setId(subjectEntity.getId());
+			subject.setSubject(subjectEntity.getSubject());
+			subject.setStatus(subjectEntity.getStatus());
+			
+			subjects.add(subject);
+		}
+		return subjects;
+	}
+	
+	
 
 }
