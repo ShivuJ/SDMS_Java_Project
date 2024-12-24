@@ -5,8 +5,16 @@ $(document).ready(function() {
 
 	$('#navbar').load('nav.html');
 
-	loadSubject();
+	loadActiveSubject();
 	
+	$('#active-tab').click(function() {
+		loadActiveSubject();
+	});
+
+	$('#inactive-tab').click(function() {
+		loadInactiveSubject();
+	});
+
 	function toggleUserBtn() {
 		const formContainer = document.getElementById('formContainer');
 		if (formContainer.style.display === 'none' || formContainer.style.display === '') {
@@ -57,14 +65,14 @@ $(document).ready(function() {
 		}
 	}
 
-	function loadSubject() {
+	function loadActiveSubject() {
 		$.ajax({
 			url: '/readSubject',
 			type: 'GET',
 			success: function(response) {
 				let html = "";
 				response.forEach((subject, i) => {
-					if (subject.status = 'Y') {
+					if (subject.status == 'Y') {
 						html += `
 							<tr data-id=${subject.id}>
 								<td>${i + 1}</td>
@@ -78,7 +86,40 @@ $(document).ready(function() {
 					}
 
 				});
-				
+
+				$('.subjectTable tbody').append(html);
+			}
+		});
+	}
+
+	function loadInactiveSubject() {
+		$.ajax({
+			url: '/readSubject',
+			type: 'GET',
+			success: function(response) {
+				let html = "";
+				response.forEach((subject, i) => {
+					if (subject.status == 'N') {
+						html += `
+								<tr data-id=${subject.id}>
+									<td>${i + 1}</td>
+									<td>${subject.subject}</td>
+									<td>
+										<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
+										<button type="button" id="deleteBtn" class="iconBtn" title="Inactivate"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
+									</td>
+								</tr>
+							`
+					}else{
+						html += `
+								<tr>
+									<td>N</td>
+								</tr>
+							`
+					}
+
+				});
+
 				$('.subjectTable tbody').append(html);
 			}
 		});
