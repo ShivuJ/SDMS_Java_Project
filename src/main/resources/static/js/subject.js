@@ -5,6 +5,8 @@ $(document).ready(function() {
 
 	$('#navbar').load('nav.html');
 
+	loadSubject();
+	
 	function toggleUserBtn() {
 		const formContainer = document.getElementById('formContainer');
 		if (formContainer.style.display === 'none' || formContainer.style.display === '') {
@@ -13,10 +15,10 @@ $(document).ready(function() {
 			formContainer.style.display = 'none';
 		}
 	}
-	
+
 	$('#submit').click(function() {
-			addSubject();
-		});
+		addSubject();
+	});
 
 	function getSubjectData() {
 		return {
@@ -30,7 +32,7 @@ $(document).ready(function() {
 			toastr.error("Please add subject");
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -53,5 +55,32 @@ $(document).ready(function() {
 				}
 			});
 		}
+	}
+
+	function loadSubject() {
+		$.ajax({
+			url: '/readSubject',
+			type: 'GET',
+			success: function(response) {
+				let html = "";
+				response.forEach((subject, i) => {
+					if (subject.status = 'Y') {
+						html += `
+							<tr data-id=${subject.id}>
+								<td>${i + 1}</td>
+								<td>${subject.subject}</td>
+								<td>
+									<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
+									<button type="button" id="deleteBtn" class="iconBtn" title="Inactivate"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
+								</td>
+							</tr>
+						`
+					}
+
+				});
+				
+				$('.subjectTable tbody').append(html);
+			}
+		});
 	}
 });

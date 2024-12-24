@@ -52,7 +52,7 @@ public class SubjectServiceImpl implements SubjectService {
 		List<SubjectEntity> subjectList = subRepo.findAll();
 		List<SubjectEntity> subjects = new ArrayList<>();
 		
-		for (SubjectEntity subjectEntity : subjects) {
+		for (SubjectEntity subjectEntity : subjectList) {
 			SubjectEntity subject = new SubjectEntity();
 			
 			subject.setId(subjectEntity.getId());
