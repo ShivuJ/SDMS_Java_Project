@@ -29,5 +29,12 @@ public class SubjectController {
 	public List<SubjectEntity> readAllSubject(){
 		return subService.readAllSubject();
 	}
+	
+	@PostMapping("/inactivateSubject/{id}")
+	public ResponseEntity<String> inactivateSub(@RequestBody Long id){
+		ResponseEntity<String> response = subService.inactivateSub(id);
+		
+		return response;
+	}
 
 }

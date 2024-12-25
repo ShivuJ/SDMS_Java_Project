@@ -10,4 +10,5 @@ public interface SubjectService {
 
 	ResponseEntity<String> createSubject(SubjectEntity subject);
 	List<SubjectEntity> readAllSubject();
+	ResponseEntity<String> inactivateSub(Long id);
 }

@@ -63,6 +63,16 @@ public class SubjectServiceImpl implements SubjectService {
 		}
 		return subjects;
 	}
+
+	@Override
+	public ResponseEntity<String> inactivateSub(Long id) {
+		SubjectEntity subject = subRepo.findById(id).get();
+		subject.setStatus('N');
+		
+		subRepo.save(subject);
+		
+		return ResponseEntity.ok("Sucess");
+	}
 	
 	
 
