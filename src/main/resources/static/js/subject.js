@@ -83,11 +83,14 @@ $(document).ready(function() {
 				type: 'GET',
 				success: function(response) {
 					let html = "";
+					let activeCounter = 0;
 					response.forEach((subject, i) => {
+						
 						if (subject.status == 'Y') {
+							activeCounter++;
 							html += `
 							<tr data-id=${subject.id}>
-								<td>${i + 1}</td>
+								<td>${activeCounter}</td>
 								<td>${subject.subject}</td>
 								<td>
 									<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
@@ -99,7 +102,7 @@ $(document).ready(function() {
 
 					});
 
-					$('#activeSubjectsBody').append(html);
+					$('#activeSubjectsBody').html(html);
 				}
 			});
 		}
@@ -110,15 +113,17 @@ $(document).ready(function() {
 				type: 'GET',
 				success: function(response) {
 					let html = "";
+					let inactiveCounter = 0;
 					response.forEach((subject, i) => {
+						
 						if (subject.status == 'N') {
+							inactiveCounter++;
 							html += `
 								<tr data-id=${subject.id}>
-									<td>${i + 1}</td>
+									<td>${inactiveCounter}</td>
 									<td>${subject.subject}</td>
 									<td>
-										<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
-										<button type="button" id="deleteBtn" class="iconBtn" title="Inactivate"><img src="./img/delete.png" alt="Delete" style="cursor: pointer; height:20px">
+										<button type="button" id="activeBtn" class="iconBtn" title="Activate"><img src="./img/check-mark.png" alt="Active" style="cursor: pointer; height:20px">
 									</td>
 								</tr>
 							`
@@ -126,7 +131,7 @@ $(document).ready(function() {
 
 					});
 
-					$('#inactiveSubjectsBody').append(html);
+					$('#inactiveSubjectsBody').html(html);
 				}
 			});
 		}
