@@ -28,67 +28,72 @@ $(document).ready(function() {
 		addSubject();
 	});
 
-	$('.subjectTable').on('click', '#editBtn', function() {
+	$('#activeSubjectsBody').on('click', '#editBtn', function() {
 		$('#submit').text("Update");
 		toggleUserBtn();
 		var id = $(this).closest('tr').data('id');
 		editSub(id);
 	});
 
-	$('.subjectTable').on('click', '#deleteBtn', function() {
+	$('#activeSubjectsBody').on('click', '#deleteBtn', function() {
 		var id = $(this).closest('tr').data('id');
 		deleteSub(id);
 	});
+	
+	$('#inactiveSubjectsBody').on('click', '#activeBtn', function() {
+			var id = $(this).closest('tr').data('id');
+			activateSub(id);
+		});
 
 	function getSubjectData() {
-			return {
-				id: $('#subjectId').val(),
-				subject: $('#subject').val()
-			}
+		return {
+			id: $('#subjectId').val(),
+			subject: $('#subject').val()
 		}
+	}
 
 	function isValidate(savedata) {
-			if (!savedata.subject) {
-				toastr.error("Please add subject");
-				return false;
-			}
-
-			return true;
+		if (!savedata.subject) {
+			toastr.error("Please add subject");
+			return false;
 		}
+
+		return true;
+	}
 
 	function addSubject() {
-			var savedata = getSubjectData();
-			if (isValidate(savedata)) {
-				$.ajax({
-					url: '/addSubject',
-					type: 'POST',
-					contentType: 'application/json',
-					data: JSON.stringify(savedata),
-					dataType: 'JSON',
-					success: function(response) {
-						console.log(response);
-						if (response.status == "Y") {
-							toastr.success("User Added Successfully...");
-						} else {
-							toastr.error("Something Went Wrong...");
-						}
+		var savedata = getSubjectData();
+		if (isValidate(savedata)) {
+			$.ajax({
+				url: '/addSubject',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(savedata),
+				dataType: 'JSON',
+				success: function(response) {
+					console.log(response);
+					if (response.status == "Y") {
+						toastr.success("User Added Successfully...");
+					} else {
+						toastr.error("Something Went Wrong...");
 					}
-				});
-			}
+				}
+			});
 		}
+	}
 
 	function loadActiveSubject() {
-			$.ajax({
-				url: '/readSubject',
-				type: 'GET',
-				success: function(response) {
-					let html = "";
-					let activeCounter = 0;
-					response.forEach((subject, i) => {
-						
-						if (subject.status == 'Y') {
-							activeCounter++;
-							html += `
+		$.ajax({
+			url: '/readSubject',
+			type: 'GET',
+			success: function(response) {
+				let html = "";
+				let activeCounter = 0;
+				response.forEach((subject, i) => {
+
+					if (subject.status == 'Y') {
+						activeCounter++;
+						html += `
 							<tr data-id=${subject.id}>
 								<td>${activeCounter}</td>
 								<td>${subject.subject}</td>
@@ -98,27 +103,27 @@ $(document).ready(function() {
 								</td>
 							</tr>
 						`
-						}
+					}
 
-					});
+				});
 
-					$('#activeSubjectsBody').html(html);
-				}
-			});
-		}
+				$('#activeSubjectsBody').html(html);
+			}
+		});
+	}
 
 	function loadInactiveSubject() {
-			$.ajax({
-				url: '/readSubject',
-				type: 'GET',
-				success: function(response) {
-					let html = "";
-					let inactiveCounter = 0;
-					response.forEach((subject, i) => {
-						
-						if (subject.status == 'N') {
-							inactiveCounter++;
-							html += `
+		$.ajax({
+			url: '/readSubject',
+			type: 'GET',
+			success: function(response) {
+				let html = "";
+				let inactiveCounter = 0;
+				response.forEach((subject, i) => {
+
+					if (subject.status == 'N') {
+						inactiveCounter++;
+						html += `
 								<tr data-id=${subject.id}>
 									<td>${inactiveCounter}</td>
 									<td>${subject.subject}</td>
@@ -127,36 +132,54 @@ $(document).ready(function() {
 									</td>
 								</tr>
 							`
-						}
+					}
 
-					});
+				});
 
-					$('#inactiveSubjectsBody').html(html);
-				}
-			});
-		}
+				$('#inactiveSubjectsBody').html(html);
+			}
+		});
+	}
 
 	function editSub(id) {
-			$.ajax({
-				url: '/editSubject/' + id,
-				type: 'POST',
-				success: function(response) {
-					$('#subjectId').val(response.id),
-						$('#subject').val(response.subject)
-				}
-			})
-		}
+		$.ajax({
+			url: '/editSubject/' + id,
+			type: 'GET',
+			success: function(response) {
+				$('#subjectId').val(response.id);
+				$('#subject').val(response.subject);
+			}
+		})
+	}
 
 	function deleteSub(id) {
+		$.ajax({
+			url: '/inactivateSubject/' + id,
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(id),
+			dataType: 'JSON',
+			success: function(response) {
+				if (response == "Success") {
+					toastr.success("Student Inactivated Successfully...");
+				} else {
+					toastr.error("Something Went Wrong...");
+				}
+			}
+		})
+
+	}
+	
+	function activateSub(id) {
 			$.ajax({
-				url: '/inactivateSubject/' + id,
+				url: '/activateSubject/' + id,
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify(id),
 				dataType: 'JSON',
 				success: function(response) {
 					if (response == "Success") {
-						toastr.success("Student Deleted Successfully...");
+						toastr.success("Student Activated Successfully...");
 					} else {
 						toastr.error("Something Went Wrong...");
 					}
@@ -164,4 +187,5 @@ $(document).ready(function() {
 			})
 
 		}
+	
 });

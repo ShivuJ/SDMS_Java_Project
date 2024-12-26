@@ -73,6 +73,22 @@ public class SubjectServiceImpl implements SubjectService {
 		
 		return ResponseEntity.ok("Sucess");
 	}
+
+	@Override
+	public ResponseEntity<SubjectEntity> readSubById(Long id) {
+		SubjectEntity subject = subRepo.findById(id).get();
+		return ResponseEntity.ok(subject);
+	}
+
+	@Override
+	public ResponseEntity<String> activeSub(Long id) {
+		SubjectEntity subject = subRepo.findById(id).get();
+		subject.setStatus('Y');
+		
+		subRepo.save(subject);
+		
+		return ResponseEntity.ok("Sucess");
+	}
 	
 	
 
