@@ -27,9 +27,11 @@ public class SubjectServiceImpl implements SubjectService {
 			
 			SubjectEntity existingSubject = subRepo.findById(id).get();
 			
-			existingSubject.setUpdatedBy(username);
-			existingSubject.setUpdatedOn(currentDate);
-			existingSubject.setSubject(subject.getSubject());
+			subject.setUpdatedBy(username);
+			subject.setUpdatedOn(currentDate);
+			subject.setSubject(subject.getSubject());
+			subject.setCreatedBy(existingSubject.getCreatedBy());
+			subject.setCreatedOn(existingSubject.getCreatedOn());
 			
 			subRepo.save(subject);
 			return ResponseEntity.ok("Sucess");
