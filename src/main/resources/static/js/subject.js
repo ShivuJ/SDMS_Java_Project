@@ -39,11 +39,11 @@ $(document).ready(function() {
 		var id = $(this).closest('tr').data('id');
 		deleteSub(id);
 	});
-	
+
 	$('#inactiveSubjectsBody').on('click', '#activeBtn', function() {
-			var id = $(this).closest('tr').data('id');
-			activateSub(id);
-		});
+		var id = $(this).closest('tr').data('id');
+		activateSub(id);
+	});
 
 	function getSubjectData() {
 		return {
@@ -62,6 +62,7 @@ $(document).ready(function() {
 	}
 
 	function addSubject() {
+		debugger;
 		var savedata = getSubjectData();
 		if (isValidate(savedata)) {
 			$.ajax({
@@ -71,9 +72,13 @@ $(document).ready(function() {
 				data: JSON.stringify(savedata),
 				dataType: 'JSON',
 				success: function(response) {
+					debugger;
 					console.log(response);
-					if (response.status == "Y") {
-						toastr.success("User Added Successfully...");
+					if (response == 200) {
+						toastr.success("Subject Added Successfully...");
+						setTimeout(function() {
+							location.reload();
+						}, 2000);
 					} else {
 						toastr.error("Something Went Wrong...");
 					}
@@ -169,23 +174,23 @@ $(document).ready(function() {
 		})
 
 	}
-	
-	function activateSub(id) {
-			$.ajax({
-				url: '/activateSubject/' + id,
-				type: 'POST',
-				contentType: 'application/json',
-				data: JSON.stringify(id),
-				dataType: 'JSON',
-				success: function(response) {
-					if (response == "Success") {
-						toastr.success("Student Activated Successfully...");
-					} else {
-						toastr.error("Something Went Wrong...");
-					}
-				}
-			})
 
-		}
-	
+	function activateSub(id) {
+		$.ajax({
+			url: '/activateSubject/' + id,
+			type: 'POST',
+			contentType: 'application/json',
+			data: JSON.stringify(id),
+			dataType: 'JSON',
+			success: function(response) {
+				if (response == "Success") {
+					toastr.success("Student Activated Successfully...");
+				} else {
+					toastr.error("Something Went Wrong...");
+				}
+			}
+		})
+
+	}
+
 });
