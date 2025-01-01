@@ -27,7 +27,7 @@ $(document).ready(function() {
 		var id = $(this).closest('tr').data('id');
 		editStudent(id);
 	});
-	
+
 	$('.stuTable').on('click', '#deleteBtn', function() {
 		var id = $(this).closest('tr').data('id');
 		deleteStudent(id);
@@ -78,19 +78,18 @@ $(document).ready(function() {
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify(saveData),
-				dataType: 'JSON',
 				success: function(response) {
 					console.log(response);
 					if (response.status == "Y") {
 						toastr.success("User Added Successfully...");
+						setTimeout(function() {
+							location.reload();
+						}, 2000);
 					} else {
 						toastr.error("Something Went Wrong...");
 					}
 				}
 			});
-			setTimeout(function() {
-				location.reload();
-			}, 2000);
 		}
 	}
 
@@ -108,7 +107,7 @@ $(document).ready(function() {
 						classMap[cls.id] = cls.stuClass;
 					});
 
-					loadStudent(); 	
+					loadStudent();
 				}
 
 			}
@@ -171,18 +170,17 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
-	function deleteStudent(id){
+
+	function deleteStudent(id) {
 		$.ajax({
 			url: '/deleteStudent',
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(id),
-			dataType: 'JSON',
-			success: function(response){
-				if(response=="Success"){
+			success: function(response) {
+				if (response == "Success") {
 					toastr.success("Student Deleted Successfully...");
-				}else{
+				} else {
 					toastr.error("Something Went Wrong...");
 				}
 			}
