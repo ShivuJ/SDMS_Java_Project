@@ -43,7 +43,7 @@ public class SubjectServiceImpl implements SubjectService {
 			subject.setUpdatedOn(currentDate);
 						
 			subRepo.save(subject);
-			return ResponseEntity.ok("Sucess");
+			return ResponseEntity.ok("Success");
 		}
 		
 	}

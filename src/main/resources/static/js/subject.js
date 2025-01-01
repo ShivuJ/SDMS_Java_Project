@@ -70,11 +70,10 @@ $(document).ready(function() {
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify(savedata),
-				dataType: 'JSON',
 				success: function(response) {
 					debugger;
 					console.log(response);
-					if (response == 200) {
+					if (response == "Success") {
 						toastr.success("Subject Added Successfully...");
 						setTimeout(function() {
 							location.reload();
@@ -163,7 +162,6 @@ $(document).ready(function() {
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(id),
-			dataType: 'JSON',
 			success: function(response) {
 				if (response == "Success") {
 					toastr.success("Student Inactivated Successfully...");
@@ -181,7 +179,6 @@ $(document).ready(function() {
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(id),
-			dataType: 'JSON',
 			success: function(response) {
 				if (response == "Success") {
 					toastr.success("Student Activated Successfully...");
