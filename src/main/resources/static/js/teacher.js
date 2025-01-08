@@ -7,6 +7,9 @@ $(document).ready(function() {
 
 	$('#navbar').load('nav.html');
 	const classMap = {};
+	const subMap = {};
+	getClasses();
+	getSubject();
 
 	function toggleUserBtn() {
 		const formContainer = document.getElementById('formContainer');
@@ -217,6 +220,27 @@ $(document).ready(function() {
 		})
 	}
 
+	function getSubject() {
+		$.ajax({
+			url: '/readSubject',
+			type: 'GET',
+			success: function(response) {
+				console.log(response)
+				if (Array.isArray(response)) {
+					const dropdown = $('#subject');
+					response.forEach(function(sub) {
+						const option = $('<option></option>').val(sub.id).text(sub.subject);
+						dropdown.append(option);
+						subMap[sub.id] = sub.subject;
+					});
+
+					loadTeacher();
+				}
+
+			}
+		})
+	}
+
 	function loadTeacher() {
 		$.ajax({
 			url: 'teacher',
@@ -226,6 +250,7 @@ $(document).ready(function() {
 				response.forEach((teacher, i) => {
 					if (response[i].status == "Y") {
 						const className = classMap[teacher.teacherClass];
+						const subject = subMap[teacher.subject];
 						html += `
 								<tr data-id = "${teacher.id}">
 									<td>${i + 1}</td>
@@ -235,7 +260,7 @@ $(document).ready(function() {
 									<td>${teacher.role}</td>
 									<td>${teacher.phone}</td>
 									<td>${className}</td>
-									<td>${teacher.subject}</td>
+									<td>${subject}</td>
 									<td>${teacher.password}</td>
 									<td>
 										<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
@@ -251,5 +276,5 @@ $(document).ready(function() {
 		})
 	}
 
-	getClasses();
+
 });

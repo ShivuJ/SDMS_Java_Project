@@ -1,9 +1,12 @@
 package com.sdmsproject.sdms.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -19,8 +22,16 @@ public class UserEntity {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String teacherClass;
-	private String subject;
+	
+//	mapping teacher with Class.
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "teacher_class", referencedColumnName = "id", nullable = false)
+	private ClassEntity teacherClass;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "subject", referencedColumnName = "id", nullable = false)
+	private SubjectEntity subject;
+	
 	private String dateOfJoining;
 	private String employmentStatus;
 	private String qualification;
@@ -73,16 +84,16 @@ public class UserEntity {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getTeacherClass() {
+	public ClassEntity getTeacherClass() {
 		return teacherClass;
 	}
-	public void setTeacherClass(String teacherClass) {
+	public void setTeacherClass(ClassEntity teacherClass) {
 		this.teacherClass = teacherClass;
 	}
-	public String getSubject() {
+	public SubjectEntity getSubject() {
 		return subject;
 	}
-	public void setSubject(String subject) {
+	public void setSubject(SubjectEntity subject) {
 		this.subject = subject;
 	}
 	public String getDateOfJoining() {
