@@ -23,11 +23,12 @@ public class UserEntity {
 	private String lastName;
 	private String email;
 	
-//	mapping teacher with Class.
+//	mapping teacher to Class.
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "teacher_class", referencedColumnName = "id", nullable = false)
 	private ClassEntity teacherClass;
 	
+//	mapping teacher to Subject.
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "subject", referencedColumnName = "id", nullable = false)
 	private SubjectEntity subject;

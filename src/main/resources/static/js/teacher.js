@@ -11,6 +11,15 @@ $(document).ready(function() {
 	getClasses();
 	getSubject();
 
+	let classMapReady = false;
+	let subMapReady = false;
+
+	function checkAndLoadTeacher() {
+		if (classMapReady && subMapReady) {
+			loadTeacher();
+		}
+	}
+
 	function toggleUserBtn() {
 		const formContainer = document.getElementById('formContainer');
 		if (formContainer.style.display === 'none' || formContainer.style.display === '') {
@@ -110,9 +119,8 @@ $(document).ready(function() {
 				type: 'POST',
 				contentType: 'application/json',
 				data: JSON.stringify(saveData),
-				dataType: 'JSON',
 				success: function(response) {
-					if (response.status == 200) {
+					if (response == "Success") {
 						toastr.success("Data Save Successfully");
 						setTimeout(function() {
 							location.reload();
@@ -122,7 +130,7 @@ $(document).ready(function() {
 					}
 				},
 				error: function(xhr, status, error) {
-					// alertify.error("An error occurred: " + error);
+					toastr.error("An error occurred: " + error + status + xhr);
 				}
 
 			});
@@ -139,7 +147,6 @@ $(document).ready(function() {
 			type: 'POST',
 			contentType: 'application/json',
 			data: JSON.stringify(id),
-			dataType: 'JSON',
 			success: function(response) {
 				if (response === "Success") {
 					toastr.success("User Deleted Successfully.");
@@ -161,7 +168,7 @@ $(document).ready(function() {
 				$('#firstName').val(response.firstName);
 				$('#lastName').val(response.lastName);
 				$('#teacherEmail').val(response.email);
-				$('#teachingClass').val(response.teacherClass);
+				$('#teachingClass').val(response.teacher_class);
 				$('#subject').val(response.subject);
 				$('#dateOfJoining').val(response.dateOfJoining);
 				$('#employmentStatus').val(response.employmentStatus);
@@ -173,31 +180,6 @@ $(document).ready(function() {
 			}
 		});
 	}
-
-	/*function updateUser(id){
-		var saveData = getUserData();
-				console.log(saveData);
-				if(isValidate(saveData)){
-					$.ajax({
-						url : '/updateUser/'+ id,
-						type : 'POST',
-						contentType : 'application/json',
-						data : JSON.stringify(saveData),
-						dataType : 'JSON',
-						success : function(response){
-							if(response.status == 200){
-								toastr.success('Data Save Successfully');
-							}else {
-								toastr.error('Something went wrong');
-							}
-						},			
-						error: function(xhr, status, error) {
-								   // alertify.error("An error occurred: " + error);
-								}
-
-					});					
-				}
-	}*/
 
 	function getClasses() {
 		$.ajax({
@@ -212,10 +194,9 @@ $(document).ready(function() {
 						dropdown.append(option);
 						classMap[cls.id] = cls.stuClass;
 					});
-
-					loadTeacher();
 				}
-
+				classMapReady = true;
+				checkAndLoadTeacher();
 			}
 		})
 	}
@@ -233,10 +214,9 @@ $(document).ready(function() {
 						dropdown.append(option);
 						subMap[sub.id] = sub.subject;
 					});
-
-					loadTeacher();
 				}
-
+				subMapReady = true;
+				checkAndLoadTeacher();
 			}
 		})
 	}
@@ -249,7 +229,7 @@ $(document).ready(function() {
 				let html = "";
 				response.forEach((teacher, i) => {
 					if (response[i].status == "Y") {
-						const className = classMap[teacher.teacherClass];
+						const className = classMap[teacher.teacher_class];
 						const subject = subMap[teacher.subject];
 						html += `
 								<tr data-id = "${teacher.id}">
