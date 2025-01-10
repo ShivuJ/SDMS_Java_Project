@@ -1,12 +1,12 @@
 package com.sdmsproject.sdms.model;
 
-import jakarta.persistence.CascadeType;
+//import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+//import jakarta.persistence.JoinColumn;
+//import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -24,14 +24,14 @@ public class UserEntity {
 	private String email;
 	
 //	mapping teacher to Class.
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "teacher_class", referencedColumnName = "id", nullable = false)
-	private ClassEntity teacherClass;
+//	@OneToOne
+//	@JoinColumn(name = "teacher_class", referencedColumnName = "id", nullable = false)
+	private Long teacherClass;
 	
 //	mapping teacher to Subject.
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "subject", referencedColumnName = "id", nullable = false)
-	private SubjectEntity subject;
+//	@OneToOne
+//	@JoinColumn(name = "subject", referencedColumnName = "id", nullable = false)
+	private Long subject;
 	
 	private String dateOfJoining;
 	private String employmentStatus;
@@ -85,16 +85,16 @@ public class UserEntity {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public ClassEntity getTeacherClass() {
+	public Long getTeacherClass() {
 		return teacherClass;
 	}
-	public void setTeacherClass(ClassEntity teacherClass) {
+	public void setTeacherClass(Long teacherClass) {
 		this.teacherClass = teacherClass;
 	}
-	public SubjectEntity getSubject() {
+	public Long getSubject() {
 		return subject;
 	}
-	public void setSubject(SubjectEntity subject) {
+	public void setSubject(Long subject) {
 		this.subject = subject;
 	}
 	public String getDateOfJoining() {

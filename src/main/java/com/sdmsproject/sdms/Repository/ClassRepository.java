@@ -6,4 +6,8 @@ import com.sdmsproject.sdms.model.ClassEntity;
 
 public interface ClassRepository extends JpaRepository<ClassEntity , Long> {
 
+	ClassEntity findById(ClassEntity teacherClass);
+	
+	
+
 }

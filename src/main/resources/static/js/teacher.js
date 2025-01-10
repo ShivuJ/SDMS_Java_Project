@@ -131,6 +131,7 @@ $(document).ready(function() {
 				},
 				error: function(xhr, status, error) {
 					toastr.error("An error occurred: " + error + status + xhr);
+					console.log("An error occurred: " + error + status + xhr);
 				}
 
 			});
@@ -168,7 +169,7 @@ $(document).ready(function() {
 				$('#firstName').val(response.firstName);
 				$('#lastName').val(response.lastName);
 				$('#teacherEmail').val(response.email);
-				$('#teachingClass').val(response.teacher_class);
+				$('#teachingClass').val(response.teacherClass);
 				$('#subject').val(response.subject);
 				$('#dateOfJoining').val(response.dateOfJoining);
 				$('#employmentStatus').val(response.employmentStatus);
@@ -229,7 +230,7 @@ $(document).ready(function() {
 				let html = "";
 				response.forEach((teacher, i) => {
 					if (response[i].status == "Y") {
-						const className = classMap[teacher.teacher_class];
+						const className = classMap[teacher.teacherClass];
 						const subject = subMap[teacher.subject];
 						html += `
 								<tr data-id = "${teacher.id}">

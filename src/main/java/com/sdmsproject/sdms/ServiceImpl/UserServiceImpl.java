@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.sdmsproject.sdms.Repository.ClassRepository;
 import com.sdmsproject.sdms.Repository.EmailTemplateRepository;
+import com.sdmsproject.sdms.Repository.SubjectRepository;
 import com.sdmsproject.sdms.Repository.UserRepository;
 import com.sdmsproject.sdms.Service.EmailService;
 import com.sdmsproject.sdms.Service.UserService;
+//import com.sdmsproject.sdms.model.ClassEntity;
 import com.sdmsproject.sdms.model.EmailTemplate;
+//import com.sdmsproject.sdms.model.SubjectEntity;
 import com.sdmsproject.sdms.model.UserEntity;
 
 @Service
@@ -22,6 +27,12 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	EmailService emailService;
+	
+	@Autowired
+	ClassRepository classRepository;	
+	
+	@Autowired
+	SubjectRepository subjectRepository;
 
 	@Autowired
 	private EmailTemplateRepository emailTempRepo;
@@ -52,7 +63,24 @@ public class UserServiceImpl implements UserService {
 			userRepository.save(existingUser);
 			return ResponseEntity.ok("Success");
 		} else {
-
+			user.setId(user.getId());
+			user.setFirstName(user.getFirstName());
+			user.setLastName(user.getLastName());
+			user.setEmail(user.getEmail());
+			user.setRole(user.getRole());
+			user.setPhone(user.getPhone());
+			
+//			ClassEntity classEntity = classRepository.findById(user.getTeacherClass());
+			user.setTeacherClass(user.getTeacherClass());
+			
+//			SubjectEntity subjectEntity = subjectRepository.findById(user.getSubject());
+			user.setSubject(user.getSubject());
+			
+			user.setPassword(user.getPassword());
+			user.setStatus(user.getStatus());
+			user.setDateOfJoining(user.getDateOfJoining());
+			user.setEmploymentStatus(user.getEmploymentStatus());
+			user.setQualification(user.getQualification());
 			userRepository.save(user);
 
 			List<EmailTemplate> emailTemplates = emailTempRepo.findAll();
