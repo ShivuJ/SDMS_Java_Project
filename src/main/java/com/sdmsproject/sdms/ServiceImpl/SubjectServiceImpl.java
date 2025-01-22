@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -75,7 +74,7 @@ public class SubjectServiceImpl implements SubjectService {
 		
 		subRepo.save(subject);
 		
-		return ResponseEntity.ok("Sucess");
+		return ResponseEntity.ok("Success");
 	}
 
 	@Override
