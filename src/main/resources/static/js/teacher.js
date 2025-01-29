@@ -33,12 +33,12 @@ $(document).ready(function() {
 		addTeacher();
 	});
 
-	$(".userTable").on('click', '#deleteBtn', function() {
+	$("#userTable").on('click', '#deleteBtn', function() {
 		var id = $(this).closest('tr').data("id");
 		deleteUser(id);
 	});
 
-	$(".userTable").on('click', '#editBtn', function() {
+	$("#userTable").on('click', '#editBtn', function() {
 		$('#submit').text("Update");
 		toggleUserBtn();
 		var id = $(this).closest('tr').data("id");
@@ -49,6 +49,7 @@ $(document).ready(function() {
 		}
 
 	});
+
 
 	function getUserData() {
 		return {
@@ -251,7 +252,20 @@ $(document).ready(function() {
 								`
 					}
 				})
-				$('.userTable tbody').append(html);
+				$('#userTable tbody').append(html);
+				var eventFired = function(type) {
+					var n = $('#userTable')[0];
+					//n.innerHTML += '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+					n.scrollTop = n.scrollHeight;
+				}
+
+				$('#userTable')
+					.on('order.dt', function() { eventFired('Order'); })
+					.on('search.dt', function() { eventFired('Search'); })
+					.on('page.dt', function() { eventFired('Page'); })
+					.DataTable();
+
+
 				console.log(response);
 			}
 		})
