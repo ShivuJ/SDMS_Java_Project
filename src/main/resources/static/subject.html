@@ -12,6 +12,8 @@
 	<script src="./js/subject.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 	<link href="./css/teacher.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+		<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
 
 <body>
@@ -54,7 +56,7 @@
 		<!-- Tab content -->
 		<div class="tab-content">
 			<div class="tab-pane fade show active" id="activeSubjects" role="tabpanel">
-				<table class="subjectTable">
+				<table class="activeSubjectTable">
 					<thead>
 						<tr>
 							<th>Sr. No</th>
@@ -69,7 +71,7 @@
 			</div>
 
 			<div class="tab-pane fade" id="inactiveSubjects" role="tabpanel">
-				<table class="subjectTable">
+				<table class="inactiveSubjectTable">
 					<thead>
 						<tr>
 							<th>Sr. No</th>

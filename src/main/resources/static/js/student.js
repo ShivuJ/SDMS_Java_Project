@@ -166,6 +166,18 @@ $(document).ready(function() {
 					}
 				});
 				$('.stuTable tbody').append(html);
+				var eventFired = function(type) {
+					var n = $('.stuTable')[0];
+					//n.innerHTML += '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+					n.scrollTop = n.scrollHeight;
+				}
+
+				$('.stuTable')
+					.on('order.dt', function() { eventFired('Order'); })
+					.on('search.dt', function() { eventFired('Search'); })
+					.on('page.dt', function() { eventFired('Page'); })
+					.DataTable();
+
 				console.log(response);
 			}
 		});

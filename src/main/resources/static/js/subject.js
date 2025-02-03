@@ -112,6 +112,18 @@ $(document).ready(function() {
 				});
 
 				$('#activeSubjectsBody').html(html);
+				var eventFired = function(type) {
+					var n = $('.activeSubjectTable')[0];
+					//n.innerHTML += '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+					n.scrollTop = n.scrollHeight;
+				}
+
+				$('.activeSubjectTable')
+					.on('order.dt', function() { eventFired('Order'); })
+					.on('search.dt', function() { eventFired('Search'); })
+					.on('page.dt', function() { eventFired('Page'); })
+					.DataTable();
+
 			}
 		});
 	}
@@ -141,6 +153,18 @@ $(document).ready(function() {
 				});
 
 				$('#inactiveSubjectsBody').html(html);
+				var eventFired = function(type) {
+					var n = $('.inactiveSubjectTable')[0];
+					//n.innerHTML += '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+					n.scrollTop = n.scrollHeight;
+				}
+
+				$('.inactiveSubjectTable')
+					.on('order.dt', function() { eventFired('Order'); })
+					.on('search.dt', function() { eventFired('Search'); })
+					.on('page.dt', function() { eventFired('Page'); })
+					.DataTable();
+
 			}
 		});
 	}
