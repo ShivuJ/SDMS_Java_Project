@@ -86,9 +86,9 @@ $(document).ready(function() {
 			success: function(response) {
 				console.log("Edit Student" + response);
 				$('#emailId').val(response.id),
-				$('#emailType').val(response.emailType),
-				$('#subject').val(response.subject),
-				$('#template').val(response.template)
+					$('#emailType').val(response.emailType),
+					$('#subject').val(response.subject),
+					$('#template').val(response.template)
 			}
 		})
 	}
@@ -116,6 +116,18 @@ $(document).ready(function() {
 
 				});
 				$('.templateTable tbody').append(html);
+				var eventFired = function(type) {
+					var n = $('.templateTable')[0];
+					//n.innerHTML += '<div>' + type + ' event - ' + new Date().getTime() + '</div>';
+					n.scrollTop = n.scrollHeight;
+				}
+
+				$('.templateTable')
+					.on('order.dt', function() { eventFired('Order'); })
+					.on('search.dt', function() { eventFired('Search'); })
+					.on('page.dt', function() { eventFired('Page'); })
+					.DataTable();
+
 				console.log(response);
 			}
 		});
