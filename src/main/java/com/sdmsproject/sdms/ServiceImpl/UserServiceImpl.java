@@ -19,8 +19,13 @@ import com.sdmsproject.sdms.model.EmailTemplate;
 //import com.sdmsproject.sdms.model.SubjectEntity;
 import com.sdmsproject.sdms.model.UserEntity;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @Service
 public class UserServiceImpl implements UserService {
+	
+	@Autowired
+	HttpServletRequest request;
 
 	@Autowired
 	UserRepository userRepository;

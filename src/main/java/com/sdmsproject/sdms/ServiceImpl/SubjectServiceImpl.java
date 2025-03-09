@@ -12,17 +12,24 @@ import com.sdmsproject.sdms.Repository.SubjectRepository;
 import com.sdmsproject.sdms.Service.SubjectService;
 import com.sdmsproject.sdms.model.SubjectEntity;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
 @Service
 public class SubjectServiceImpl implements SubjectService {
 	
 	@Autowired
 	SubjectRepository subRepo;
+	
+	@Autowired
+	private HttpServletRequest request;
 
 	@Override
 	public ResponseEntity<String> createSubject(SubjectEntity subject) {
 		Long id = subject.getId();
 		
-		String username = System.getProperty("user.name");
+
+		String username = getFullNameByCookies();
 		LocalDate currentDate = LocalDate.now();
 		if(id!=null) {
 			
@@ -35,7 +42,7 @@ public class SubjectServiceImpl implements SubjectService {
 			subject.setCreatedOn(existingSubject.getCreatedOn());
 			
 			subRepo.save(subject);
-			return ResponseEntity.ok("Sucess");
+			return ResponseEntity.ok("Success");
 		}else {
 				
 			subject.setCreatedOn(currentDate);
@@ -90,9 +97,31 @@ public class SubjectServiceImpl implements SubjectService {
 		
 		subRepo.save(subject);
 		
-		return ResponseEntity.ok("Sucess");
+		return ResponseEntity.ok("Sucsess");
+	}
+
+//🔹 Helper method to get cookie value by name
+	private String getCookieValue(String name) {
+		Cookie[] cookies = request.getCookies();
+		
+		if(cookies!=null) {
+			for(Cookie cookie: cookies) {
+				if(cookie.getName().equals(name)) {
+					return cookie.getValue();
+				}
+			}
+		}
+		
+		return "Unknown";
+	}
+	
+	private String getFullNameByCookies() {
+		String firstName = getCookieValue("username");
+		String lastName = getCookieValue("userLastName");
+		
+		return firstName + " " + lastName;
 	}
 	
 	
-
+	
 }
