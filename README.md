@@ -14,7 +14,7 @@ The **School Database Management System (SDMS)** is a comprehensive platform des
 ### **Teacher Features**
 - Manage student details for assigned classes.
 - **Mark Attendance** for each class and track records.
-- assign **Grades**.
+- Assign **Grades**.
 
 ---
 
