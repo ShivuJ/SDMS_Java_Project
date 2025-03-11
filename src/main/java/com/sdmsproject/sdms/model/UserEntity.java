@@ -1,5 +1,7 @@
 package com.sdmsproject.sdms.model;
 
+import java.time.LocalDate;
+
 //import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,6 +43,10 @@ public class UserEntity {
 	private String password;
 	private String role;
 	private String status = "Y";
+	private String createdBy;
+	private LocalDate createdOn;
+	private String updatedBy;
+	private LocalDate updatedOn;
 
 	public Long getId() {
 		return id;
@@ -126,6 +132,30 @@ public class UserEntity {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public LocalDate getCreatedOn() {
+		return createdOn;
+	}
+	public void setCreatedOn(LocalDate createdOn) {
+		this.createdOn = createdOn;
+	}
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+	public LocalDate getUpdatedOn() {
+		return updatedOn;
+	}
+	public void setUpdatedOn(LocalDate updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 

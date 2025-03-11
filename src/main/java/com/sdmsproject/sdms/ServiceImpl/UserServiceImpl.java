@@ -1,5 +1,6 @@
 package com.sdmsproject.sdms.ServiceImpl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import com.sdmsproject.sdms.model.EmailTemplate;
 //import com.sdmsproject.sdms.model.SubjectEntity;
 import com.sdmsproject.sdms.model.UserEntity;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
@@ -46,6 +48,10 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<String> createUser(UserEntity user) {
 		Long id = user.getId();
 		String fullName = user.getFirstName().concat(" ").concat(user.getLastName());
+		
+		// cu (Created and Update) user name
+		String cuName = getFullNameByCookie();
+		LocalDate currentDate = LocalDate.now();
 		String type = "Registration";
 		if (id != null) {
 
@@ -64,6 +70,8 @@ public class UserServiceImpl implements UserService {
 			existingUser.setDateOfJoining(user.getDateOfJoining());
 			existingUser.setEmploymentStatus(user.getEmploymentStatus());
 			existingUser.setQualification(user.getQualification());
+			existingUser.setUpdatedBy(cuName);
+			existingUser.setUpdatedOn(currentDate);
 
 			userRepository.save(existingUser);
 			return ResponseEntity.ok("Success");
@@ -86,6 +94,10 @@ public class UserServiceImpl implements UserService {
 			user.setDateOfJoining(user.getDateOfJoining());
 			user.setEmploymentStatus(user.getEmploymentStatus());
 			user.setQualification(user.getQualification());
+			user.setCreatedBy(cuName);
+			user.setCreatedOn(currentDate);
+			user.setUpdatedBy(cuName);
+			user.setUpdatedOn(currentDate);
 			userRepository.save(user);
 
 			List<EmailTemplate> emailTemplates = emailTempRepo.findAll();
@@ -138,6 +150,29 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<UserEntity> readUserById(Long id) {
 		UserEntity user = userRepository.findById(id).get();
 		return ResponseEntity.ok(user);
+	}
+	
+	// get cookies using name
+	private String getCookie(String name) {
+		Cookie[] cookie = request.getCookies();
+		
+		if(cookie != null) {
+			for(Cookie cookies: cookie) {
+				if(cookies.getName().equals(name)) {
+					return cookies.getValue();
+				
+				}
+				
+			}
+		}
+		return "Unknown";
+	}
+	
+	private String getFullNameByCookie() {
+		String firstName = getCookie("username");
+		String lastName = getCookie("userLastName");
+		
+		return firstName + " " + lastName;
 	}
 
 }
