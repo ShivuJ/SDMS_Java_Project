@@ -80,7 +80,7 @@ $(document).ready(function() {
 				data: JSON.stringify(saveData),
 				success: function(response) {
 					console.log(response);
-					if (response.status == "Y") {
+					if (response == "Success") {
 						toastr.success("User Added Successfully...");
 						setTimeout(function() {
 							location.reload();
