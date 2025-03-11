@@ -10,18 +10,11 @@ The **School Database Management System (SDMS)** is a comprehensive platform des
 - Add, update, and manage **Teachers**, **Students**, and **Classes**.
 - Create and manage **Subjects** and assign them to teachers and classes.
 - Generate **Email Templates** for notifications and trigger them for events like teacher registration.
-- Configure and manage **Fee Structures**.
 
 ### **Teacher Features**
 - Manage student details for assigned classes.
 - **Mark Attendance** for each class and track records.
-- Create and assign **Assignments** with deadlines.
-- Schedule and manage **Exams**.
-
-### **Student Features**
-- Access and update personal profiles.
-- View class schedules, assignments, and exam details.
-- Check attendance records and fee payment status.
+- assign **Grades**.
 
 ---
 
@@ -33,3 +26,7 @@ The **School Database Management System (SDMS)** is a comprehensive platform des
 - **Online Fee Payment Integration**: Enable online payment options for fee submissions.
 - **Grade Management**: Teachers can add and track student grades for exams and assignments.
 - **Mobile App Support**: Extend functionality to mobile devices for better accessibility.
+- ### **Student Features**
+    - Access and update personal profiles.
+    - View class schedules, assignments, and exam details.
+    - Check attendance records and fee payment status.
