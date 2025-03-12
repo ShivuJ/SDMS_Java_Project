@@ -1,5 +1,6 @@
 package com.sdmsproject.sdms.ServiceImpl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,25 +13,42 @@ import com.sdmsproject.sdms.Repository.UserRepository;
 import com.sdmsproject.sdms.Service.ClassService;
 import com.sdmsproject.sdms.model.ClassEntity;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
 @Service
 public class ClassServiceImpl implements ClassService {
 
 	@Autowired
 	ClassRepository classRepository;
 	
+	@Autowired
+	HttpServletRequest request;
+	
 	@Override
 	public ResponseEntity<String> createClass(ClassEntity classEntity){
 		Long id = classEntity.getId();
+		
+		//creating variable for set value for Created On, Created By, Updated On, and Updated By
+		String cuName = getFullNameByCookie();
+		LocalDate currentDate = LocalDate.now();
 		
 		if(id != null) {
 			ClassEntity existingClass = classRepository.findById(id).get();
 			
 			existingClass.setStuClass(classEntity.getStuClass());
+			existingClass.setUpdatedBy(cuName);
+			existingClass.setUpdatedOn(currentDate);
 			
 			classRepository.save(existingClass);
 			
 			return ResponseEntity.ok("Success");
 		}else {
+			classEntity.setStuClass(classEntity.getStuClass());
+			classEntity.setCreatedBy(cuName);
+			classEntity.setCreatedOn(currentDate);
+			classEntity.setUpdatedBy(cuName);
+			classEntity.setUpdatedOn(currentDate);
 			classRepository.save(classEntity);
 			return ResponseEntity.ok("Success");
 		}
@@ -68,6 +86,26 @@ public class ClassServiceImpl implements ClassService {
 		return ResponseEntity.ok("Success");
 	}
 	
-	
+	// get Cookie data
+		private String getCookiesData(String name) {
+			Cookie[] cookie = request.getCookies();
+			
+			if(cookie != null) {
+				for(Cookie cookies: cookie) {
+					if(cookies.getName().equals(name)) {
+						return cookies.getValue();
+					}
+				}
+			}
+			
+			return "Unknown";
+		}
+
+		private String getFullNameByCookie() {
+			String firstName = getCookiesData("username");
+			String lastName = getCookiesData("userLastName");
+			
+			return firstName + " " + lastName;
+		}
 	
 }
