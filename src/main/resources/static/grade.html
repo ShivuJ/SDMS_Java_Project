@@ -10,11 +10,11 @@
 	<!-- Font Awesome for icons -->
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-	<script src="./js/student.js"></script>
+	<script src="./js/grade.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 	<link href="./css/teacher.css" rel="stylesheet" />
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-		<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 </head>
 
 <body>
@@ -28,55 +28,21 @@
 	<div class="form-container" id="formContainer">
 		<form id="userForm">
 			<div class="form-row">
-				<input type="hidden" id="studentId" name="studentId" value="">
-				<div class="form-group">
-					<label for="firstName">First Name</label>
-					<input type="text" id="firstName" name="firstName" required>
-				</div>
-				<div class="form-group">
-					<label for="lastName">Last Name</label>
-					<input type="text" id="lastName" name="lastName" required>
-				</div>
-				<div class="form-group">
-					<label for="contact">Contact</label>
-					<input type="tel" id="stuContact" name="stuContact" maxlength="10" required>
-				</div>
-				<div class="form-group">
-					<label for="teacherEmail">Student Email</label>
-					<input type="email" id="stuEmail" name="stuEmail" required>
-				</div>
-			</div>
-
-			<div class="form-row">
-				<div class="form-group">
-					<label for="role">Is you Contact is WhatsApp number?</label>
-					<div id="whatsappRadio">
-						<input type="radio" id="whatsappYes" name="whatsappYes" value="Yes" checked>
-						<label for="whatsappYes">Yes</label>
-
-						<input type="radio" id="whatsappNo" name="whatsappNo" value="No">
-						<label for="whatsappNo">No</label>
-					</div>
-				</div>
-				<div class="form-group" hidden>
-					<label for="role">Role</label>
-					<select id="role" name="role" required>
-						<option value="" selected disabled hidden>Select Role</option>
-						<option value="Teacher">Teacher</option>
-						<option value="Admin">Admin</option>
-						<option value="Staff">Staff</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="stuClass">Class</label>
-					<select id="stuClass" name="stuClass" required>
-						<option value="" selected disabled hidden>Select Class</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="password">Password</label>
-					<input type="password" id="stuPassword" name="stuPassword" required>
-				</div>
+				<table id="assignGradeForm" class="table-container">
+					<thead>
+						<tr>
+							<th>Class</th>
+							<th>Student Name</th>
+							<th>Subject</th>
+							<th>Assessment Marks</th>
+							<th>Exam Marks</th>
+							<th>Total Marks</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Dynamic content will go here -->
+					</tbody>
+				</table>
 			</div>
 
 			<div class="form-row">
@@ -91,13 +57,12 @@
 		<table class="stuTable">
 			<thead>
 				<tr>
-					<th>Sr. No</th>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Email Id</th>
-					<th>Contact</th>
 					<th>Class</th>
-					<th>Password</th>
+					<th>Student Name</th>
+					<th>Subject</th>
+					<th>Assessment Marks</th>
+					<th>Exam Marks</th>
+					<th>Total Marks</th>
 					<th>Action</th>
 				</tr>
 			</thead>
