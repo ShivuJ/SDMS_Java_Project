@@ -39,6 +39,8 @@ public class LoginController {
 		setCookie(response, "userClass", loggedInUser.getTeacherClass().toString(), 1);
 		setCookie(response, "userRole", loggedInUser.getRole(), 1);
 		setCookie(response, "userLastName", loggedInUser.getLastName(), 1);
+		setCookie(response, "userId", loggedInUser.getId().toString(), 1);
+		setCookie(response, "userSubject", loggedInUser.getSubject().toString(), 1);
 		
 		// Redirect based on role
 		String redirectUrl = switch(loggedInUser.getRole()) {
