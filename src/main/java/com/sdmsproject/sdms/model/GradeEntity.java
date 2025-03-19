@@ -16,7 +16,7 @@ public class GradeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 	
 	private Long stuTeachClass;
 	private Long subject;
@@ -28,10 +28,10 @@ public class GradeEntity {
 	private LocalDate createdOn;
 	private LocalDate updatedOn;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Long getStuTeachClass() {
