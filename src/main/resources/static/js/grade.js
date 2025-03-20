@@ -11,6 +11,9 @@ $(document).ready(function() {
 	let stuCount = 0;
 	let stuClass = 0;
 	const stuClassObject = {};
+	const stuNameObject = {};
+	const stuId = {};
+	const subMap = {};
 	let teacherClass = getCookie("userClass");
 
 	function toggleUserBtn() {
@@ -33,7 +36,6 @@ $(document).ready(function() {
 
 	function getCookie(name) {
 		let cookies = document.cookie.split("; ");
-		console.log(cookies)
 		for (i = 0; i < cookies.length; i++) {
 			let cookie = cookies[i].split("=");
 			if (cookie[0] === name) {
@@ -74,16 +76,19 @@ $(document).ready(function() {
 					response.forEach(function(stu) {
 						const option = $('<option></option>').val(stu.id).text(stu.stuClass);
 						dropdown.append(option);
-						stuMap[stu.id] = stu.stuClass;
+						stuMap[stu.id] = stu.stuFirstName + " " + stu.stuLastName;
 
 					});
-					
+
 					stuCount = response.length;
 					for (let i = 0; i < stuCount; i++) {
 						stuClassObject[i] = response[i].stuClass;
-						
+						stuId[i] = response[i].id;
+						stuNameObject[i] = response[i].stuFirstName + " " + response[i].stuLastName;
+
 					}
 					console.log(stuClassObject);
+					console.log(stuNameObject);
 
 				}
 
@@ -93,27 +98,57 @@ $(document).ready(function() {
 
 	function addStuData() {
 		$("#className").val(getCookie("userClass"));
+		$("#subject").val(getCookie("userSubject"));
 		for (let i = 0; i < stuCount; i++) {
 			if (stuClassObject[i] === teacherClass) {
 				let html = `
 					<tr >
 							<td><input type="text" id="className" name="className" placeholder="${classMap[getCookie("userClass")]}" disabled></td>
-							<td><input type="text" id="stuName" name="studentName" placeholder="" disabled></td>
-							<td><input type="text" id="subject" name="subject" disabled></td>
-							<td><input type="number" id="assessmentMarks" name="assessmentMarks"></td>
-							<td><input type="number" id="examMarks" name="examMarks"></td>
-							<td><input type="number" id="totalMarks" name="totalMarks" disabled></td>
+							<td><input type="text" id="stuName${i}" name="studentName" placeholder="${stuNameObject[i]}" disabled></td>
+							<td><input type="text" id="subject" name="subject" placeholder="${subMap[getCookie("userSubject")]}" disabled></td>
+							<td><input type="number" id="assessmentMarks${i}" name="assessmentMarks" onchange="calMarks(${i})"></td>
+							<td><input type="number" id="examMarks${i}" name="examMarks" onchange="calMarks(${i})"></td>
+							<td><input type="number" id="totalMarks${i}" name="totalMarks" disabled></td>
 					</tr>
 				`
+				$("#stuName").val(stuId[i]);
 				$('#assignGradeForm tbody').append(html);
 			}
 		}
 
-
-
 	}
 
+	function getSubject() {
+		$.ajax({
+			url: '/readSubject',
+			type: 'GET',
+			success: function(response) {
+				console.log(response)
+				if (Array.isArray(response)) {
+					const dropdown = $('#stuClass');
+					response.forEach(function(sub) {
+						const option = $('<option></option>').val(sub.id).text(sub.stuClass);
+						dropdown.append(option);
+						subMap[sub.id] = sub.subject;
+					});
+
+				}
+
+			}
+		});
+	}
+	
+	function calMarks(index){
+		let assessment = parseInt($(`#assessmentMarks${index}`).val());
+		let exam = parseInt($(`#examMarks${index}`).val());
+		
+		let totalMarks= assessment + exam;
+		$(`#totalMarks${index}`).val(totalMarks);
+		
+		
+	}
 
 	getClasses();
 	getStudent();
+	getSubject();
 });
