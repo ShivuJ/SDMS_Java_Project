@@ -96,6 +96,16 @@ $(document).ready(function() {
 		});
 	}
 
+	function calMarks(index) {
+		let assessment = parseInt($(`#assessmentMarks${index}`).val()) || 0;
+		let exam = parseInt($(`#examMarks${index}`).val()) || 0;
+
+		let totalMarks = assessment + exam;
+		$(`#totalMarks${index}`).val(totalMarks);
+
+
+	}
+
 	function addStuData() {
 		$("#className").val(getCookie("userClass"));
 		$("#subject").val(getCookie("userSubject"));
@@ -115,6 +125,11 @@ $(document).ready(function() {
 				$('#assignGradeForm tbody').append(html);
 			}
 		}
+
+		$(`[id^=assessmentMarks], [id^=examMarks]`).on('input', function() {
+			let index = $(this).attr('id').replace(/\D/g, ''); // Extract numeric index
+			calMarks(index);
+		});
 
 	}
 
@@ -137,16 +152,8 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
-	function calMarks(index){
-		let assessment = parseInt($(`#assessmentMarks${index}`).val());
-		let exam = parseInt($(`#examMarks${index}`).val());
-		
-		let totalMarks= assessment + exam;
-		$(`#totalMarks${index}`).val(totalMarks);
-		
-		
-	}
+
+
 
 	getClasses();
 	getStudent();
