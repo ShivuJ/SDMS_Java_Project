@@ -1,5 +1,7 @@
 package com.sdmsproject.sdms.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,7 +18,7 @@ public class GradeController {
 	GradeService gradeService;
 	
 	@PostMapping("/assignGrade")
-	public ResponseEntity<String> assignGrade(@RequestBody GradeEntity grade){
+	public ResponseEntity<String> assignGrade(@RequestBody List<GradeEntity> grade){
 		ResponseEntity<String> response = gradeService.assignGrade(grade);
 		
 		System.out.println("Grade Assigned: " + grade);

@@ -30,7 +30,10 @@ $(document).ready(function() {
 	}
 
 	$('#submit').click(function() {
-
+		assignGrade();
+		$('#assignGradeForm tbody').empty();
+		toggleUserBtn();
+		
 	});
 
 
@@ -112,12 +115,13 @@ $(document).ready(function() {
 		for (let i = 0; i < stuCount; i++) {
 			if (stuClassObject[i] === teacherClass) {
 				let html = `
-					<tr >
+					<tr data-id = "">
+							<td>${i+1}</td>
 							<td><input type="text" id="className" name="className" placeholder="${classMap[getCookie("userClass")]}" disabled></td>
 							<td><input type="text" id="stuName${i}" name="studentName" placeholder="${stuNameObject[i]}" disabled></td>
 							<td><input type="text" id="subject" name="subject" placeholder="${subMap[getCookie("userSubject")]}" disabled></td>
-							<td><input type="number" id="assessmentMarks${i}" name="assessmentMarks" onchange="calMarks(${i})"></td>
-							<td><input type="number" id="examMarks${i}" name="examMarks" onchange="calMarks(${i})"></td>
+							<td><input type="number" id="assessmentMarks${i}" name="assessmentMarks"></td>
+							<td><input type="number" id="examMarks${i}" name="examMarks"></td>
 							<td><input type="number" id="totalMarks${i}" name="totalMarks" disabled></td>
 					</tr>
 				`
@@ -153,6 +157,96 @@ $(document).ready(function() {
 		});
 	}
 
+	/*function getGradeData() {
+		return {
+			
+			id: $('#gradeId').val(),
+			stuTeachClass: $('#className').val(),
+			stuName: $('#class').val(),
+			
+		}
+	}*/
+
+	function submitGrade() {
+		let studentData = [];
+
+		document.querySelectorAll('#assignGradeForm tbody tr').forEach((row, index) => {
+			let idInput = row.querySelector(`[id^=gradeId]`);
+			let id = idInput ? idInput.value : "";
+			
+			let className = getCookie("userClass");
+			
+			let stuName = $(`#stuName${(index+1)}`).val();;
+			
+			let subject = getCookie("userSubject");
+			
+			let assessmentMarksInput = row.querySelector(`[id^=assessmentMarks]`);
+			let assessmentMarks = assessmentMarksInput ? assessmentMarksInput.value : 0;
+			
+			let examMarksInput = row.querySelector(`[id^=examMarks]`);
+			let examMarks = examMarksInput ? examMarksInput.value : 0;
+			
+			let totalMarksInput = row.querySelector(`[id^=totalMarks]`);
+			let totalMarks = totalMarksInput ? totalMarksInput.value : 0;
+
+			let studentObj = {
+				id: id,
+				stuTeachClass: className,
+				stuName: stuName,
+				subject: subject,
+				assessmentMarks: parseInt(assessmentMarks),
+				examMarks: parseInt(examMarks),
+				totalMarks: parseInt(totalMarks)
+			};
+
+			studentData.push(studentObj);
+
+		});
+
+		console.log(studentData);
+	}
+
+	function isValidate() {
+	    let isValid = true;
+
+	    $("#assignGradeForm tbody tr").each(function(index, row) {
+	        let assessmentMarks = $(row).find(`[id^=assessmentMarks]`).val();
+	        let examMarks = $(row).find(`[id^=examMarks]`).val();
+
+	        if (!assessmentMarks || assessmentMarks.trim() === "") {
+	            toastr.error(`Please add Assessment Marks for Student ${index + 1}`);
+	            isValid = false;
+	        }
+
+	        if (!examMarks || examMarks.trim() === "") {
+	            toastr.error(`Please add Exam Marks for Student ${index + 1}`);
+	            isValid = false;
+	        }
+	    });
+
+	    return isValid;
+	}
+
+	function assignGrade() {
+		let studentData = submitGrade();
+		if (isValidate()) {
+			$.ajax({
+				url: '/assignGrade',
+				type: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(studentData),
+				dataType: 'JSON',
+				success: function(response) {
+					if (response == 200) {
+						toastr.success("Data Save Successfully");
+					} else {
+						toastr.error("Something went wrong");
+					}
+				}
+
+			});
+		}
+	}
 
 
 	getClasses();

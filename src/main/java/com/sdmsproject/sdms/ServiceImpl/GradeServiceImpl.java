@@ -26,15 +26,12 @@ public class GradeServiceImpl implements GradeService {
 	HttpServletRequest request;
 
 	@Override
-	public ResponseEntity<String> assignGrade(GradeEntity grade) {
+	public ResponseEntity<String> assignGrade(List<GradeEntity> grade) {
 		
-		Long id = grade.getId();
 		LocalDate currentDate = LocalDate.now();
 		
-		List<GradeEntity> grade1 = new ArrayList<>();
-		
-		for(GradeEntity grades: grade1) {
-			if(id == null) {
+		for(GradeEntity grades: grade) {
+			if(grades.getId() == null) {
 				grades.setId(grades.getId());
 				grades.setStuTeachClass(grades.getStuTeachClass());
 				grades.setSubject(grades.getSubject());
