@@ -20,7 +20,7 @@ public class GradeEntity {
 	
 	private Long stuTeachClass;
 	private Long subject;
-	private String stuName;
+	private Long stuName;
 	private int assessmentMarks;
 	private int examMarks;
 	private int totalMarks;
@@ -46,10 +46,10 @@ public class GradeEntity {
 	public void setSubject(Long subject) {
 		this.subject = subject;
 	}
-	public String getStuName() {
+	public Long getStuName() {
 		return stuName;
 	}
-	public void setStuName(String stuName) {
+	public void setStuName(Long stuName) {
 		this.stuName = stuName;
 	}
 	public int getAssessmentMarks() {
