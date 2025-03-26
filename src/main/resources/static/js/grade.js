@@ -116,9 +116,9 @@ $(document).ready(function() {
 			if (stuClassObject[i] === teacherClass) {
 				let html = `
 					<tr data-id = "">
-							<td>${i+1}</td>
+							<td>${i}</td>
 							<td><input type="text" id="className" name="className" placeholder="${classMap[getCookie("userClass")]}" disabled></td>
-							<td><input type="text" id="stuName${i}" name="studentName" placeholder="${stuNameObject[i]}" disabled></td>
+							<td><input type="text" id="stuName${i}" name="studentName" placeholder="${stuNameObject[i]}" data-id="${stuId[i]}" disabled></td>
 							<td><input type="text" id="subject" name="subject" placeholder="${subMap[getCookie("userSubject")]}" disabled></td>
 							<td><input type="number" id="assessmentMarks${i}" name="assessmentMarks"></td>
 							<td><input type="number" id="examMarks${i}" name="examMarks"></td>
@@ -176,7 +176,9 @@ $(document).ready(function() {
 			
 			let className = getCookie("userClass");
 			
-			let stuName = $(`#stuName${(index+1)}`).val();;
+			let stuNameInput = row.querySelector(`[id^=stuName]`);
+			let stuName = stuNameInput ? stuNameInput.getAttribute("data-id") : "";
+			/*let stuName = $(`#stuName${index}`).val();*/
 			
 			let subject = getCookie("userSubject");
 			
@@ -204,6 +206,7 @@ $(document).ready(function() {
 		});
 
 		console.log(studentData);
+		return studentData;
 	}
 
 	function isValidate() {

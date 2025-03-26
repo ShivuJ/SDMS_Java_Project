@@ -43,9 +43,7 @@ public class GradeServiceImpl implements GradeService {
 				grades.setCreatedOn(currentDate);
 				grades.setUpdatedOn(currentDate);
 				
-				gradeRepo.save(grades);
-				return ResponseEntity.ok("Success");
-				
+				gradeRepo.save(grades);				
 			}
 		}
 		
