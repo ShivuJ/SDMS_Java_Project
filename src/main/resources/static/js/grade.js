@@ -33,7 +33,7 @@ $(document).ready(function() {
 		assignGrade();
 		$('#assignGradeForm tbody').empty();
 		toggleUserBtn();
-		
+
 	});
 
 
@@ -173,21 +173,21 @@ $(document).ready(function() {
 		document.querySelectorAll('#assignGradeForm tbody tr').forEach((row, index) => {
 			let idInput = row.querySelector(`[id^=gradeId]`);
 			let id = idInput ? idInput.value : "";
-			
+
 			let className = getCookie("userClass");
-			
+
 			let stuNameInput = row.querySelector(`[id^=stuName]`);
 			let stuName = stuNameInput ? stuNameInput.getAttribute("data-id") : "";
 			/*let stuName = $(`#stuName${index}`).val();*/
-			
+
 			let subject = getCookie("userSubject");
-			
+
 			let assessmentMarksInput = row.querySelector(`[id^=assessmentMarks]`);
 			let assessmentMarks = assessmentMarksInput ? assessmentMarksInput.value : 0;
-			
+
 			let examMarksInput = row.querySelector(`[id^=examMarks]`);
 			let examMarks = examMarksInput ? examMarksInput.value : 0;
-			
+
 			let totalMarksInput = row.querySelector(`[id^=totalMarks]`);
 			let totalMarks = totalMarksInput ? totalMarksInput.value : 0;
 
@@ -210,24 +210,24 @@ $(document).ready(function() {
 	}
 
 	function isValidate() {
-	    let isValid = true;
+		let isValid = true;
 
-	    $("#assignGradeForm tbody tr").each(function(index, row) {
-	        let assessmentMarks = $(row).find(`[id^=assessmentMarks]`).val();
-	        let examMarks = $(row).find(`[id^=examMarks]`).val();
+		$("#assignGradeForm tbody tr").each(function(index, row) {
+			let assessmentMarks = $(row).find(`[id^=assessmentMarks]`).val();
+			let examMarks = $(row).find(`[id^=examMarks]`).val();
 
-	        if (!assessmentMarks || assessmentMarks.trim() === "") {
-	            toastr.error(`Please add Assessment Marks for Student ${index + 1}`);
-	            isValid = false;
-	        }
+			if (!assessmentMarks || assessmentMarks.trim() === "") {
+				toastr.error(`Please add Assessment Marks for Student ${index + 1}`);
+				isValid = false;
+			}
 
-	        if (!examMarks || examMarks.trim() === "") {
-	            toastr.error(`Please add Exam Marks for Student ${index + 1}`);
-	            isValid = false;
-	        }
-	    });
+			if (!examMarks || examMarks.trim() === "") {
+				toastr.error(`Please add Exam Marks for Student ${index + 1}`);
+				isValid = false;
+			}
+		});
 
-	    return isValid;
+		return isValid;
 	}
 
 	function assignGrade() {
@@ -250,6 +250,45 @@ $(document).ready(function() {
 			});
 		}
 	}
+	
+	
+	function loadGrades(){
+
+	$.ajax({
+		url: '/getStudentMarks',
+		type: 'GET',
+		success: function(response) {
+			console.log(response);
+			let html = "";
+
+			response.forEach((grade, i) => {
+				const className = classMap[grade.stuTeachClass];
+				const stuName = stuMap[grade.stuName];
+				const subName = subMap[grade.subject]
+				html = `
+					<tr data-id="${grade.id}">
+						<td>${i+1}</td>
+						<td>${className}</td>
+						<td>${stuName}</td>
+						<td>${subName}</td>
+						<td>${grade.assessmentMarks}</td>
+						<td>${grade.examMarks}</td>
+						<td>${grade.totalMarks}</td>
+						<td>
+							<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
+						</td>
+					</tr>
+					
+				`
+				$('.gradeTable tbody').append(html);
+			});
+			
+			
+		}
+	});
+	}
+	
+	loadGrades();
 
 
 	getClasses();

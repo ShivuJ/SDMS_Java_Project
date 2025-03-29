@@ -4,14 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.sdmsproject.sdms.Service.GradeService;
 import com.sdmsproject.sdms.model.GradeEntity;
 
-@Controller
+@RestController
 public class GradeController {
 	
 	@Autowired
@@ -23,6 +24,11 @@ public class GradeController {
 		
 		System.out.println("Grade Assigned: " + grade);
 		return response;
+	}
+	
+	@GetMapping("/getStudentMarks")
+	public List<GradeEntity> readAllStuMarks(){
+		return gradeService.readAllStuMarks();
 	}
 	
 }

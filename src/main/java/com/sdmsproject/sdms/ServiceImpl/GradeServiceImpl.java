@@ -65,11 +65,29 @@ public class GradeServiceImpl implements GradeService {
 		return "Unknown";
 	}
 	
-	private String getFullNameByCookie() {
-		String firstName = getCookie("username");
-		String lastName = getCookie("userLastName");
+
+	@Override
+	public List<GradeEntity> readAllStuMarks() {
+
+		List<GradeEntity> gradeList = gradeRepo.findAll();
+		List<GradeEntity> grades = new ArrayList<>();
 		
-		return firstName + " " + lastName;
+		for(GradeEntity gradeEntity: gradeList) {
+			
+			if(getCookie("userClass").equals(gradeEntity.getStuTeachClass().toString())) {
+				GradeEntity getGrades = new GradeEntity();
+				getGrades.setId(gradeEntity.getId());
+				getGrades.setStuTeachClass(gradeEntity.getStuTeachClass());
+				getGrades.setSubject(gradeEntity.getSubject());
+				getGrades.setStuName(gradeEntity.getStuName());
+				getGrades.setAssessmentMarks(gradeEntity.getAssessmentMarks());
+				getGrades.setExamMarks(gradeEntity.getExamMarks());
+				getGrades.setTotalMarks(gradeEntity.getTotalMarks());
+				grades.add(getGrades);
+			}
+		}
+		
+		return grades;
 	}
 
 }
