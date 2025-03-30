@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,12 @@ public class GradeController {
 	@GetMapping("/getStudentMarks")
 	public List<GradeEntity> readAllStuMarks(){
 		return gradeService.readAllStuMarks();
+	}
+	
+	@GetMapping("/editMarks/{id}")
+	public ResponseEntity<GradeEntity> readStuById(@PathVariable Long id){
+		ResponseEntity<GradeEntity> response = gradeService.readGradeById(id);
+		return response;
 	}
 	
 }

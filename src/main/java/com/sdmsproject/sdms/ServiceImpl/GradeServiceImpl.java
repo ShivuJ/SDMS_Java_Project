@@ -44,6 +44,18 @@ public class GradeServiceImpl implements GradeService {
 				grades.setUpdatedOn(currentDate);
 				
 				gradeRepo.save(grades);				
+			}else {
+				grades.setId(grades.getId());
+				grades.setStuTeachClass(grades.getStuTeachClass());
+				grades.setSubject(grades.getSubject());
+				grades.setStuName(grades.getStuName());
+				grades.setAssessmentMarks(grades.getAssessmentMarks());
+				grades.setExamMarks(grades.getExamMarks());
+				grades.setTotalMarks(grades.getTotalMarks());
+				grades.setTeacherId(grades.getTeacherId());
+				grades.setUpdatedOn(currentDate);
+				
+				gradeRepo.save(grades);
 			}
 		}
 		
@@ -90,4 +102,11 @@ public class GradeServiceImpl implements GradeService {
 		return grades;
 	}
 
+	@Override
+	public ResponseEntity<GradeEntity> readGradeById(Long id) {
+		GradeEntity grade = gradeRepo.findById(id).get();
+		return ResponseEntity.ok(grade);
+	}
+
+	
 }
