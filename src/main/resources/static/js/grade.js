@@ -36,6 +36,17 @@ $(document).ready(function() {
 
 	});
 
+	$('#gradeTable').on('click', '#editBtn', function() {
+		$('#submit').text("Update");
+		toggleUserBtn();
+		var id = $(this).closest('tr').data("id");
+		if (id) {
+			editMarks(id);
+		} else {
+			toastr.error("Id is null");
+		}
+	})
+
 
 	function getCookie(name) {
 		let cookies = document.cookie.split("; ");
@@ -250,28 +261,28 @@ $(document).ready(function() {
 			});
 		}
 	}
-	
-	
-	function loadGrades(){
 
-	$.ajax({
-		url: '/getStudentMarks',
-		type: 'GET',
-		success: function(response) {
-			console.log(response);
-			let html = "";
 
-			response.forEach((grade, i) => {
-				const className = classMap[grade.stuTeachClass];
-				const stuName = stuMap[grade.stuName];
-				const subName = subMap[grade.subject]
-				html = `
+	function loadGrades() {
+
+		$.ajax({
+			url: '/getStudentMarks',
+			type: 'GET',
+			success: function(response) {
+				console.log(response);
+				let html = "";
+
+				response.forEach((grade, i) => {
+					const className = classMap[grade.stuTeachClass];
+					const stuName = stuMap[grade.stuName];
+					const subName = subMap[grade.subject]
+					html = `
 					<tr data-id="${grade.id}">
-						<td>${i+1}</td>
+						<td>${i + 1}</td>
 						<td>${className}</td>
 						<td>${stuName}</td>
 						<td>${subName}</td>
-						<td>${grade.assessmentMarks}</td>
+						<td><span class="marks">${grade.assessmentMarks}</span> <input type="number" class="edit-input" value=`${grade.assessmentMarks}` style="display:none"></td>
 						<td>${grade.examMarks}</td>
 						<td>${grade.totalMarks}</td>
 						<td>
@@ -280,14 +291,25 @@ $(document).ready(function() {
 					</tr>
 					
 				`
-				$('.gradeTable tbody').append(html);
-			});
-			
-			
-		}
-	});
+					$('#gradeTable tbody').append(html);
+				});
+
+
+			}
+		});
 	}
-	
+
+	function editMarks(id) {
+		$.ajax({
+			url: '/editMarks/' + id,
+			type: 'GET',
+			success: function(res) {
+				console.log(res);
+				$('a')
+			}
+		})
+	}
+
 	loadGrades();
 
 
