@@ -15,12 +15,19 @@ $(document).ready(function() {
 	const stuId = {};
 	const subMap = {};
 	let teacherClass = getCookie("userClass");
+	let selectedId = null;
 
-	function toggleUserBtn() {
+	function toggleUserBtn(id) {
 		const formContainer = document.getElementById('formContainer');
 		if (formContainer.style.display === 'none' || formContainer.style.display === '') {
 			formContainer.style.display = 'block';
-			addStuData();
+
+			if (id) {
+				editMarks(id);
+			} else {
+				addStuData();
+			}
+
 
 		} else {
 			formContainer.style.display = 'none';
@@ -30,21 +37,24 @@ $(document).ready(function() {
 	}
 
 	$('#submit').click(function() {
-		assignGrade();
-		$('#assignGradeForm tbody').empty();
-		toggleUserBtn();
+		if ($('#submit').text() === "Update") {
+			assignGrade();
+			$('#assignGradeForm tbody').empty();
+			toggleUserBtn(id);
+		} else {
+			assignGrade();
+			$('#assignGradeForm tbody').empty();
+			toggleUserBtn(id);
+		}
 
 	});
 
 	$('#gradeTable').on('click', '#editBtn', function() {
 		$('#submit').text("Update");
-		toggleUserBtn();
-		var id = $(this).closest('tr').data("id");
-		if (id) {
-			editMarks(id);
-		} else {
-			toastr.error("Id is null");
-		}
+
+		selectedId = $(this).closest('tr').data("id");
+		toggleUserBtn(selectedId);
+		$('#assignGradeForm tbody tr[data-temp="true"]').remove();
 	})
 
 
@@ -110,6 +120,30 @@ $(document).ready(function() {
 		});
 	}
 
+	function getSubject() {
+		$.ajax({
+			url: '/readSubject',
+			type: 'GET',
+			success: function(response) {
+				console.log(response)
+				if (Array.isArray(response)) {
+					const dropdown = $('#stuClass');
+					response.forEach(function(sub) {
+						const option = $('<option></option>').val(sub.id).text(sub.stuClass);
+						dropdown.append(option);
+						subMap[sub.id] = sub.subject;
+					});
+
+				}
+
+			}
+		});
+	}
+
+	getClasses();
+	getStudent();
+	getSubject();
+
 	function calMarks(index) {
 		let assessment = parseInt($(`#assessmentMarks${index}`).val()) || 0;
 		let exam = parseInt($(`#examMarks${index}`).val()) || 0;
@@ -148,25 +182,7 @@ $(document).ready(function() {
 
 	}
 
-	function getSubject() {
-		$.ajax({
-			url: '/readSubject',
-			type: 'GET',
-			success: function(response) {
-				console.log(response)
-				if (Array.isArray(response)) {
-					const dropdown = $('#stuClass');
-					response.forEach(function(sub) {
-						const option = $('<option></option>').val(sub.id).text(sub.stuClass);
-						dropdown.append(option);
-						subMap[sub.id] = sub.subject;
-					});
 
-				}
-
-			}
-		});
-	}
 
 	/*function getGradeData() {
 		return {
@@ -182,8 +198,9 @@ $(document).ready(function() {
 		let studentData = [];
 
 		document.querySelectorAll('#assignGradeForm tbody tr').forEach((row, index) => {
-			let idInput = row.querySelector(`[id^=gradeId]`);
-			let id = idInput ? idInput.value : "";
+			/*let idInput = row.querySelector(`[id^=gradeId]`);
+			let id = idInput ? idInput.value : "";*/
+			let id = selectedId;
 
 			let className = getCookie("userClass");
 
@@ -282,7 +299,7 @@ $(document).ready(function() {
 						<td>${className}</td>
 						<td>${stuName}</td>
 						<td>${subName}</td>
-						<td><span class="marks">${grade.assessmentMarks}</span> <input type="number" class="edit-input" value=`${grade.assessmentMarks}` style="display:none"></td>
+						<td>${grade.assessmentMarks}</td>
 						<td>${grade.examMarks}</td>
 						<td>${grade.totalMarks}</td>
 						<td>
@@ -305,15 +322,38 @@ $(document).ready(function() {
 			type: 'GET',
 			success: function(res) {
 				console.log(res);
-				$('a')
+				const className = classMap[res.stuTeachClass];
+				const stuName = stuMap[res.stuName];
+				const subject = subMap[res.subject];
+				$('#className').val(className);
+				$('#stuName').val(stuName);
+				$('#subject').val(subject);
+
+
+				let html = `
+				<tr data-id = "${res.id}">
+						<td>${1}</td>
+						<td><input type="text" id="className" name="className" placeholder="${className}" disabled></td>
+						<td><input type="text" id="stuName" name="studentName" placeholder="${stuName}" disabled></td>
+						<td><input type="text" id="subject" name="subject" placeholder="${subject}" disabled></td>
+						<td><input type="number" id="assessmentMarks${1}" name="assessmentMarks" value="${res.assessmentMarks}"></td>
+						<td><input type="number" id="examMarks${1}" name="examMarks" value="${res.examMarks}"></td>
+						<td><input type="number" id="totalMarks${1}" name="totalMarks" value="${res.totalMarks}" disabled></td>
+				</tr>
+									
+						`
+				/*$('#assessmentMarks').val(res.assessmentMarks);
+				$('#examMarks').val(res.examMarks);
+				$('#totalMarks').val(res.totalMarks);*/
+				$('#assignGradeForm tbody').append(html);
+
+				$(`[id^=assessmentMarks], [id^=examMarks]`).on('input', function() {
+					let index = $(this).attr('id').replace(/\D/g, ''); // Extract numeric index
+					calMarks(index);
+				});
 			}
 		})
 	}
 
 	loadGrades();
-
-
-	getClasses();
-	getStudent();
-	getSubject();
 });
