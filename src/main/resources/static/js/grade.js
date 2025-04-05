@@ -325,23 +325,22 @@ $(document).ready(function() {
 				const className = classMap[res.stuTeachClass];
 				const stuName = stuMap[res.stuName];
 				const subject = subMap[res.subject];
-				$('#className').val(className);
-				$('#stuName').val(stuName);
-				$('#subject').val(subject);
-
+				$('#className').val(res.stuTeachClass);
+				$('#subject').val(res.subject);
 
 				let html = `
 				<tr data-id = "${res.id}">
 						<td>${1}</td>
 						<td><input type="text" id="className" name="className" placeholder="${className}" disabled></td>
-						<td><input type="text" id="stuName" name="studentName" placeholder="${stuName}" disabled></td>
+						<td><input type="text" id="stuName${1}" name="studentName" placeholder="${stuName}" data-id="${res.stuName}" disabled></td>
 						<td><input type="text" id="subject" name="subject" placeholder="${subject}" disabled></td>
 						<td><input type="number" id="assessmentMarks${1}" name="assessmentMarks" value="${res.assessmentMarks}"></td>
 						<td><input type="number" id="examMarks${1}" name="examMarks" value="${res.examMarks}"></td>
 						<td><input type="number" id="totalMarks${1}" name="totalMarks" value="${res.totalMarks}" disabled></td>
-				</tr>
-									
+				</tr>		
 						`
+				
+				$('#stuName').val(res.stuName);
 				/*$('#assessmentMarks').val(res.assessmentMarks);
 				$('#examMarks').val(res.examMarks);
 				$('#totalMarks').val(res.totalMarks);*/
