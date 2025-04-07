@@ -25,3 +25,14 @@ ul li {
 #headerImg {
 	height: 50px;
 }
+
+.logout-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.logoutImg {
+  height: 25px;
+}

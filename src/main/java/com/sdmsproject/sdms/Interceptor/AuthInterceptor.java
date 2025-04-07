@@ -12,7 +12,8 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // Skip authentication check for login and index pages
-        if (request.getRequestURI().equals("/") || request.getRequestURI().equals("/login")) {
+    	
+        if (request.getRequestURI().equals("/") || request.getRequestURI().equals("/login") || request.getRequestURI().equals("/logout")) {
             return true;
         }
 

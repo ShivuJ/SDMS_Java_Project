@@ -15,12 +15,19 @@ $(document).ready(function() {
 	const stuId = {};
 	const subMap = {};
 	let teacherClass = getCookie("userClass");
+	let selectedId = null;
 
-	function toggleUserBtn() {
+	function toggleUserBtn(id) {
 		const formContainer = document.getElementById('formContainer');
 		if (formContainer.style.display === 'none' || formContainer.style.display === '') {
 			formContainer.style.display = 'block';
-			addStuData();
+
+			if (id) {
+				editMarks(id);
+			} else {
+				addStuData();
+			}
+
 
 		} else {
 			formContainer.style.display = 'none';
@@ -30,11 +37,25 @@ $(document).ready(function() {
 	}
 
 	$('#submit').click(function() {
-		assignGrade();
-		$('#assignGradeForm tbody').empty();
-		toggleUserBtn();
-		
+		if ($('#submit').text() === "Update") {
+			assignGrade();
+			$('#assignGradeForm tbody').empty();
+			toggleUserBtn(id);
+		} else {
+			assignGrade();
+			$('#assignGradeForm tbody').empty();
+			toggleUserBtn(id);
+		}
+
 	});
+
+	$('#gradeTable').on('click', '#editBtn', function() {
+		$('#submit').text("Update");
+
+		selectedId = $(this).closest('tr').data("id");
+		toggleUserBtn(selectedId);
+		$('#assignGradeForm tbody tr[data-temp="true"]').remove();
+	})
 
 
 	function getCookie(name) {
@@ -99,6 +120,30 @@ $(document).ready(function() {
 		});
 	}
 
+	function getSubject() {
+		$.ajax({
+			url: '/readSubject',
+			type: 'GET',
+			success: function(response) {
+				console.log(response)
+				if (Array.isArray(response)) {
+					const dropdown = $('#stuClass');
+					response.forEach(function(sub) {
+						const option = $('<option></option>').val(sub.id).text(sub.stuClass);
+						dropdown.append(option);
+						subMap[sub.id] = sub.subject;
+					});
+
+				}
+
+			}
+		});
+	}
+
+	getClasses();
+	getStudent();
+	getSubject();
+
 	function calMarks(index) {
 		let assessment = parseInt($(`#assessmentMarks${index}`).val()) || 0;
 		let exam = parseInt($(`#examMarks${index}`).val()) || 0;
@@ -137,25 +182,7 @@ $(document).ready(function() {
 
 	}
 
-	function getSubject() {
-		$.ajax({
-			url: '/readSubject',
-			type: 'GET',
-			success: function(response) {
-				console.log(response)
-				if (Array.isArray(response)) {
-					const dropdown = $('#stuClass');
-					response.forEach(function(sub) {
-						const option = $('<option></option>').val(sub.id).text(sub.stuClass);
-						dropdown.append(option);
-						subMap[sub.id] = sub.subject;
-					});
 
-				}
-
-			}
-		});
-	}
 
 	/*function getGradeData() {
 		return {
@@ -171,23 +198,24 @@ $(document).ready(function() {
 		let studentData = [];
 
 		document.querySelectorAll('#assignGradeForm tbody tr').forEach((row, index) => {
-			let idInput = row.querySelector(`[id^=gradeId]`);
-			let id = idInput ? idInput.value : "";
-			
+			/*let idInput = row.querySelector(`[id^=gradeId]`);
+			let id = idInput ? idInput.value : "";*/
+			let id = selectedId;
+
 			let className = getCookie("userClass");
-			
+
 			let stuNameInput = row.querySelector(`[id^=stuName]`);
 			let stuName = stuNameInput ? stuNameInput.getAttribute("data-id") : "";
 			/*let stuName = $(`#stuName${index}`).val();*/
-			
+
 			let subject = getCookie("userSubject");
-			
+
 			let assessmentMarksInput = row.querySelector(`[id^=assessmentMarks]`);
 			let assessmentMarks = assessmentMarksInput ? assessmentMarksInput.value : 0;
-			
+
 			let examMarksInput = row.querySelector(`[id^=examMarks]`);
 			let examMarks = examMarksInput ? examMarksInput.value : 0;
-			
+
 			let totalMarksInput = row.querySelector(`[id^=totalMarks]`);
 			let totalMarks = totalMarksInput ? totalMarksInput.value : 0;
 
@@ -210,24 +238,24 @@ $(document).ready(function() {
 	}
 
 	function isValidate() {
-	    let isValid = true;
+		let isValid = true;
 
-	    $("#assignGradeForm tbody tr").each(function(index, row) {
-	        let assessmentMarks = $(row).find(`[id^=assessmentMarks]`).val();
-	        let examMarks = $(row).find(`[id^=examMarks]`).val();
+		$("#assignGradeForm tbody tr").each(function(index, row) {
+			let assessmentMarks = $(row).find(`[id^=assessmentMarks]`).val();
+			let examMarks = $(row).find(`[id^=examMarks]`).val();
 
-	        if (!assessmentMarks || assessmentMarks.trim() === "") {
-	            toastr.error(`Please add Assessment Marks for Student ${index + 1}`);
-	            isValid = false;
-	        }
+			if (!assessmentMarks || assessmentMarks.trim() === "") {
+				toastr.error(`Please add Assessment Marks for Student ${index + 1}`);
+				isValid = false;
+			}
 
-	        if (!examMarks || examMarks.trim() === "") {
-	            toastr.error(`Please add Exam Marks for Student ${index + 1}`);
-	            isValid = false;
-	        }
-	    });
+			if (!examMarks || examMarks.trim() === "") {
+				toastr.error(`Please add Exam Marks for Student ${index + 1}`);
+				isValid = false;
+			}
+		});
 
-	    return isValid;
+		return isValid;
 	}
 
 	function assignGrade() {
@@ -252,7 +280,79 @@ $(document).ready(function() {
 	}
 
 
-	getClasses();
-	getStudent();
-	getSubject();
+	function loadGrades() {
+
+		$.ajax({
+			url: '/getStudentMarks',
+			type: 'GET',
+			success: function(response) {
+				console.log(response);
+				let html = "";
+
+				response.forEach((grade, i) => {
+					const className = classMap[grade.stuTeachClass];
+					const stuName = stuMap[grade.stuName];
+					const subName = subMap[grade.subject]
+					html = `
+					<tr data-id="${grade.id}">
+						<td>${i + 1}</td>
+						<td>${className}</td>
+						<td>${stuName}</td>
+						<td>${subName}</td>
+						<td>${grade.assessmentMarks}</td>
+						<td>${grade.examMarks}</td>
+						<td>${grade.totalMarks}</td>
+						<td>
+							<button type="button" id="editBtn" class="iconBtn" title="Edit"><img src="./img/edit.png" alt="Edit" style="cursor: pointer; height:20px">
+						</td>
+					</tr>
+					
+				`
+					$('#gradeTable tbody').append(html);
+				});
+
+
+			}
+		});
+	}
+
+	function editMarks(id) {
+		$.ajax({
+			url: '/editMarks/' + id,
+			type: 'GET',
+			success: function(res) {
+				console.log(res);
+				const className = classMap[res.stuTeachClass];
+				const stuName = stuMap[res.stuName];
+				const subject = subMap[res.subject];
+				$('#className').val(res.stuTeachClass);
+				$('#subject').val(res.subject);
+
+				let html = `
+				<tr data-id = "${res.id}">
+						<td>${1}</td>
+						<td><input type="text" id="className" name="className" placeholder="${className}" disabled></td>
+						<td><input type="text" id="stuName${1}" name="studentName" placeholder="${stuName}" data-id="${res.stuName}" disabled></td>
+						<td><input type="text" id="subject" name="subject" placeholder="${subject}" disabled></td>
+						<td><input type="number" id="assessmentMarks${1}" name="assessmentMarks" value="${res.assessmentMarks}"></td>
+						<td><input type="number" id="examMarks${1}" name="examMarks" value="${res.examMarks}"></td>
+						<td><input type="number" id="totalMarks${1}" name="totalMarks" value="${res.totalMarks}" disabled></td>
+				</tr>		
+						`
+				
+				$('#stuName').val(res.stuName);
+				/*$('#assessmentMarks').val(res.assessmentMarks);
+				$('#examMarks').val(res.examMarks);
+				$('#totalMarks').val(res.totalMarks);*/
+				$('#assignGradeForm tbody').append(html);
+
+				$(`[id^=assessmentMarks], [id^=examMarks]`).on('input', function() {
+					let index = $(this).attr('id').replace(/\D/g, ''); // Extract numeric index
+					calMarks(index);
+				});
+			}
+		})
+	}
+
+	loadGrades();
 });

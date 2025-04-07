@@ -31,7 +31,24 @@ public class GradeServiceImpl implements GradeService {
 		LocalDate currentDate = LocalDate.now();
 		
 		for(GradeEntity grades: grade) {
-			if(grades.getId() == null) {
+			Long id = grades.getId();
+			if( id != null) {
+				
+				GradeEntity existingGrade = gradeRepo.findById(id).get();
+				grades.setId(grades.getId());
+				grades.setStuTeachClass(grades.getStuTeachClass());
+				grades.setSubject(grades.getSubject());
+				grades.setStuName(grades.getStuName());
+				grades.setAssessmentMarks(grades.getAssessmentMarks());
+				grades.setExamMarks(grades.getExamMarks());
+				grades.setTotalMarks(grades.getTotalMarks());
+				grades.setTeacherId(grades.getTeacherId());
+				grades.setUpdatedOn(currentDate);
+				grades.setCreatedOn(existingGrade.getCreatedOn());
+				
+				gradeRepo.save(grades);
+							
+			}else {
 				grades.setId(grades.getId());
 				grades.setStuTeachClass(grades.getStuTeachClass());
 				grades.setSubject(grades.getSubject());
@@ -43,7 +60,7 @@ public class GradeServiceImpl implements GradeService {
 				grades.setCreatedOn(currentDate);
 				grades.setUpdatedOn(currentDate);
 				
-				gradeRepo.save(grades);				
+				gradeRepo.save(grades);	
 			}
 		}
 		
@@ -65,11 +82,36 @@ public class GradeServiceImpl implements GradeService {
 		return "Unknown";
 	}
 	
-	private String getFullNameByCookie() {
-		String firstName = getCookie("username");
-		String lastName = getCookie("userLastName");
+
+	@Override
+	public List<GradeEntity> readAllStuMarks() {
+
+		List<GradeEntity> gradeList = gradeRepo.findAll();
+		List<GradeEntity> grades = new ArrayList<>();
 		
-		return firstName + " " + lastName;
+		for(GradeEntity gradeEntity: gradeList) {
+			
+			if(getCookie("userClass").equals(gradeEntity.getStuTeachClass().toString())) {
+				GradeEntity getGrades = new GradeEntity();
+				getGrades.setId(gradeEntity.getId());
+				getGrades.setStuTeachClass(gradeEntity.getStuTeachClass());
+				getGrades.setSubject(gradeEntity.getSubject());
+				getGrades.setStuName(gradeEntity.getStuName());
+				getGrades.setAssessmentMarks(gradeEntity.getAssessmentMarks());
+				getGrades.setExamMarks(gradeEntity.getExamMarks());
+				getGrades.setTotalMarks(gradeEntity.getTotalMarks());
+				grades.add(getGrades);
+			}
+		}
+		
+		return grades;
 	}
 
+	@Override
+	public ResponseEntity<GradeEntity> readGradeById(Long id) {
+		GradeEntity grade = gradeRepo.findById(id).get();
+		return ResponseEntity.ok(grade);
+	}
+
+	
 }
