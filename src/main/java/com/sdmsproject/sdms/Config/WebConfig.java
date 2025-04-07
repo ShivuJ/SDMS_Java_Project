@@ -16,12 +16,21 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
-                .excludePathPatterns("/index.html", "/login", "/css/**", "/js/**", "/img/**", "/static/**"); 
-                // Exclude login page & static resources from interception
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/index.html",
+                        "/login",
+                        "/logout",         // 👈 Make sure logout is not blocked
+                        "/css/**",
+                        "/js/**",
+                        "/img/**",
+                        "/static/**"
+                );
     }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/");
     }
 }
