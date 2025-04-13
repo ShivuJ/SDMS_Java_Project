@@ -1,17 +1,20 @@
 package com.sdmsproject.sdms.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "strudent_db")
+@Table(name = "student_db")
 public class StudentEntity {
 
 	@Id
@@ -27,11 +30,15 @@ public class StudentEntity {
 	private String role = "Student";
 	private String stuClass;
 	private String stuPass;
+	private String rollNumber;
 	
 	private String createdBy;
 	private LocalDate createdOn;
 	private String updatedBy;
 	private LocalDate updatedOn;
+	
+	@OneToMany(mappedBy = "students", cascade = CascadeType.ALL)
+	private List<AttendanceEntity> attendance;
 	
 	public Long getId() {
 		return id;
@@ -116,6 +123,12 @@ public class StudentEntity {
 	}
 	public void setUpdatedOn(LocalDate updatedOn) {
 		this.updatedOn = updatedOn;
+	}
+	public String getRollNumber() {
+		return rollNumber;
+	}
+	public void setRollNumber(String string) {
+		this.rollNumber = string;
 	}
 	
 	
