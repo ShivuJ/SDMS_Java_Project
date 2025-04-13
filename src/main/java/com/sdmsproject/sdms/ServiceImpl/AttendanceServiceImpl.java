@@ -1,5 +1,10 @@
 package com.sdmsproject.sdms.ServiceImpl;
 
-public class AttendanceServiceImpl {
+import org.springframework.stereotype.Service;
+
+import com.sdmsproject.sdms.Service.AttendanceService;
+
+@Service
+public class AttendanceServiceImpl implements AttendanceService {
 
 }

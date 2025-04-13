@@ -54,7 +54,9 @@
         }
 
         .form-row .form-group input,
-        .form-row .form-group select {
+        .form-row .form-group select,
+		.form-row .table-container input,
+		.form-row .table-container select {
         	width: 100%;
         	padding: 8px;
         	border: 1px solid #ced4da;
