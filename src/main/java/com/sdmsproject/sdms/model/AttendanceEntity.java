@@ -63,6 +63,7 @@ public class AttendanceEntity {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
+	
 	public String getAttendance() {
 		return attendance;
 	}
