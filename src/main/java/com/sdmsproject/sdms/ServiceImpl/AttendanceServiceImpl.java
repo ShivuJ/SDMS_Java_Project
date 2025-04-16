@@ -27,8 +27,8 @@ public class AttendanceServiceImpl implements AttendanceService {
 	//Get list student by class
 	@Override
 	public List<StudentEntity> getStudentByClass() {
-		String classId = getCookie("userClass");
-		List<StudentEntity> student = stuRepo.findStudentByClass(Long.parseLong(classId));
+		long classId = Long.parseLong(getCookie("userClass"));
+		List<StudentEntity> student = stuRepo.findStudentByClass(classId);
 		return student;
 	}
 	

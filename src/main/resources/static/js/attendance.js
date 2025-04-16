@@ -12,6 +12,7 @@ $(document).ready(function() {
 		const formContainer = document.getElementById('formContainer');
 		if (formContainer.style.display === 'none' || formContainer.style.display === '') {
 			formContainer.style.display = 'block';
+			bindStudent();
 		} else {
 			formContainer.style.display = 'none';
 		}
@@ -30,7 +31,15 @@ $(document).ready(function() {
 	
 	});
 
-
+	function bindStudent(){
+		$.ajax({
+			url: '/attendance/students',
+			type: 'GET',
+			sucess: function(res){
+				console.log(res);
+			}
+		})
+	}
 	
 
 	/*function getClasses() {
