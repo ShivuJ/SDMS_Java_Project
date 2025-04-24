@@ -30,13 +30,24 @@ $(document).ready(function() {
 	$('#submit').click(function() {
 	
 	});
+	
+	function getCookie(name) {
+			let cookies = document.cookie.split("; ");
+			for (i = 0; i < cookies.length; i++) {
+				let cookie = cookies[i].split("=");
+				if (cookie[0] === name) {
+					return decodeURIComponent(cookie[1]);
+				}
+			}
+		}
 
 	function bindStudent(){
 		$.ajax({
 			url: '/attendance/students',
 			type: 'GET',
-			sucess: function(res){
+			success: function(res){
 				console.log(res);
+				$("#class").val(res.className);
 			}
 		})
 	}

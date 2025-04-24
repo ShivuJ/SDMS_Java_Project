@@ -15,6 +15,6 @@ public interface StudentRepository extends JpaRepository<StudentEntity , Long> {
 	@Query(value="SELECT COUNT(CASE WHEN stu_class= :stuClass THEN 1 END) AS total_student FROM student_db;", nativeQuery = true)
 	String countByClass(@Param("stuClass") String stuClass);
 	
-	@Query(value="select s.id as id, s.stu_first_name, s.stu_last_name, s.stu_class, s.roll_number from student_db s LEFT JOIN class_db cls on CAST(s.stu_class As BIGINT) = cls.id where CAST(s.stu_class As BIGINT) = :classId", nativeQuery = true)
+	@Query(value="select s.id as id, s.stu_first_name, s.stu_last_name, s.stu_class, s.roll_number, s.created_by, s.created_on, s.updated_on, s.updated_by, s.stu_email, s.role, s.stu_contact, s.status, s.stu_pass, s.stu_whatsapp, cls.stu_class as class_name from student_db s LEFT JOIN class_db cls on CAST(s.stu_class As BIGINT) = cls.id where CAST(s.stu_class As BIGINT) = :classId", nativeQuery = true)
 	List<StudentEntity> findStudentByClass(@Param("classId") Long classId);
 }

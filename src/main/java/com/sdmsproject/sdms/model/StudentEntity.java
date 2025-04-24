@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 @Data
@@ -31,6 +32,8 @@ public class StudentEntity {
 	private String stuClass;
 	private String stuPass;
 	private String rollNumber;
+	
+	private String className;
 	
 	private String createdBy;
 	private LocalDate createdOn;
@@ -129,6 +132,18 @@ public class StudentEntity {
 	}
 	public void setRollNumber(String string) {
 		this.rollNumber = string;
+	}
+	public String getClassName() {
+		return className;
+	}
+	public void setClassName(String className) {
+		this.className = className;
+	}
+	public List<AttendanceEntity> getAttendance() {
+		return attendance;
+	}
+	public void setAttendance(List<AttendanceEntity> attendance) {
+		this.attendance = attendance;
 	}
 	
 	
