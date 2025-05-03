@@ -29,9 +29,6 @@ public class SubjectEntity {
 	private LocalDate createdOn;
 	private String updatedBy;
 	private LocalDate updatedOn;
-	
-	@OneToMany(mappedBy = "subjects", cascade = CascadeType.ALL)
-	private List<AttendanceEntity> attendance;
 
 	public Long getId() {
 		return id;

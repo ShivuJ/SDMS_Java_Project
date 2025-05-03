@@ -26,12 +26,12 @@ public class AttendanceEntity {
 	@JoinColumn(name = "student_id")
 	private StudentEntity students;
 	
-	@ManyToOne
-	@JoinColumn(name = "subject_id")
-	private SubjectEntity subjects;
-	
 	private LocalDate date;
 	private String attendance;
+	private String createdBy;
+	private LocalDate createdOn;
+	private String updatedBy;
+	private LocalDate updatedOn;
 	
 	public Long getId() {
 		return id;
@@ -45,18 +45,6 @@ public class AttendanceEntity {
 	public void setClasses(ClassEntity classes) {
 		this.classes = classes;
 	}
-	public StudentEntity getStudents() {
-		return students;
-	}
-	public void setStudents(StudentEntity students) {
-		this.students = students;
-	}
-	public SubjectEntity getSubjects() {
-		return subjects;
-	}
-	public void setSubjects(SubjectEntity subjects) {
-		this.subjects = subjects;
-	}
 	public LocalDate getDate() {
 		return date;
 	}
@@ -69,6 +57,36 @@ public class AttendanceEntity {
 	}
 	public void setAttendance(String attendance) {
 		this.attendance = attendance;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public LocalDate getCreatedOn() {
+		return createdOn;
+	}
+	public void setCreatedOn(LocalDate createdOn) {
+		this.createdOn = createdOn;
+	}
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+	public LocalDate getUpdatedOn() {
+		return updatedOn;
+	}
+	public void setUpdatedOn(LocalDate updatedOn) {
+		this.updatedOn = updatedOn;
+	}
+	public StudentEntity getStudents() {
+		return students;
+	}
+	public void setStudents(StudentEntity students) {
+		this.students = students;
 	}
 	
 }
