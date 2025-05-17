@@ -1,6 +1,7 @@
 package com.sdmsproject.sdms.Controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdmsproject.sdms.Service.AttendanceService;
-import com.sdmsproject.sdms.model.AttendanceEntity;
 import com.sdmsproject.sdms.model.StudentEntity;
 
 @RestController
@@ -25,10 +25,10 @@ public class AttendanceController {
 	}
 	
 	@PostMapping("/generateAttendance")
-	public ResponseEntity<String> generateAttendance(@RequestBody List<AttendanceEntity> attendance){
+	public ResponseEntity<String> generateAttendance(@RequestBody List<Map<String, Object>> attendanceList){
 		
-		ResponseEntity<String> response = attendanceService.generateAttendace(attendance);
-		System.out.println("Attendance " + attendance);
+		ResponseEntity<String> response = attendanceService.generateAttendance(attendanceList);
+		System.out.println("Attendance " + attendanceList);
 		
 		return response;
 	}

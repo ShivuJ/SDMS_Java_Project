@@ -28,7 +28,7 @@ $(document).ready(function() {
 	}
 
 	$('#submit').click(function() {
-	
+		submitAttendance()
 	});
 	
 	function getCookie(name) {
@@ -41,68 +41,95 @@ $(document).ready(function() {
 			}
 		}
 
-	function bindStudent(){
-		$.ajax({
-			url: '/attendance/students',
-			type: 'GET',
-			success: function(res){
-				console.log(res);
-				res.forEach(student =>{
-					$("#class").val(res[0].className);
-					let fullName = student.stuFirstName + " " + student.stuLastName;
-					let html = `
-						<tr>
-							<td>${fullName}</td>
-							<td>${student.rollNumber}</td>
-							<td><select id="attendance" name="attendance" required>
-								<option value="" selected disabled hidden>Select Attendance</option>
-								<option value="present">Present</option>
-								<option value="absent">Absent</option>
-							</select></td>
-						</tr>
-							
-					`
-					$('#attendanceForm tbody').append(html);
-				})
-				
-			}
-		})
-	}
+		function bindStudent() {
+		    $.ajax({
+		        url: '/attendance/students',
+		        type: 'GET',
+		        success: function(res) {
+		            console.log(res);
+
+		            // Clear previous options
+		            $("#className").empty().append('<option value="" disabled selected hidden>Select Class</option>');
+
+		            // Get unique classes from res
+		            let uniqueClasses = new Map(); // Map to avoid duplicates: key = classId, value = className
+
+		            res.forEach(student => {
+		                uniqueClasses.set(student.stuClass, student.className); // assuming you have both in response
+		            });
+
+		            // Populate class dropdown
+		            uniqueClasses.forEach((className, classId) => {
+		                $("#className").append(`<option value="${classId}">${className}</option>`);
+		            });
+
+		            // Clear previous students
+		            $('#attendanceForm tbody').empty();
+
+		            // Append student rows
+		            res.forEach(student => {
+		                let fullName = student.stuFirstName + " " + student.stuLastName;
+		                let html = `
+		                    <tr>
+		                        <td>${fullName}</td>
+		                        <td data-id="${student.id}">${student.rollNumber}</td>
+		                        <td>
+		                            <select id="attendance_${student.id}" name="attendance" required>
+		                                <option value="" selected disabled hidden>Select Attendance</option>
+		                                <option value="Present">Present</option>
+		                                <option value="Absent">Absent</option>
+		                            </select>
+		                        </td>
+		                    </tr>
+		                `;
+		                $('#attendanceForm tbody').append(html);
+		            });
+		        }
+		    });
+		}
+
 	
-	/*function submitAttendance(){
+	function submitAttendance() {
 		let attendanceData = [];
-		
-		document.querySelectorAll('#attendanceForm tbody tr').forEach((row, index) => {
-			let id = selectedId;
-			
-			let className = row.querySelector(`[id^=className]`);
-			
-			let date = row.querySelector(`[id^=]`)
+
+		let className = document.getElementById("className").value;
+		let attendanceDate = document.getElementById("attendanceDate").value;
+
+		document.querySelectorAll('#attendanceForm tbody tr').forEach((row) => {
+			let studentId = row.getAttribute("data-id");
+
+			// Get the select dropdown using studentId in its ID
+			let attendanceStatusSelect = document.getElementById(`attendance_${studentId}`);
+			let attendanceStatus = attendanceStatusSelect ? attendanceStatusSelect.value : "Absent";
+
+			// Create the object for each student
+			let attendanceObj = {
+				studentId: studentId,
+				classId: className,
+				date: attendanceDate,
+				attendance: attendanceStatus
+			};
+
+			attendanceData.push(attendanceObj);
 		});
-		
-	}*/
-	
 
-	/*function getClasses() {
+		console.log("Final Attendance Data:", attendanceData);
+
+		// You can send it via AJAX here if needed
 		$.ajax({
-			url: '/getClasses',
-			type: 'GET',
-			success: function(response) {
-				console.log(response)
-				if (Array.isArray(response)) {
-					const dropdown = $('#stuClass');
-					response.forEach(function(cls) {
-						const option = $('<option></option>').val(cls.id).text(cls.stuClass);
-						dropdown.append(option);
-						classMap[cls.id] = cls.stuClass;
-					});
-
-				}
-
+			url: "/generateAttendance",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(attendanceData),
+			success: function (response) {
+				alert("Attendance saved successfully!");
+				document.getElementById("attendanceForm").reset();
+				$('#attendanceForm tbody').empty();
+			},
+			error: function (error) {
+				console.error("Error saving attendance:", error);
+				alert("Failed to save attendance.");
 			}
-		})
-	}*/
-
-
-	/*getClasses();*/
+		});
+	}
 });
