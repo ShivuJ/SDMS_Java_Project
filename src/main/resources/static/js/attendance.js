@@ -28,7 +28,7 @@ $(document).ready(function() {
 	}
 
 	$('#submit').click(function() {
-		submitAttendance()
+		submitAttendance();
 	});
 	
 	function getCookie(name) {
@@ -62,28 +62,36 @@ $(document).ready(function() {
 		            uniqueClasses.forEach((className, classId) => {
 		                $("#className").append(`<option value="${classId}">${className}</option>`);
 		            });
+					
+					window.allStudents = res;
 
-		            // Clear previous students
-		            $('#attendanceForm tbody').empty();
+					$("#className").on("change", function () {
+					    const selectedClassId = $(this).val();
+					    const filteredStudents = window.allStudents.filter(student => student.stuClass == selectedClassId);
 
-		            // Append student rows
-		            res.forEach(student => {
-		                let fullName = student.stuFirstName + " " + student.stuLastName;
-		                let html = `
-		                    <tr>
-		                        <td>${fullName}</td>
-		                        <td data-id="${student.id}">${student.rollNumber}</td>
-		                        <td>
-		                            <select id="attendance_${student.id}" name="attendance" required>
-		                                <option value="" selected disabled hidden>Select Attendance</option>
-		                                <option value="Present">Present</option>
-		                                <option value="Absent">Absent</option>
-		                            </select>
-		                        </td>
-		                    </tr>
-		                `;
-		                $('#attendanceForm tbody').append(html);
-		            });
+					    // Clear student table
+					    $('#attendanceForm tbody').empty();
+
+					    // Populate student table
+					    filteredStudents.forEach(student => {
+					        let fullName = student.stuFirstName + " " + student.stuLastName;
+					        let html = `
+					            <tr data-id="${student.id}">
+					                <td>${fullName}</td>
+					                <td>${student.rollNumber}</td>
+					                <td>
+					                    <select id="attendance_${student.id}" name="attendance" required>
+					                        <option value="" selected disabled hidden>Select Attendance</option>
+					                        <option value="Present">Present</option>
+					                        <option value="Absent">Absent</option>
+					                    </select>
+					                </td>
+					            </tr>
+					        `;
+					        $('#attendanceForm tbody').append(html);
+					    });
+					});
+
 		        }
 		    });
 		}
@@ -125,6 +133,7 @@ $(document).ready(function() {
 				alert("Attendance saved successfully!");
 				document.getElementById("attendanceForm").reset();
 				$('#attendanceForm tbody').empty();
+				toggleUserBtn();
 			},
 			error: function (error) {
 				console.error("Error saving attendance:", error);

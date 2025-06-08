@@ -82,7 +82,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 			String status = Optional.ofNullable(attendanceMap.get("attendance")).map(Object::toString).orElse(null);
 
-			Long stuId = Long.parseLong(studentId);
+			
 			Long clsId = Long.parseLong(classId);
 
 			if (studentId == null || classId == null || date == null || status == null) {
@@ -90,6 +90,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 				System.out.println("Missing data in attendance entry, skipping.");
 				continue;
 			} else {
+				Long stuId = Long.parseLong(studentId);
 				StudentEntity student = stuRepo.findById(stuId).orElse(null);
 				ClassEntity cls = classRepo.findById(clsId).orElse(null);
 
