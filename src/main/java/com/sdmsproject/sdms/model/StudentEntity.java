@@ -3,6 +3,8 @@ package com.sdmsproject.sdms.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,6 +43,7 @@ public class StudentEntity {
 	private LocalDate updatedOn;
 	
 	@OneToMany(mappedBy = "students", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<AttendanceEntity> attendance;
 	
 	public Long getId() {

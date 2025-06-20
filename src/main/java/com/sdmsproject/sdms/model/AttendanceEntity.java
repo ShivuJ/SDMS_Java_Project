@@ -2,6 +2,8 @@ package com.sdmsproject.sdms.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,10 +22,12 @@ public class AttendanceEntity {
 	
 	@ManyToOne
 	@JoinColumn(name = "class_id")
+	@JsonIgnore
 	private ClassEntity classes;
 	
 	@ManyToOne
 	@JoinColumn(name = "student_id")
+	@JsonIgnore
 	private StudentEntity students;
 	
 	private LocalDate date;

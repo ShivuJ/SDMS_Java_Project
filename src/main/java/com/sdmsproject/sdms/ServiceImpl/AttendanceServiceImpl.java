@@ -1,6 +1,7 @@
 package com.sdmsproject.sdms.ServiceImpl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -111,5 +112,20 @@ public class AttendanceServiceImpl implements AttendanceService {
 		}
 
 		return ResponseEntity.ok("Success");
+	}
+
+	@Override
+	public List<AttendanceEntity> readAllAttend() {
+		List<AttendanceEntity> attendList = attendanceRepo.findAll();
+		List<AttendanceEntity> attendance = new ArrayList<>();
+		
+		for(AttendanceEntity attendances : attendList) {
+			
+			AttendanceEntity getAttendance = new AttendanceEntity();
+			
+			getAttendance.setAttendance(attendances.getAttendance());
+			
+		}
+		return null;
 	}
 }
