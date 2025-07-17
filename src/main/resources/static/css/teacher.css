@@ -1,180 +1,202 @@
-        body {
-        	background: #f8f9fa;
-        	margin: 0;
-        	padding-top: 80px;
-        }
+/* === General === */
+body {
+	background-color: #f8f9fa;
+	margin: 0;
+	padding-top: 80px;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        .header {
-        	background: #007bff;
-        	color: white;
-        	padding: 10px;
-        	display: flex;
-        	justify-content: space-between;
-        	align-items: center;
-        }
+/* === Header Section === */
+.header {
+	background-color: #007bff;
+	color: white;
+	padding: 15px 25px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 8px;
+	box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+	margin-bottom: 20px;
+}
 
-        .header h1 {
-        	margin: 0;
-        	font-size: 30px;
-        }
+.header h1 {
+	margin: 0;
+	font-size: 26px;
+}
 
-        .header button {
-        	background: #fff;
-        	color: #007bff;
-        	border: none;
-        	padding: 5px 10px;
-        	font-size: 16px;
-        	cursor: pointer;
-        	border-radius: 5px;
-        }
+.header button {
+	background-color: #ffffff;
+	color: #007bff;
+	border: none;
+	padding: 8px 16px;
+	font-size: 16px;
+	cursor: pointer;
+	border-radius: 5px;
+	transition: all 0.3s ease;
+}
 
-        .header button:hover {
-        	background: #e2e6ea;
-        }
+.header button:hover {
+	background-color: #e9ecef;
+}
 
-        .form-container {
-        	display: none;
-        	width: 95%;
-        	/*max-width: 1200px;*/
-        	background: white;
-        	padding: 20px;
-        	border-radius: 8px;
-        	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        	margin: 20px auto;
-        }
+/* === Form Section === */
+.form-container {
+	display: none;
+	width: 95%;
+	background: #fff;
+	padding: 25px;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+	margin: 0 auto 30px auto;
+}
 
-        .form-row {
-        	display: flex;
-        	flex-wrap: wrap;
-        	gap: 10px;
-        }
+.form-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-bottom: 15px;
+}
 
-        .form-row .form-group {
-        	flex: 1 1 22%;
-        }
+.form-row .form-group {
+	flex: 1 1 22%;
+	min-width: 200px;
+}
 
-        .form-row .form-group input,
-        .form-row .form-group select,
-		.form-row .table-container input,
-		.form-row .table-container select {
-        	width: 100%;
-        	padding: 8px;
-        	border: 1px solid #ced4da;
-        	border-radius: 4px;
-        }
+.form-group label {
+	font-weight: 500;
+	margin-bottom: 5px;
+	display: block;
+}
 
-        /* Custom styles for the role dropdown */
-        .form-group select {
-        	background-color: #fff;
-        	color: #000;
-        }
+.form-group input,
+.form-group select {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #ced4da;
+	border-radius: 5px;
+	background-color: #fff;
+	transition: border-color 0.3s ease;
+}
 
-        .form-group select:focus {
-        	border-color: #007bff;
-        	outline: none;
-        }
+.form-group input:focus,
+.form-group select:focus {
+	border-color: #007bff;
+	outline: none;
+	box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+}
 
-        button.submit-btn {
-        	width: 100%;
-        	padding: 10px;
-        	font-size: 16px;
-        	border: none;
-        	border-radius: 4px;
-        	color: white;
-        	background-color: #007bff;
-        }
+button.submit-btn {
+	width: 100%;
+	padding: 12px;
+	font-size: 16px;
+	border: none;
+	border-radius: 5px;
+	color: white;
+	background-color: #007bff;
+	transition: background-color 0.3s ease;
+}
 
-        button.submit-btn:hover {
-        	background-color: #0056b3;
-        }
+button.submit-btn:hover {
+	background-color: #0056b3;
+}
 
-        .table-container {
-        	width: 95%;
-        	max-width: 1200px;
-        	margin: 20px auto;
-        }
+/* === Table Section === */
+.table-container {
+	width: 95%;
+	max-width: 1200px;
+	margin: 0 auto;
+	overflow-x: auto;
+}
 
-        .table-container table {
-        	width: 100%;
-        	border-collapse: collapse;
-        }
+.table-container table {
+	width: 100%;
+	border-collapse: collapse;
+}
 
-        .table-container th,
-        .table-container td {
-        	padding: 12px;
-        	text-align: left;
-        	border-bottom: 1px solid #ddd;
-        }
+.table-container th,
+.table-container td {
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid #dee2e6;
+}
 
-        .table-container th {
-        	background-color: #007bff;
-        	color: white;
-        	position: -webkit-sticky;
-        	/* For Safari */
-        	position: sticky;
-        	top: 0;
-        	z-index: 1;
-        }
+.table-container th {
+	background-color: #007bff;
+	color: white;
+	position: sticky;
+	top: 0;
+	z-index: 1;
+}
 
-        .table-container .action-buttons {
-        	display: flex;
-        	gap: 5px;
-        }
+.table-container .action-buttons {
+	display: flex;
+	gap: 10px;
+}
 
-        .table-container .action-buttons button {
-        	border: none;
-        	background: none;
-        	cursor: pointer;
-        }
+.table-container .action-buttons button {
+	border: none;
+	background: none;
+	cursor: pointer;
+	font-size: 18px;
+}
 
-        .table-container .action-buttons .edit-btn {
-        	color: #28a745;
-        }
+.edit-btn {
+	color: #28a745;
+}
 
-        .table-container .action-buttons .delete-btn {
-        	color: #dc3545;
-        }
+.edit-btn:hover {
+	color: #218838;
+}
 
-        .table-container .action-buttons .edit-btn:hover {
-        	color: #218838;
-        }
+.delete-btn {
+	color: #dc3545;
+}
 
-        .table-container .action-buttons .delete-btn:hover {
-        	color: #c82333;
-        }
+.delete-btn:hover {
+	color: #c82333;
+}
 
-        /* Additional CSS for the password field */
-        .form-group input[type="password"] {
-        	font-size: 16px;
-        	letter-spacing: 0.2em;
-        	/* For hiding the actual characters */
-        }
+/* === Additional Fields === */
+.form-group input[type="password"] {
+	font-size: 16px;
+	letter-spacing: 0.15em;
+}
 
-        div {
-        	margin: 0.5%;
-        }
+.iconBtn {
+	border: none;
+	background: none;
+	cursor: pointer;
+}
 
-        .iconBtn {
-        	border: none;
-        	background: none;
-        }
-		
-		#navbar{
-			width: 100%;
-			margin: 0;
-			padding: 0;
-			position: relative;
-		}
-		
-		#whatsappRadio{
-			display: flex;
-		}
-		
-		#whatsappYes, #whatsappNo{
-			width: 40px;
-			height: 20px;
-		}
-		
-		#template{
-			height:200px;
-		}
+#navbar {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+/* === WhatsApp radio custom === */
+#whatsappRadio {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+#whatsappYes,
+#whatsappNo {
+	width: 20px;
+	height: 20px;
+}
+
+/* === Template box === */
+#template {
+	height: 200px;
+	resize: vertical;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+	.form-row .form-group {
+		flex: 1 1 100%;
+	}
+}

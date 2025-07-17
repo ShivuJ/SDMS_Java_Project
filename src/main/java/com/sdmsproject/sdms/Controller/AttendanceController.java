@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sdmsproject.sdms.Service.AttendanceService;
+import com.sdmsproject.sdms.model.AttendanceEntity;
 import com.sdmsproject.sdms.model.StudentEntity;
 
 @RestController
@@ -31,5 +32,11 @@ public class AttendanceController {
 		System.out.println("Attendance " + attendanceList);
 		
 		return response;
+	}
+	
+	@GetMapping("/readStuAttend")
+	public List<AttendanceEntity> readAllAttend(){
+		return attendanceService.readAllAttend();
+		
 	}
 }

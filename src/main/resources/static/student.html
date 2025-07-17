@@ -2,110 +2,277 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Student</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-	<!-- Font Awesome for icons -->
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Student Management</title>
+
+	<!-- Libraries -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+	<link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet" />
+
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+	<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 	<script src="./js/student.js"></script>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
-	<link href="./css/teacher.css" rel="stylesheet" />
-	<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-		<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+	<style>
+		body {
+			background: #f8f9fa;
+			margin: 0;
+			font-family: 'Segoe UI', sans-serif;
+			overflow-x: hidden;
+		}
+
+		.sidebar {
+			width: 250px;
+			height: 100vh;
+			position: fixed;
+			top: 0;
+			left: 0;
+			background-color: #fff;
+			border-right: 1px solid #dee2e6;
+			padding-top: 20px;
+			z-index: 1000;
+		}
+
+		.sidebar .nav-link {
+			color: #333;
+			padding: 12px 20px;
+		}
+
+		.sidebar .nav-link.active,
+		.sidebar .nav-link:hover {
+			background-color: #e9ecef;
+			font-weight: 500;
+			border-left: 4px solid #0d6efd;
+		}
+
+		.main-content {
+			margin-left: 250px;
+			padding: 25px;
+			min-height: 100vh;
+		}
+
+		.header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			background-color: #007bff;
+			color: white;
+			padding: 15px 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 10px rgba(0, 123, 255, 0.1);
+			margin-bottom: 20px;
+		}
+
+		.header button {
+			background-color: #fff;
+			color: #007bff;
+			border: none;
+			padding: 8px 16px;
+			border-radius: 6px;
+			transition: background-color 0.3s ease;
+		}
+
+		.header button:hover {
+			background-color: #e9ecef;
+		}
+
+		.form-container {
+			display: none;
+			background: white;
+			padding: 25px;
+			border-radius: 10px;
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+			margin-bottom: 30px;
+		}
+
+		.form-row {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 15px;
+			margin-bottom: 15px;
+		}
+
+		.form-group {
+			flex: 1 1 22%;
+		}
+
+		.form-group input,
+		.form-group select {
+			width: 100%;
+			padding: 8px;
+			border-radius: 6px;
+			border: 1px solid #ced4da;
+		}
+
+		#whatsappRadio {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.table-container {
+			overflow-x: auto;
+			margin-top: 20px;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		th,
+		td {
+			padding: 12px;
+			text-align: center;
+			border-bottom: 1px solid #dee2e6;
+		}
+
+		th {
+			background-color: #007bff;
+			color: white;
+			position: sticky;
+			top: 0;
+			z-index: 1;
+		}
+
+		tr:hover {
+			background-color: #f1f3f5;
+		}
+
+		button.submit-btn {
+			padding: 10px 20px;
+			background-color: #007bff;
+			color: white;
+			border: none;
+			border-radius: 6px;
+			font-size: 16px;
+			transition: background-color 0.3s ease;
+		}
+
+		button.submit-btn:hover {
+			background-color: #0056b3;
+		}
+	</style>
 </head>
 
 <body>
-	<div id="navbar"></div>
+	<!-- Sidebar -->
+	<div class="sidebar d-flex flex-column">
+		<div class="d-flex align-items-center px-3 mb-4">
+			<img src="img/reading.png" alt="Logo" style="height: 35px;" class="me-2" />
+			<span class="fs-5 fw-bold">Krishna Shiksha</span>
+		</div>
+		<nav class="nav flex-column">
+			<a class="nav-link" href="home.html">🏠 Dashboard</a>
+			<a class="nav-link" href="teacher.html">🧑‍🏫 Teachers</a>
+			<a class="nav-link" href="class.html">🏫 Classes</a>
+			<a class="nav-link active" href="student.html">👨‍🎓 Students</a>
+			<a class="nav-link" href="attendance.html">📝 Attendance</a>
+			<a class="nav-link" href="emailTemplate.html">📧 Email Templates</a>
+			<a class="nav-link" href="grade.html">📊 Assign Grade</a>
+		</nav>
+		<div class="mt-auto px-3 mb-3">
+			<a href="/logout" class="btn btn-outline-danger w-100">
+				<img src="./img/logout.png" alt="Logout" class="me-2" style="height: 20px;"> Logout
+			</a>
+		</div>
+	</div>
 
-	<header class="header">
-		<h1>Student Information</h1>
-		<button id="toggleFormBtn">+ Student</button>
-	</header>
+	<!-- Main -->
+	<div class="main-content">
+		<header class="header">
+			<h1 class="h4 mb-0">Student Information</h1>
+			<button id="toggleFormBtn">+ Add Student</button>
+		</header>
 
-	<div class="form-container" id="formContainer">
-		<form id="userForm">
-			<div class="form-row">
-				<input type="hidden" id="studentId" name="studentId" value="">
-				<div class="form-group">
-					<label for="firstName">First Name</label>
-					<input type="text" id="firstName" name="firstName" required>
-				</div>
-				<div class="form-group">
-					<label for="lastName">Last Name</label>
-					<input type="text" id="lastName" name="lastName" required>
-				</div>
-				<div class="form-group">
-					<label for="contact">Contact</label>
-					<input type="tel" id="stuContact" name="stuContact" maxlength="10" required>
-				</div>
-				<div class="form-group">
-					<label for="teacherEmail">Student Email</label>
-					<input type="email" id="stuEmail" name="stuEmail" required>
-				</div>
-			</div>
-
-			<div class="form-row">
-				<div class="form-group">
-					<label for="role">Is you Contact is WhatsApp number?</label>
-					<div id="whatsappRadio">
-						<input type="radio" id="whatsappYes" name="whatsappYes" value="Yes" checked>
-						<label for="whatsappYes">Yes</label>
-
-						<input type="radio" id="whatsappNo" name="whatsappNo" value="No">
-						<label for="whatsappNo">No</label>
+		<div class="form-container" id="formContainer">
+			<form id="userForm">
+				<div class="form-row">
+					<input type="hidden" id="studentId" name="studentId" />
+					<div class="form-group">
+						<label for="firstName">First Name</label>
+						<input type="text" id="firstName" name="firstName" required />
+					</div>
+					<div class="form-group">
+						<label for="lastName">Last Name</label>
+						<input type="text" id="lastName" name="lastName" required />
+					</div>
+					<div class="form-group">
+						<label for="stuContact">Contact</label>
+						<input type="tel" id="stuContact" name="stuContact" maxlength="10" required />
+					</div>
+					<div class="form-group">
+						<label for="stuEmail">Student Email</label>
+						<input type="email" id="stuEmail" name="stuEmail" required />
 					</div>
 				</div>
-				<div class="form-group" hidden>
-					<label for="role">Role</label>
-					<select id="role" name="role" required>
-						<option value="" selected disabled hidden>Select Role</option>
-						<option value="Teacher">Teacher</option>
-						<option value="Admin">Admin</option>
-						<option value="Staff">Staff</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="stuClass">Class</label>
-					<select id="stuClass" name="stuClass" required>
-						<option value="" selected disabled hidden>Select Class</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<label for="password">Password</label>
-					<input type="password" id="stuPassword" name="stuPassword" required>
-				</div>
-			</div>
 
-			<div class="form-row">
-				<div class="form-group">
-					<button type="button" class="submit-btn" id="submit">Submit</button>
+				<div class="form-row">
+					<div class="form-group">
+						<label>WhatsApp Number?</label>
+						<div id="whatsappRadio">
+							<input type="radio" name="whatsapp" id="whatsappYes" value="Yes" checked />
+							<label for="whatsappYes">Yes</label>
+							<input type="radio" name="whatsapp" id="whatsappNo" value="No" />
+							<label for="whatsappNo">No</label>
+						</div>
+					</div>
+					<div class="form-group d-none">
+						<label for="role">Role</label>
+						<select id="role" name="role">
+							<option value="" selected disabled hidden>Select Role</option>
+							<option value="Teacher">Teacher</option>
+							<option value="Admin">Admin</option>
+							<option value="Staff">Staff</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="stuClass">Class</label>
+						<select id="stuClass" name="stuClass" required>
+							<option value="" selected disabled hidden>Select Class</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="stuPassword">Password</label>
+						<input type="password" id="stuPassword" name="stuPassword" required />
+					</div>
 				</div>
+
+				<div class="form-row">
+					<div class="form-group">
+						<button type="button" class="submit-btn" id="submit">Submit</button>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="table-container">
+			<div class="table-responsive">
+				<table class="table table-bordered stuTable">
+					<thead>
+						<tr>
+							<th>Sr. No</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Email</th>
+							<th>Contact</th>
+							<th>Class</th>
+							<th>Password</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- Filled dynamically -->
+					</tbody>
+				</table>
 			</div>
-		</form>
+		</div>
 	</div>
 
-	<div class="table-container">
-		<table class="stuTable">
-			<thead>
-				<tr>
-					<th>Sr. No</th>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Email Id</th>
-					<th>Contact</th>
-					<th>Class</th>
-					<th>Password</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- Dynamic content will go here -->
-			</tbody>
-		</table>
-	</div>
 </body>
 
 </html>
