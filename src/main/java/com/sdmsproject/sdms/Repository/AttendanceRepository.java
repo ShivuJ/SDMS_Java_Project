@@ -16,7 +16,7 @@ public interface AttendanceRepository extends JpaRepository<AttendanceEntity, Lo
             "FROM attendance_db AS atn " +
             "LEFT JOIN class_db AS cls ON atn.class_id = cls.id " +
             "LEFT JOIN student_db AS stu ON atn.student_id = stu.id " +
-            "WHERE atn.class_id = :class_id AND atn.student_id = :student_id", nativeQuery = true)
-	List<CustomAttendanceProjection> findByClassAndStudent(@Param("class_id") Long classId, @Param("student_id") Long stuId);
+            "WHERE atn.class_id = :class_id", nativeQuery = true)
+	List<CustomAttendanceProjection> findByClass(@Param("class_id") Long classId);
 
 }

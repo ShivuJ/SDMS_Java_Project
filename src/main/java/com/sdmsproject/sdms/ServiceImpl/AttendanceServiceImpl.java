@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.sdmsproject.sdms.Repository.AttendanceRepository;
 import com.sdmsproject.sdms.Repository.ClassRepository;
+import com.sdmsproject.sdms.Repository.CustomAttendanceProjection;
 import com.sdmsproject.sdms.Repository.StudentRepository;
 import com.sdmsproject.sdms.Service.AttendanceService;
 import com.sdmsproject.sdms.model.AttendanceEntity;
@@ -116,10 +117,11 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	@Override
 	public List<AttendanceEntity> readAllAttend() {
-		List<AttendanceEntity> attendList = attendanceRepo.findAll();
+		Long classId;
+		List<CustomAttendanceProjection> attendList = attendanceRepo.findByClass(classId);
 		List<AttendanceEntity> attendance = new ArrayList<>();
 		
-		for(AttendanceEntity attendances : attendList) {
+		for(CustomAttendanceProjection attendances : attendList) {
 			
 			AttendanceEntity getAttendance = new AttendanceEntity();
 			
