@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.sdmsproject.sdms.Repository.ClassRepository;
-import com.sdmsproject.sdms.Repository.UserRepository;
 import com.sdmsproject.sdms.Service.ClassService;
 import com.sdmsproject.sdms.model.ClassEntity;
 

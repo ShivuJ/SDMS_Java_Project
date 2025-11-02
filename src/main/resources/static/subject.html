@@ -21,161 +21,148 @@
 	<style>
 		body {
 			background-color: #f8f9fa;
-			font-family: 'Segoe UI', sans-serif;
+			overflow-x: hidden;
+		}
+
+		.sidebar {
+			height: 100vh;
+			width: 250px;
+			position: fixed;
+			top: 0;
+			left: 0;
+			background-color: #fff;
+			border-right: 1px solid #dee2e6;
+			padding-top: 1rem;
+		}
+
+		.sidebar .nav-link {
+			color: #333;
+			padding: 12px 20px;
+		}
+
+		.sidebar .nav-link.active,
+		.sidebar .nav-link:hover {
+			background-color: #e9ecef;
+			font-weight: 500;
+			border-left: 4px solid #0d6efd;
+		}
+
+		.main-content {
+			margin-left: 250px;
+			padding: 20px;
 		}
 
 		.header {
-			background-color: #007bff;
-			color: white;
-			padding: 15px 30px;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+			margin-bottom: 20px;
 		}
 
-		.header h1 {
-			margin: 0;
-			font-size: 28px;
-		}
-
-		.header button {
-			background: white;
-			color: #007bff;
+		#toggleFormBtn {
+			background-color: #0d6efd;
+			color: #fff;
 			border: none;
 			padding: 8px 16px;
 			border-radius: 6px;
-			font-weight: 500;
-		}
-
-		.header button:hover {
-			background: #e9ecef;
-		}
-
-		.form-container {
-			display: none;
-			background: white;
-			padding: 25px;
-			border-radius: 10px;
-			box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-			width: 95%;
-			max-width: 600px;
-			margin: 25px auto;
 		}
 
 		.table-container {
-			width: 95%;
-			margin: 25px auto;
-		}
-
-		.submit-btn {
-			width: 100%;
-			background-color: #007bff;
-			color: white;
-			padding: 10px;
-			border: none;
-			border-radius: 6px;
-			font-size: 16px;
-			margin-top: 10px;
-		}
-
-		.submit-btn:hover {
-			background-color: #0056b3;
-		}
-
-		table {
-			width: 100%;
-			border-collapse: collapse;
 			margin-top: 20px;
 		}
 
-		th,
-		td {
-			padding: 12px;
-			text-align: center;
-			border-bottom: 1px solid #dee2e6;
-		}
-
-		th {
-			background-color: #007bff;
-			color: white;
-			position: sticky;
-			top: 0;
-			z-index: 1;
-		}
-
-		.nav-tabs .nav-link {
-			color: #007bff;
-		}
-
-		.nav-tabs .nav-link.active {
-			background-color: #e9ecef;
-			font-weight: bold;
+		.form-container input {
+			width: 100%;
 		}
 	</style>
 </head>
 
 <body>
-	<!-- Navigation bar placeholder -->
-	<div id="navbar"></div>
-
-	<header class="header">
-		<h1>Add Subject</h1>
-		<button id="toggleFormBtn">+ Subject</button>
-	</header>
-
-	<!-- Subject Form -->
-	<div class="form-container" id="formContainer">
-		<form id="subjectForm">
-			<input type="hidden" id="subjectId" name="subjectId" />
-			<div class="mb-3">
-				<label for="subject" class="form-label">Subject</label>
-				<input type="text" class="form-control" id="subject" name="subject" required />
-			</div>
-			<button type="button" class="submit-btn" id="submit">Submit</button>
-		</form>
+	<!-- Sidebar -->
+	<div class="sidebar d-flex flex-column">
+		<div class="d-flex align-items-center px-3 mb-4">
+			<img src="img/reading.png" alt="Logo" style="height: 35px;" class="me-2" />
+			<span class="fs-5 fw-bold">Krishna Shiksha</span>
+		</div>
+		<nav class="nav flex-column">
+			<a class="nav-link" href="home.html">🏠 Dashboard</a>
+			<a class="nav-link" href="teacher.html">🧑‍🏫 Teachers</a>
+			<a class="nav-link" href="class.html">🏫 Classes</a>
+			<a class="nav-link active" href="subject.html">📔 Subject</a>
+			<a class="nav-link" href="student.html">👨‍🎓 Students</a>
+			<a class="nav-link" href="attendance.html">📝 Attendance</a>
+			<a class="nav-link" href="emailTemplate.html">📧 Email Templates</a>
+			<a class="nav-link" href="grade.html">📊 Assign Grade</a>
+		</nav>
+		<div class="mt-auto px-3 mb-3">
+			<a href="/logout" class="btn btn-outline-danger w-100">
+				<img src="./img/logout.png" alt="Logout" class="me-2" style="height: 20px;"> Logout
+			</a>
+		</div>
 	</div>
 
-	<!-- Subject Table Tabs -->
-	<div class="table-container">
-		<ul class="nav nav-tabs" id="subjectTabs" role="tablist">
-			<li class="nav-item" role="presentation">
-				<button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#activeSubjects" type="button" role="tab">Active</button>
-			</li>
-			<li class="nav-item" role="presentation">
-				<button class="nav-link" id="inactive-tab" data-bs-toggle="tab" data-bs-target="#inactiveSubjects" type="button" role="tab">Inactive</button>
-			</li>
-		</ul>
+	<!-- Main Content -->
+	<div class="main-content">
+		<header class="header">
+			<h1>Add Subject</h1>
+			<button id="toggleFormBtn">+ Subject</button>
+		</header>
 
-		<div class="tab-content mt-3">
-			<div class="tab-pane fade show active" id="activeSubjects" role="tabpanel">
-				<table class="table table-bordered activeSubjectTable">
-					<thead>
-						<tr>
-							<th>Sr. No</th>
-							<th>Subject</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody id="activeSubjectsBody">
-						<!-- Active subjects will be dynamically populated -->
-					</tbody>
-				</table>
-			</div>
+		<!-- Subject Form -->
+		<div class="form-container" id="formContainer">
+			<form id="subjectForm">
+				<input type="hidden" id="subjectId" name="subjectId" />
+				<div class="mb-3">
+					<label for="subject" class="form-label">Subject</label>
+					<input type="text" class="form-control" id="subject" name="subject" required />
+				</div>
+				<button type="button" class="submit-btn" id="submit">Submit</button>
+			</form>
+		</div>
 
-			<div class="tab-pane fade" id="inactiveSubjects" role="tabpanel">
-				<table class="table table-bordered inactiveSubjectTable">
-					<thead>
-						<tr>
-							<th>Sr. No</th>
-							<th>Subject</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody id="inactiveSubjectsBody">
-						<!-- Inactive subjects will be dynamically populated -->
-					</tbody>
-				</table>
+		<!-- Subject Table Tabs -->
+		<div class="table-container mt-4">
+			<ul class="nav nav-tabs" id="subjectTabs" role="tablist">
+				<li class="nav-item" role="presentation">
+					<button class="nav-link active" id="active-tab" data-bs-toggle="tab"
+						data-bs-target="#activeSubjects" type="button" role="tab">Active</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="inactive-tab" data-bs-toggle="tab" data-bs-target="#inactiveSubjects"
+						type="button" role="tab">Inactive</button>
+				</li>
+			</ul>
+
+			<div class="tab-content mt-3">
+				<div class="tab-pane fade show active" id="activeSubjects" role="tabpanel">
+					<table class="table table-bordered activeSubjectTable">
+						<thead>
+							<tr>
+								<th>Sr. No</th>
+								<th>Subject</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody id="activeSubjectsBody">
+							<!-- Active subjects will be dynamically populated -->
+						</tbody>
+					</table>
+				</div>
+
+				<div class="tab-pane fade" id="inactiveSubjects" role="tabpanel">
+					<table class="table table-bordered inactiveSubjectTable">
+						<thead>
+							<tr>
+								<th>Sr. No</th>
+								<th>Subject</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody id="inactiveSubjectsBody">
+							<!-- Inactive subjects will be dynamically populated -->
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

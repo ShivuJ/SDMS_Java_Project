@@ -114,26 +114,32 @@ button.submit-btn:hover {
 }
 
 .table-container th,
-.table-container td {
+.table-container td,
+.tab-content th {
 	padding: 12px;
-	text-align: left;
+	text-align: center;
+	/* Changed from 'left' to 'center' */
 	border-bottom: 1px solid #dee2e6;
 }
 
-.table-container th {
+.table-container th,
+.tab-content th {
 	background-color: #007bff;
 	color: white;
 	position: sticky;
 	top: 0;
 	z-index: 1;
+	text-align: center;
 }
 
-.table-container .action-buttons {
+.table-container .action-buttons,
+.tab-content .action-buttons {
 	display: flex;
 	gap: 10px;
 }
 
-.table-container .action-buttons button {
+.table-container .action-buttons button,
+.tab-content .action-buttons button {
 	border: none;
 	background: none;
 	cursor: pointer;
@@ -199,4 +205,105 @@ button.submit-btn:hover {
 	.form-row .form-group {
 		flex: 1 1 100%;
 	}
+}
+
+.table-wrapper {
+	background: white;
+	border-radius: 10px;
+	overflow: hidden;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+	margin-bottom: 20px;
+}
+
+/* === Badge === */
+/* === Badge Styles (NEW) === */
+.badge {
+	padding: 5px 10px;
+	border-radius: 12px;
+	font-size: 12px;
+	font-weight: 500;
+	display: inline-block;
+}
+
+.badge.bg-success {
+	background-color: #28a745 !important;
+	color: white;
+}
+
+.badge.bg-warning {
+	background-color: #ffc107 !important;
+	color: #212529;
+}
+
+.activate-btn {
+	color: #17a2b8;
+}
+
+.activate-btn:hover {
+	color: #138496;
+}
+
+/* === DataTables Custom Styling (NEW) === */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+}
+
+.dataTables_wrapper .dataTables_length {
+    float: left;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    float: right;
+}
+
+.dataTables_wrapper .dataTables_info {
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    color: #6c757d;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 6px 12px;
+    margin: 0 2px;
+    border: 1px solid #dee2e6;
+    background: white;
+    color: #007bff;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #f8f9fa;
+    border-color: #007bff;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* === Navigation Placeholder (NEW) === */
+.nav-placeholder {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: white;
+    border-bottom: 1px solid #dee2e6;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

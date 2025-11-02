@@ -13,4 +13,5 @@ public interface AttendanceService {
 	List<StudentEntity> getStudentByClass();
 	ResponseEntity<String> generateAttendance(List<Map<String, Object>> attendanceList);
 	List<AttendanceEntity> readAllAttend();
+	ResponseEntity<String> editAttendance(Long attendanceId, Map<String, Object> attendanceMap);
 }

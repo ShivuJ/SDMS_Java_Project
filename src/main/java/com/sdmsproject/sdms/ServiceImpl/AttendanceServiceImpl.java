@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.sdmsproject.sdms.Repository.AttendanceRepository;
 import com.sdmsproject.sdms.Repository.ClassRepository;
-import com.sdmsproject.sdms.Repository.CustomAttendanceProjection;
 import com.sdmsproject.sdms.Repository.StudentRepository;
 import com.sdmsproject.sdms.Service.AttendanceService;
 import com.sdmsproject.sdms.model.AttendanceEntity;
@@ -43,11 +42,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 		long classId = Long.parseLong(getCookie("userClass"));
 		String className = classRepo.findById(classId).get().getStuClass();
 		List<StudentEntity> student = stuRepo.findStudentByClass(classId);
-
-		/*
-		 * for (StudentEntity students : student) { ((StudentEntity)
-		 * students).setClassName(className); }
-		 */
 
 		return student;
 	}
@@ -84,7 +78,6 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 			String status = Optional.ofNullable(attendanceMap.get("attendance")).map(Object::toString).orElse(null);
 
-			
 			Long clsId = Long.parseLong(classId);
 
 			if (studentId == null || classId == null || date == null || status == null) {
@@ -117,17 +110,126 @@ public class AttendanceServiceImpl implements AttendanceService {
 
 	@Override
 	public List<AttendanceEntity> readAllAttend() {
-		Long classId;
-		List<CustomAttendanceProjection> attendList = attendanceRepo.findByClass(classId);
-		List<AttendanceEntity> attendance = new ArrayList<>();
-		
-		for(CustomAttendanceProjection attendances : attendList) {
-			
-			AttendanceEntity getAttendance = new AttendanceEntity();
-			
-			getAttendance.setAttendance(attendances.getAttendance());
-			
-		}
-		return null;
+	    Long classId = Long.parseLong(getCookie("userClass"));
+	    // Use the new repository method that includes student details and roll number
+	    List<AttendanceEntity> attendList = attendanceRepo.findByClassWithStudentDetails(classId);
+	    List<AttendanceEntity> attendance = new ArrayList<>();
+	    
+
+	    for (AttendanceEntity attendances : attendList) {
+	        AttendanceEntity getAttendance = new AttendanceEntity();
+
+	        // Set ID
+	        getAttendance.setId(attendances.getId());
+	        
+	        // Set attendance status
+	        getAttendance.setAttendance(attendances.getAttendance());
+	        
+	        // Set date
+	        getAttendance.setDate(attendances.getDate());
+	        
+	        // Set audit fields
+	        getAttendance.setCreatedBy(attendances.getCreatedBy());
+	        getAttendance.setCreatedOn(attendances.getCreatedOn());
+	        getAttendance.setUpdatedBy(attendances.getUpdatedBy());
+	        getAttendance.setUpdatedOn(attendances.getUpdatedOn());
+
+	        // Fetch and set complete student details
+	        if (attendances.getStudents() != null && attendances.getStudents().getId() != null) {
+	            Optional<StudentEntity> student = stuRepo.findById(attendances.getStudents().getId());
+	            if (student.isPresent()) {
+	                getAttendance.setStudents(student.get());
+	                System.out.println("Student: " + student.get().getStuFirstName() + " " + 
+	                    student.get().getStuLastName() + " - Roll: " + student.get().getRollNumber());
+	            }
+	        }
+	        
+	        // Fetch and set complete class details
+	        if (attendances.getClasses() != null && attendances.getClasses().getId() != null) {
+	            Optional<ClassEntity> cls = classRepo.findById(attendances.getClasses().getId());
+	            if (cls.isPresent()) {
+	                getAttendance.setClasses(cls.get());
+	                System.out.println("Class: " + cls.get().getStuClass());
+	            }
+	        }
+
+	        attendance.add(getAttendance);
+	    }
+	    
+	    System.out.println("Total attendance records retrieved: " + attendance.size());
+	    return attendance;
+	}
+
+	@Override
+	public ResponseEntity<String> editAttendance(Long attendanceId, Map<String, Object> attendanceMap) {
+	    // Validate attendance ID
+	    if (attendanceId == null || attendanceId <= 0) {
+	        return ResponseEntity.badRequest().body("Invalid attendance ID");
+	    }
+
+	    // Check if attendance record exists
+	    Optional<AttendanceEntity> existingAttendance = attendanceRepo.findById(attendanceId);
+	    if (!existingAttendance.isPresent()) {
+	        return ResponseEntity.status(404).body("Attendance record not found");
+	    }
+
+	    try {
+	        AttendanceEntity attendance = existingAttendance.get();
+	        LocalDate currentDate = LocalDate.now();
+	        String fullName = getCookie("username") + " " + getCookie("userLastName");
+
+	        // Update student if provided
+	        if (attendanceMap.containsKey("studentId") && attendanceMap.get("studentId") != null) {
+	            Long studentId = Long.parseLong(attendanceMap.get("studentId").toString());
+	            StudentEntity student = stuRepo.findById(studentId).orElse(null);
+	            if (student != null) {
+	                attendance.setStudents(student);
+	            } else {
+	                return ResponseEntity.badRequest().body("Invalid student ID");
+	            }
+	        }
+
+	        // Update class if provided
+	        if (attendanceMap.containsKey("classId") && attendanceMap.get("classId") != null) {
+	            Long classId = Long.parseLong(attendanceMap.get("classId").toString());
+	            ClassEntity cls = classRepo.findById(classId).orElse(null);
+	            if (cls != null) {
+	                attendance.setClasses(cls);
+	            } else {
+	                return ResponseEntity.badRequest().body("Invalid class ID");
+	            }
+	        }
+
+	        // Update date if provided
+	        if (attendanceMap.containsKey("date") && attendanceMap.get("date") != null) {
+	            String dateStr = attendanceMap.get("date").toString();
+	            try {
+	                LocalDate date = LocalDate.parse(dateStr); // Assumes ISO format (yyyy-MM-dd)
+	                attendance.setDate(date);
+	            } catch (Exception e) {
+	                return ResponseEntity.badRequest().body("Invalid date format. Use yyyy-MM-dd");
+	            }
+	        }
+
+	        // Update attendance status if provided
+	        if (attendanceMap.containsKey("attendance") && attendanceMap.get("attendance") != null) {
+	            String status = attendanceMap.get("attendance").toString();
+	            attendance.setAttendance(status);
+	        }
+
+	        // Set update metadata
+	        attendance.setUpdatedBy(fullName);
+	        attendance.setUpdatedOn(currentDate);
+
+	        // Save the updated record
+	        attendanceRepo.save(attendance);
+
+	        return ResponseEntity.ok("Attendance record updated successfully");
+
+	    } catch (NumberFormatException e) {
+	        return ResponseEntity.badRequest().body("Invalid number format in request");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(500).body("Error updating attendance: " + e.getMessage());
+	    }
 	}
 }
