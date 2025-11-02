@@ -1,89 +1,94 @@
 package com.sdmsproject.sdms.model;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
 
-@Data
 @Entity
-@Table(name = "subject_db")
-public class SubjectEntity {
+@Table(name="attendance_db")
+public class AttendanceEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
-	@Column(unique = true)
-	private String subject;
-	private char status = 'Y';
+	
+	@ManyToOne
+	@JoinColumn(name = "class_id")
+	private ClassEntity classes;
+	
+	@ManyToOne
+	@JoinColumn(name = "student_id")
+	private StudentEntity students;
+	
+	private LocalDate date;
+	private String attendance;
 	private String createdBy;
 	private LocalDate createdOn;
 	private String updatedBy;
 	private LocalDate updatedOn;
-
+	
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getSubject() {
-		return subject;
+	public ClassEntity getClasses() {
+		return classes;
 	}
-
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setClasses(ClassEntity classes) {
+		this.classes = classes;
 	}
-
-	public char getStatus() {
-		return status;
+	public LocalDate getDate() {
+		return date;
 	}
-
-	public void setStatus(char status) {
-		this.status = status;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
-
+	
+	public String getAttendance() {
+		return attendance;
+	}
+	public void setAttendance(String attendance) {
+		this.attendance = attendance;
+	}
 	public String getCreatedBy() {
 		return createdBy;
 	}
-
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
-
 	public LocalDate getCreatedOn() {
 		return createdOn;
 	}
-
-	public void setCreatedOn(LocalDate currentDate) {
-		this.createdOn = currentDate;
+	public void setCreatedOn(LocalDate createdOn) {
+		this.createdOn = createdOn;
 	}
-
 	public String getUpdatedBy() {
 		return updatedBy;
 	}
-
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-
 	public LocalDate getUpdatedOn() {
 		return updatedOn;
 	}
-
 	public void setUpdatedOn(LocalDate updatedOn) {
 		this.updatedOn = updatedOn;
 	}
-
+	public StudentEntity getStudents() {
+		return students;
+	}
+	public void setStudents(StudentEntity students) {
+		this.students = students;
+	}
+	
 }

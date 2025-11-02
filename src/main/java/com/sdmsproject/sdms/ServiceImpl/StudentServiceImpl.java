@@ -64,6 +64,11 @@ public class StudentServiceImpl implements StudentService {
 			stuEntity.setCreatedOn(currentDate);
 			stuEntity.setUpdatedBy(cuName);
 			stuEntity.setUpdatedOn(currentDate);
+			
+			String totalStudent = studentRepository.countByClass(stuEntity.getStuClass());
+			
+			stuEntity.setRollNumber(generateRollNumber(totalStudent));
+			
 			studentRepository.save(stuEntity);
 			return ResponseEntity.ok("Success");
 		}
@@ -131,5 +136,14 @@ public class StudentServiceImpl implements StudentService {
 		
 		return firstName + " " + lastName;
 	}
+	
+	private String generateRollNumber(String totalStudent) {
+		
+		int totalStuCount = Integer.parseInt(totalStudent);
+		int nextRoll = totalStuCount + 1;
+		
+		return String.format("%02d", nextRoll);
+	}
+	
 	
 }

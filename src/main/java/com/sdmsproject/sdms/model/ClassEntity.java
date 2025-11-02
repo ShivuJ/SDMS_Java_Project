@@ -1,11 +1,14 @@
 package com.sdmsproject.sdms.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -25,6 +28,9 @@ public class ClassEntity {
 	private LocalDate createdOn;
 	private String updatedBy;
 	private LocalDate updatedOn;
+	
+	@OneToMany(mappedBy = "classes", cascade = CascadeType.ALL)
+	private List<AttendanceEntity> attendance;
 
 	public Long getId() {
 		return id;
