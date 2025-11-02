@@ -157,36 +157,30 @@ $(document).ready(function() {
 		});
 	}
 
+	// Handle save button in modal
+	$(document).on('click', '#saveAttendanceBtn', function() {
+		submitEditAttendance();
+	});
+
 	function submitEditAttendance() {
-		let className = document.getElementById("className").value;
-		let attendanceDate = document.getElementById("attendanceDate").value;
+		let attendanceDate = document.getElementById("editAttendanceDate").value;
+		let attendanceStatus = document.getElementById("editAttendanceStatus").value;
 
 		// Validate inputs
-		if (!className || !attendanceDate) {
-			alert("Please select class and date");
-			return;
-		}
-
-		let attendanceStatus = null;
-		document.querySelectorAll('#attendanceForm tbody tr').forEach((row) => {
-			let attendanceStatusSelect = row.querySelector('select');
-			if (attendanceStatusSelect) {
-				attendanceStatus = attendanceStatusSelect.value;
-			}
-		});
-
-		if (!attendanceStatus) {
-			alert("Please select attendance status");
+		if (!attendanceDate || !attendanceStatus) {
+			alert("Please fill in all required fields");
 			return;
 		}
 
 		let updateData = {
-			classId: className,
 			date: attendanceDate,
 			attendance: attendanceStatus
 		};
 
 		console.log("Updating attendance ID:", editingAttendanceId, "with data:", updateData);
+
+		// Disable save button to prevent multiple clicks
+		$('#saveAttendanceBtn').prop('disabled', true);
 
 		$.ajax({
 			url: `/attendance/${editingAttendanceId}`,
@@ -194,65 +188,73 @@ $(document).ready(function() {
 			contentType: "application/json",
 			data: JSON.stringify(updateData),
 			success: function(response) {
+				console.log("Update response:", response);
 				alert("Attendance updated successfully!");
-				const form = document.querySelector('form');
-				if (form) {
-					form.reset();
-				}
-				$('#attendanceForm tbody').empty();
-				$('#className').val('');
-				$('#attendanceDate').val('');
+
+				// Hide modal and wait for animation
+				$('#editAttendanceModal').modal('hide');
+
+				// Reset variables
 				editingAttendanceId = null;
-				document.getElementById('submit').innerText = 'Submit';
-				toggleUserBtn();
-				loadAttendanceTable(); // Refresh the table
+
+				// Wait for modal to close, then refresh table
+				setTimeout(function() {
+					console.log("Modal closed, refreshing table...");
+					$('#saveAttendanceBtn').prop('disabled', false);
+					loadAttendanceTable();
+				}, 600);
 			},
 			error: function(error) {
 				console.error("Error updating attendance:", error);
-				alert("Failed to update attendance.");
+				console.error("Error status:", error.status);
+				console.error("Error response:", error.responseText);
+				alert("Failed to update attendance. Please try again.");
+				$('#saveAttendanceBtn').prop('disabled', false);
 			}
 		});
 	}
 
 	function loadAttendanceTable() {
+		console.log("Loading attendance table...");
+
 		$.ajax({
 			url: '/readStuAttend',
 			type: 'GET',
 			success: function(response) {
-				console.log("Full Response:", response);
+				console.log("Full Response received:", response);
 				let html = "";
-				
+
 				if (!response || response.length === 0) {
 					console.log("No attendance records found");
-					$("#classTable tbody").empty().append('<tr><td colspan="7" style="text-align:center;">No records found</td></tr>');
+					$("#classTable tbody").empty().append('<tr><td colspan="6" style="text-align:center;">No records found</td></tr>');
 					return;
 				}
-				
+
 				for (let i = 0; i < response.length; i++) {
 					console.log("Processing record:", response[i]);
-					
+
 					// Extract data safely from the updated response structure
 					const record = response[i];
-					
+
 					// Student data
-					const studentName = (record.students && record.students.stuFirstName) 
-						? `${record.students.stuFirstName} ${record.students.stuLastName || ''}`.trim() 
+					const studentName = (record.students && record.students.stuFirstName)
+						? `${record.students.stuFirstName} ${record.students.stuLastName || ''}`.trim()
 						: 'N/A';
-					const rollNumber = (record.students && record.students.rollNumber) 
-						? record.students.rollNumber 
+					const rollNumber = (record.students && record.students.rollNumber)
+						? record.students.rollNumber
 						: 'N/A';
-					
+
 					// Class data
-					const className = (record.classes && record.classes.stuClass) 
-						? record.classes.stuClass 
+					const className = (record.classes && record.classes.stuClass)
+						? record.classes.stuClass
 						: 'N/A';
-					
+
 					// Attendance data
 					const date = record.date || 'N/A';
 					const attendance = record.attendance || 'N/A';
-					
+
 					console.log(`Student: ${studentName}, Roll: ${rollNumber}, Class: ${className}, Date: ${date}, Attendance: ${attendance}`);
-					
+
 					html += `
 						<tr data-id="${record.id}">
 							<td>${className}</td>
@@ -266,15 +268,19 @@ $(document).ready(function() {
 						</tr>
 					`;
 				}
-				
-				$("#recordTable tbody").append(html);
 
+				console.log("Generated HTML rows:", html.length);
+				
 				// Reinitialize DataTable if it exists
 				if ($.fn.DataTable.isDataTable('#classTable')) {
+					console.log("Destroying existing DataTable");
 					$('#classTable').DataTable().destroy();
 				}
+				
+				$("#classTable tbody").empty().append(html);
 
-				$('#recordTable').DataTable();
+				console.log("Initializing DataTable");
+				$('#classTable').DataTable();
 
 				// Attach event handlers to edit and delete buttons
 				attachTableEventHandlers();
@@ -283,7 +289,9 @@ $(document).ready(function() {
 			},
 			error: function(error) {
 				console.error("Error loading attendance table:", error);
-				$("#classTable tbody").empty().append('<tr><td colspan="7" style="text-align:center; color:red;">Error loading records</td></tr>');
+				console.error("Error status:", error.status);
+				console.error("Error response:", error.responseText);
+				$("#classTable tbody").empty().append('<tr><td colspan="6" style="text-align:center; color:red;">Error loading records</td></tr>');
 			}
 		});
 	}
@@ -292,11 +300,6 @@ $(document).ready(function() {
 		$(document).off('click', '.editBtn').on('click', '.editBtn', function() {
 			const attendanceId = $(this).data('id');
 			editAttendanceRecord(attendanceId);
-		});
-
-		$(document).off('click', '.deleteBtn').on('click', '.deleteBtn', function() {
-			const attendanceId = $(this).data('id');
-			deleteAttendanceRecord(attendanceId);
 		});
 	}
 
@@ -311,38 +314,23 @@ $(document).ready(function() {
 				console.log("Fetched attendance record:", attendance);
 
 				editingAttendanceId = attendanceId;
-				document.getElementById('submit').innerText = 'Update';
 
-				// Populate form fields
-				document.getElementById("className").value = attendance.classes.id;
-				document.getElementById("attendanceDate").value = attendance.date;
+				// Populate modal fields
+				if (attendance.students) {
+					const fullName = attendance.students.stuFirstName + " " + attendance.students.stuLastName;
+					document.getElementById("editStudentName").value = fullName;
+					document.getElementById("editRollNumber").value = attendance.students.rollNumber || 'N/A';
+				}
 
-				// Show form
-				const formContainer = document.getElementById('formContainer');
-				formContainer.style.display = 'block';
+				if (attendance.classes) {
+					document.getElementById("editClassName").value = attendance.classes.stuClass || 'N/A';
+				}
 
-				// Populate student table with single record
-				$('#attendanceForm tbody').empty();
-				let fullName = attendance.students.stuFirstName + " " + attendance.students.stuLastName;
-				let html = `
-					<tr data-id="${attendance.students.id}">
-						<td>${fullName}</td>
-						<td>${attendance.students.rollNumber}</td>
-						<td>
-							<select id="attendance_${attendance.students.id}" name="attendance" required>
-								<option value="" selected disabled hidden>Select Attendance</option>
-								<option value="Present" ${attendance.attendance === 'Present' ? 'selected' : ''}>Present</option>
-								<option value="Absent" ${attendance.attendance === 'Absent' ? 'selected' : ''}>Absent</option>
-							</select>
-						</td>
-					</tr>
-				`;
-				$('#attendanceForm tbody').append(html);
+				document.getElementById("editAttendanceDate").value = attendance.date || '';
+				document.getElementById("editAttendanceStatus").value = attendance.attendance || '';
 
-				// Scroll to form
-				$('html, body').animate({
-					scrollTop: $("#formContainer").offset().top - 100
-				}, 800);
+				// Show modal
+				$('#editAttendanceModal').modal('show');
 			},
 			error: function(error) {
 				console.error("Error fetching attendance record:", error);
@@ -351,26 +339,6 @@ $(document).ready(function() {
 		});
 	}
 
-	function deleteAttendanceRecord(attendanceId) {
-		if (!confirm("Are you sure you want to delete this attendance record?")) {
-			return;
-		}
-
-		console.log("Deleting attendance record with ID:", attendanceId);
-
-		$.ajax({
-			url: `/attendance/${attendanceId}`,
-			type: 'DELETE',
-			success: function(response) {
-				alert("Attendance record deleted successfully!");
-				loadAttendanceTable(); // Refresh the table
-			},
-			error: function(error) {
-				console.error("Error deleting attendance record:", error);
-				alert("Failed to delete attendance record");
-			}
-		});
-	}
 
 	$(window).on("load", function() {
 		loadAttendanceTable();

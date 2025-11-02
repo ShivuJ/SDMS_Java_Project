@@ -232,4 +232,65 @@ public class AttendanceServiceImpl implements AttendanceService {
 	        return ResponseEntity.status(500).body("Error updating attendance: " + e.getMessage());
 	    }
 	}
+	
+	// Add/Replace this method in your AttendanceServiceImpl class
+
+	@Override
+	public AttendanceEntity getAttendanceById(Long attendanceId) {
+	    System.out.println("Service: Fetching attendance record with ID: " + attendanceId);
+	    
+	    if (attendanceId == null || attendanceId <= 0) {
+	        System.out.println("Invalid attendance ID: " + attendanceId);
+	        return null;
+	    }
+	    
+	    try {
+	        Optional<AttendanceEntity> attendance = attendanceRepo.findById(attendanceId);
+	        
+	        if (!attendance.isPresent()) {
+	            System.out.println("Attendance record not found in database for ID: " + attendanceId);
+	            return null;
+	        }
+	        
+	        AttendanceEntity attendanceEntity = attendance.get();
+	        System.out.println("Attendance found - ID: " + attendanceEntity.getId());
+	        
+	        // Fetch complete student details
+	        if (attendanceEntity.getStudents() != null) {
+	            Long studentId = attendanceEntity.getStudents().getId();
+	            System.out.println("Fetching student details for ID: " + studentId);
+	            
+	            Optional<StudentEntity> student = stuRepo.findById(studentId);
+	            if (student.isPresent()) {
+	                attendanceEntity.setStudents(student.get());
+	                System.out.println("Student loaded: " + student.get().getStuFirstName() + " " + 
+	                    student.get().getStuLastName());
+	            } else {
+	                System.out.println("Student not found for ID: " + studentId);
+	            }
+	        }
+	        
+	        // Fetch complete class details
+	        if (attendanceEntity.getClasses() != null) {
+	            Long classId = attendanceEntity.getClasses().getId();
+	            System.out.println("Fetching class details for ID: " + classId);
+	            
+	            Optional<ClassEntity> cls = classRepo.findById(classId);
+	            if (cls.isPresent()) {
+	                attendanceEntity.setClasses(cls.get());
+	                System.out.println("Class loaded: " + cls.get().getStuClass());
+	            } else {
+	                System.out.println("Class not found for ID: " + classId);
+	            }
+	        }
+	        
+	        System.out.println("Attendance record successfully fetched and populated");
+	        return attendanceEntity;
+	        
+	    } catch (Exception e) {
+	        System.out.println("Error fetching attendance record: " + e.getMessage());
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 }
